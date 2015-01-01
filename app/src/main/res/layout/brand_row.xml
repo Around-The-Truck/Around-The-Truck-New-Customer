@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="155px"
+        android:background="@drawable/listback">
+
+        <ImageView
+            android:layout_width="606px"
+            android:layout_height="606px"
+            android:id="@+id/brandimage"
+            android:background="@drawable/imgback"
+            android:layout_alignTop="@+id/likebtn"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="90px"
+            android:layout_marginTop="75px"
+            android:layout_marginBottom="75px" />
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="91px"
+            android:layout_marginTop="147px">
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/brandname"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/category"
+            android:layout_marginLeft="100px" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="108px">
+
+                <ImageView
+                    android:layout_width="55px"
+                    android:layout_height="76px"
+                    android:id="@+id/imageView14"
+                    android:src="@drawable/dis" />
+
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/like"
+               />
+            </LinearLayout><![CDATA[
+
+            " />
+        ]]>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <ImageView
+                    android:layout_width="55px"
+                    android:layout_height="76px"
+                    android:id="@+id/imageView15"
+                    android:src="@drawable/like" />
+
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/distance"
+               />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/likebtn"
+            android:background="@drawable/ic_launcher"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </LinearLayout>
+
+    ````
+
+
+</RelativeLayout>

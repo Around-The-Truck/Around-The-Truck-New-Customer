@@ -1,0 +1,77 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dl_activity_main_drawer"
+    tools:context=".BrandListActivity" >
+
+    <FrameLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_frame" >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+        android:background="@drawable/background">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView10"
+        android:layout_gravity="right" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="200px"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="75px"
+            android:layout_height="75px"
+            android:id="@+id/imageButton"
+
+            android:layout_marginLeft="88px"
+            android:src="@drawable/current"
+            android:layout_marginTop="50px" />
+
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="309dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50px"
+            android:background="@drawable/find" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView10"
+            android:src="@drawable/all"
+            android:layout_marginRight="50px"
+            android:layout_marginLeft="30px" />
+
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/brandList" />
+
+
+</LinearLayout>
+
+    </FrameLayout>
+
+    <ListView android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:id="@+id/drawer_frame"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#EDEDED"
+        />
+
+</android.support.v4.widget.DrawerLayout>
+

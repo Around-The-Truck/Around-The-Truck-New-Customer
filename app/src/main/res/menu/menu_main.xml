@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/search_button"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom|withText"
+        android:title="검색"
+        tools:ignore="AppCompatResource">
+
+    </item>
+    <item
+        android:title="서브메뉴"
+        android:showAsAction="always"
+        tools:ignore="AppCompatResource">
+        <menu>
+            <item android:id="@+id/menu_cate1"
+                android:title="한식"
+                 />
+            <item android:id="@+id/menu_cate2"
+                android:title="즁식 "
+                 />
+        </menu>
+    </item>
+</menu>
