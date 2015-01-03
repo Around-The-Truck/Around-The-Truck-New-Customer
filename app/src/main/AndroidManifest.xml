@@ -18,6 +18,8 @@
             </intent-filter>
         </activity>
         <activity
+            android:label="푸드트럭 리스트"
+            android:icon="@drawable/menu"
             android:name=".BrandListActivity"  ></activity>
         <activity
             android:name=".BottomInfo"  ></activity>
@@ -27,6 +29,7 @@
         <activity
             android:name=".Searching"></activity>
         <activity
+            android:label="나의 프로필"
             android:name=".MyInfo"></activity>
         <activity
             android:name=".VerifyNumber"></activity>
@@ -36,6 +39,10 @@
             android:name=".MyFoodTruck"></activity>
         <activity
             android:name=".Setting"></activity>
+
+        <activity
+            android:label="전화번호 인증"
+            android:name=".ConfirmNum"></activity>
 
     </application>
 

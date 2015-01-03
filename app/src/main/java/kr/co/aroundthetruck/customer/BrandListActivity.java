@@ -71,6 +71,7 @@ public class BrandListActivity extends Activity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+
             }
 
         };

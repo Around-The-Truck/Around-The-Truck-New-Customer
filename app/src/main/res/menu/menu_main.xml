@@ -5,16 +5,16 @@
 
     <item
         android:id="@+id/search_button"
-        android:showAsAction="ifRoom|withText"
-        android:title="검색"
-        tools:ignore="AppCompatResource">
+        android:icon="@drawable/find2"
+        android:showAsAction="always"
+        tools:ignore="AppCompatResource,MenuTitle">
     </item>
 
 
     <item
-        android:title="서브메뉴"
+        android:icon="@drawable/category"
         android:showAsAction="always"
-        tools:ignore="AppCompatResource">
+        tools:ignore="AppCompatResource,MenuTitle">
         <menu>
             <item android:id="@+id/menu_cate1"
                 android:title="한식"

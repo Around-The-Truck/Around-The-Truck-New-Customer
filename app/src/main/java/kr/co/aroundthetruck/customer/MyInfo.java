@@ -5,10 +5,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -22,6 +26,7 @@ public class MyInfo extends Activity {
 
     String[] truckArea = {"학생, 직장인", "주부"};
 
+    ImageButton image;
     EditText name;
     EditText birth;
     RadioGroup radio;
@@ -33,6 +38,7 @@ public class MyInfo extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_info);
 
+        image = (ImageButton)findViewById(R.id.imageView11);
         name = (EditText)findViewById(R.id.m_name);
         birth = (EditText)findViewById(R.id.m_birth);
 
@@ -54,17 +60,32 @@ public class MyInfo extends Activity {
 
         job = (Spinner)findViewById(R.id.spinner2);
         job.setAdapter(new ArrayAdapter<String>(MyInfo.this, android.R.layout.simple_list_item_1,truckArea));
-
-        loginBtn = (Button)findViewById(R.id.loginButton);
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //완료 버튼 눌렀을때 리스너
-                //성별을 boolean 값으로 식별해서 가져오면 됨
-                Intent intent =  new Intent(MyInfo.this, BrandListActivity.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
-                startActivity(intent);
-            }
-        });
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        MenuInflater inflater = getMenuInflater();
+        getMenuInflater().inflate(R.menu.profile, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+
+        switch (item.getItemId()) {
+            case R.id.next_button:
+
+               Intent intent =  new Intent(MyInfo.this, ConfirmNum.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 }
