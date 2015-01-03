@@ -2,13 +2,21 @@ package kr.co.aroundthetruck.customer;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import org.apache.http.NameValuePair;
+
+import java.util.ArrayList;
+
+import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
@@ -17,6 +25,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d("onCreate()", "MainActivity");
+
+        // StrictMode (Thread Policy == All)
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // HTTP Connection
+        HttpCommunication http = new HttpCommunication();
+        String resStr = "";
+
+
 
         Button truckInfoBtn = (Button)findViewById(R.id.truckinfobtn);
         Button menuBtn = (Button)findViewById(R.id.menubtn);

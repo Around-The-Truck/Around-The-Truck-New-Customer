@@ -3,6 +3,8 @@ package kr.co.aroundthetruck.customer;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +17,12 @@ import android.widget.TextView;
  */
 public class StartActivity extends Activity {
 
+    private SharedPreferences prefs;
+    Editor editor;
     Boolean checkedUser = true;
     //회원가입한 유저인지 아닌지
+
+    String usrPhone;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +34,8 @@ public class StartActivity extends Activity {
         ImageButton startBtn = (ImageButton)findViewById(R.id.imageButton2);
         TextView welcomeMsg = (TextView)findViewById(R.id.textView4);
 
+
+        checkedUser = checkUser();
         if(checkedUser){
             //회원가입 안 된 유저의 경우의 레이아웃
             //버튼 배경 '시작하기'로 주기
@@ -59,5 +67,16 @@ public class StartActivity extends Activity {
             }
         });
 
+    }
+
+    private Boolean checkUser() {
+
+        prefs = getSharedPreferences("ATT", MODE_PRIVATE);
+        editor = prefs.edit();
+
+        if (prefs.getString("cusPhone", "0").length() == 0)
+            return true;
+
+        return false;
     }
 }

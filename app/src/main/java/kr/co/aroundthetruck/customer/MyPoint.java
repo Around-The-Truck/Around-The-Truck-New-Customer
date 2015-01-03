@@ -93,17 +93,17 @@ public class MyPoint extends Activity {
             holder.brandPoint.setText(Integer.toString(mpoint.getMpoint()));
             holder.date.setText(mpoint.getDate());
 
-return convertView;
+            return convertView;
 
         }
 
-private class ViewHolder {
-    ImageView brandImage;
-    TextView brandName;
-    TextView brandPoint;
-    TextView date;
-}
-
-}
-
+        private class ViewHolder {
+            ImageView brandImage;
+            TextView brandName;
+            TextView brandPoint;
+            TextView date;
         }
+
+    }
+
+}

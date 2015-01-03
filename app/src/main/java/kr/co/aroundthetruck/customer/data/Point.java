@@ -9,6 +9,10 @@ public class Point {
     int mpoint;
     String date;
 
+    public Point() {
+
+    }
+
     public Point(String brand, int mpoint, String date){
 
         this.brand = brand;
