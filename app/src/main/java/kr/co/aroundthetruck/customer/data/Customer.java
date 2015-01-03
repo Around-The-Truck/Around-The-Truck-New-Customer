@@ -18,6 +18,17 @@ public class Customer {
 
     String reg_date;
 
+    public Customer(String name, String phone, int gender, int age, String job, int point, int photo_profile, String reg_date) {
+        this.name = name;
+        this.phone = phone;
+        this.gender = gender;
+        this.age = age;
+        this.job = job;
+        this.point = point;
+        this.photo_profile = photo_profile;
+        this.reg_date = reg_date;
+    }
+
     public String getName() {
         return name;
     }

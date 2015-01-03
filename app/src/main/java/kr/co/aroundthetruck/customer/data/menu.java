@@ -3,7 +3,7 @@ package kr.co.aroundthetruck.customer.data;
 /**
  * Created by ebsud89 on 12/20/14.
  */
-public class menu {
+public class Menu {
 
     int idx;
 
@@ -15,6 +15,20 @@ public class menu {
 
     String ingredients;     // 식재료
     String description;     // 메뉴 설명
+
+    public Menu() {
+
+    }
+
+    public Menu(int idx, String name, int price, int truck_idx, int photo_idx, String ingredients, String description) {
+        this.idx = idx;
+        this.name = name;
+        this.price = price;
+        this.truck_idx = truck_idx;
+        this.photo_idx = photo_idx;
+        this.ingredients = ingredients;
+        this.description = description;
+    }
 
     public int getIdx() {
         return idx;

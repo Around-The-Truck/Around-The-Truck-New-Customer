@@ -3,7 +3,7 @@ package kr.co.aroundthetruck.customer.data;
 /**
  * Created by ebsud89 on 12/20/14.
  */
-public class Trucker {
+public class Truck {
 
     int idx;
     String name; //
@@ -31,6 +31,32 @@ public class Trucker {
     String category_small;
 
     String reg_date;
+
+    // Constructor (ebsud89 _ 150103)
+    public Truck() {
+    }
+
+    public Truck(int idx, String name, double gps_longtitude, double gps_latitude, double gps_altitude, String gps_address, int todays_sum, int start_yn, int takeout_yn, int cansit_yn, int card_yn, int reserve_yn, int group_order_yn, int always_open_yn, int photo_id, String main_position, int category_id, String category_small, String reg_date) {
+        this.idx = idx;
+        this.name = name;
+        this.gps_longtitude = gps_longtitude;
+        this.gps_latitude = gps_latitude;
+        this.gps_altitude = gps_altitude;
+        this.gps_address = gps_address;
+        this.todays_sum = todays_sum;
+        this.start_yn = start_yn;
+        this.takeout_yn = takeout_yn;
+        this.cansit_yn = cansit_yn;
+        this.card_yn = card_yn;
+        this.reserve_yn = reserve_yn;
+        this.group_order_yn = group_order_yn;
+        this.always_open_yn = always_open_yn;
+        this.photo_id = photo_id;
+        this.main_position = main_position;
+        this.category_id = category_id;
+        this.category_small = category_small;
+        this.reg_date = reg_date;
+    }
 
     public int getIdx() {
         return idx;

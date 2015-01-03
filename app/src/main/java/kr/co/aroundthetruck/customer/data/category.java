@@ -3,11 +3,15 @@ package kr.co.aroundthetruck.customer.data;
 /**
  * Created by ebsud89 on 12/20/14.
  */
-public class category {
+public class Category {
 
     int idx;
-
     String cat_name;
+
+    public Category(int idx, String cat_name) {
+        this.idx = idx;
+        this.cat_name = cat_name;
+    }
 
     public int getIdx() {
         return idx;

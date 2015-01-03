@@ -1,6 +1,6 @@
 package kr.co.aroundthetruck.customer;
 
-import kr.co.aroundthetruck.customer.data.Trucker;
+import kr.co.aroundthetruck.customer.data.Truck;
 
 /**
  * Created by sumin on 2014-12-03.
@@ -12,7 +12,7 @@ public class Brand {
     private int like;
     private String category;
 
-    private Trucker trucker;
+    private Truck trucker;
 
 
     Brand(int brandImage,String brandName, String brandDistance, int like, String category){
