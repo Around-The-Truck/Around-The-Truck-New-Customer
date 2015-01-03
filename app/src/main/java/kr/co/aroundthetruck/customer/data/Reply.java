@@ -17,7 +17,7 @@ public class Reply {
     String reg_date;
 
     public Reply() {
-        
+
     }
 
     public Reply(int idx, String contents, String writer, int writer_type, int article_idx, String reg_date) {
