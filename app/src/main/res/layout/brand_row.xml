@@ -6,7 +6,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="155px"
+        android:layout_height="769px"
         android:background="@drawable/listback">
 
         <ImageView

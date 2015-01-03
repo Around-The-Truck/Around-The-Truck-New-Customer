@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/dl_activity_main_drawer"
-    tools:context=".BrandListActivity" >
+    tools:context=".BrandListActivity">
 
     <FrameLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,20 +26,20 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:layout_width="75px"
-            android:layout_height="75px"
+            android:layout_width="19.75dp"
+            android:layout_height="19.5dp"
             android:id="@+id/imageButton"
 
-            android:layout_marginLeft="88px"
             android:src="@drawable/current"
-            android:layout_marginTop="50px" />
+            android:layout_marginTop="15.5dp"
+            android:adjustViewBounds="false"
+            android:layout_marginLeft="22.5dp" />
 
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="309dp"
+            android:layout_width="243dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50px"
             android:background="@drawable/find" />
 
         <ImageView

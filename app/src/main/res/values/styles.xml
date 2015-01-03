@@ -2,7 +2,15 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <!-- Action Bar 테마 설정 -->
+
+    <style
+        name="MyActionBar"
+        parent="@android:Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/menubar</item>
     </style>
 
 </resources>

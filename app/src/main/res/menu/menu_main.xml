@@ -5,12 +5,12 @@
 
     <item
         android:id="@+id/search_button"
-        android:orderInCategory="100"
         android:showAsAction="ifRoom|withText"
         android:title="검색"
         tools:ignore="AppCompatResource">
-
     </item>
+
+
     <item
         android:title="서브메뉴"
         android:showAsAction="always"
@@ -24,4 +24,6 @@
                  />
         </menu>
     </item>
+
+
 </menu>

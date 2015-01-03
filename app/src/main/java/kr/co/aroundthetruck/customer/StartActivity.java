@@ -1,10 +1,13 @@
 package kr.co.aroundthetruck.customer;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -12,24 +15,28 @@ import android.widget.TextView;
  */
 public class StartActivity extends Activity {
 
-    Boolean checkedUser = false;
+    Boolean checkedUser = true;
     //회원가입한 유저인지 아닌지
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_activity);
 
-        Button startBtn = (Button)findViewById(R.id.button3);
+        ActionBar actionBar = getActionBar();
+        actionBar.hide();
+
+        ImageButton startBtn = (ImageButton)findViewById(R.id.imageButton2);
         TextView welcomeMsg = (TextView)findViewById(R.id.textView4);
 
         if(checkedUser){
             //회원가입 안 된 유저의 경우의 레이아웃
             //버튼 배경 '시작하기'로 주기
-            // startBtn.setBackground();
+            startBtn.setBackgroundResource(R.drawable.start_find);
 
         }else {
             //버튼 배경 '푸트트럭 찾기'
             startBtn.setBackgroundResource(R.drawable.start_find);
+
             welcomeMsg.setText("오수민 환영");
         }
 
