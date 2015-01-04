@@ -38,6 +38,7 @@ public class BottomTimeLine extends Fragment {
         View view = inflater.inflate(R.layout.bottom_timeline, null);
         ListView lv = (ListView)view.findViewById(R.id.listView);
 
+
         ArrayList<Article> Articles = new ArrayList<Article>();
         Articles.add(new Article(0,11111,"sumin",1,"수민이가 쓴글","수민's truck","0103"));
         Articles.add(new Article(1,11111,"sumin2",1,"수민이2가 쓴글","수민's truck","0103"));
