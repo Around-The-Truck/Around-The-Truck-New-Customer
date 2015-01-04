@@ -1,6 +1,5 @@
 package kr.co.aroundthetruck.customer.data;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -36,12 +35,12 @@ public class Samples {
         return tmpList;
     }
 
-    public Article rtnArticle() {
+  //  public Article rtnArticle() {
 
-        Article article = new Article();
+    //    Article Article = new Article();
 
-        return article;
-    }
+//        return Article;
+  //  }
 
     public ArrayList<Reply> rtnReplyList() {
 
