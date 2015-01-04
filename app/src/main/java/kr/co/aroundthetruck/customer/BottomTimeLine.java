@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import kr.co.aroundthetruck.customer.data.article;
+import kr.co.aroundthetruck.customer.data.Article;
 
 /**
  * Created by sumin on 2014-12-01.
@@ -36,7 +36,7 @@ public class BottomTimeLine extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState){
         View view = inflater.inflate(R.layout.bottom_timeline, null);
         ListView lv = (ListView)view.findViewById(R.id.listView);
-        ArrayList<article> articles= new ArrayList<article>();
+        ArrayList<Article> articles= new ArrayList<Article>();
         MyArticlesAdapter adapter = new MyArticlesAdapter(view.getContext(),articles);
         lv.setAdapter(adapter);
 
@@ -51,9 +51,9 @@ public class BottomTimeLine extends Fragment {
 
     public class MyArticlesAdapter extends BaseAdapter {
         Context mContext;
-        ArrayList<article> list;
+        ArrayList<Article> list;
 
-        public MyArticlesAdapter(Context context, ArrayList<article> list) {
+        public MyArticlesAdapter(Context context, ArrayList<Article> list) {
             this.mContext = context;
             this.list = list;
         }
