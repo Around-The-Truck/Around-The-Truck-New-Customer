@@ -1,6 +1,7 @@
 package kr.co.aroundthetruck.customer;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +11,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import kr.co.aroundthetruck.customer.data.Reply;
+
 /**
  * Created by sumin on 2014-12-03.
  */
 class MyCommentLAdapter extends BaseAdapter {
     Context mContext;
-    ArrayList<MyComment> list;
+    ArrayList<Reply> list;
 
-    public MyCommentLAdapter(Context context, ArrayList<MyComment> list) {
+    public MyCommentLAdapter(Context context, ArrayList<Reply> list) {
         this.mContext = context;
         this.list = list;
     }
@@ -57,9 +60,12 @@ class MyCommentLAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
 
         }
-        holder.userImg .setImageResource(list.get(pos).getUserImage());
-        holder.userName.setText(list.get(pos).getUserName());
-        holder.userComment.setText(list.get(pos).getUserComment());
+        //holder.userImg .setImageResource(list.get(pos).getUserImage());
+        holder.userName.setText(list.get(pos).getWriter());
+        holder.userComment.setText(list.get(pos).getContents());
+
+
+
         return convertView;
 
     }

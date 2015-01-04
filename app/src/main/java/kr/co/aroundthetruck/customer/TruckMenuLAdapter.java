@@ -10,14 +10,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import kr.co.aroundthetruck.customer.data.Menu;
+
 /**
  * Created by sumin on 2014-12-03.
  */
 public class TruckMenuLAdapter extends BaseAdapter {
     Context mContext;
-    ArrayList<TruckMenu> list;
+    ArrayList<Menu> list;
 
-    public TruckMenuLAdapter(Context context, ArrayList<TruckMenu> list) {
+    public TruckMenuLAdapter(Context context, ArrayList<Menu> list) {
         this.mContext = context;
         this.list = list;
     }
@@ -57,9 +59,9 @@ public class TruckMenuLAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
 
         }
-        holder.menuImg .setImageResource(list.get(pos).getmenuImage());
-        holder.menuName.setText(list.get(pos).getmenuName());
-        holder.menuPrice.setText(list.get(pos).getmenuPrice());
+        //holder.menuImg .setImageResource(list.get(pos).);
+        holder.menuName.setText(list.get(pos).getName());
+        holder.menuPrice.setText(Integer.toString(list.get(pos).getPrice()));
         return convertView;
 
     }

@@ -13,6 +13,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import kr.co.aroundthetruck.customer.data.Menu;
+
 /**
  * Created by sumin on 2014-12-01.
  */
@@ -28,7 +30,10 @@ public class BottomMenu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState){
         View view = inflater.inflate(R.layout.bottom_menu, null);
         ListView lv = (ListView)view.findViewById(R.id.menulist);
-        ArrayList<TruckMenu> menus= new ArrayList<TruckMenu>();
+
+        ArrayList<Menu> menus= new ArrayList<Menu>();
+        menus.add(new Menu(0,"짬뽕",7000,1,1111,"면,버섯","매워요"));
+
         TruckMenuLAdapter adapter = new TruckMenuLAdapter(view.getContext(),menus);
         lv.setAdapter(adapter);
 

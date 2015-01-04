@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="60dip"
-    android:padding="5dip">
+    android:layout_height="wrap_content">
 
     <ImageView android:id="@+id/userImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
         android:background="@drawable/ic_launcher"/>
 
         <TextView android:id="@+id/userName"
@@ -18,8 +15,8 @@
         android:textSize="24sp"
             android:text="name Text"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/userImage"
-            android:layout_toEndOf="@+id/userImage" />
+            android:layout_alignRight="@+id/userComment"
+            android:layout_alignEnd="@+id/userComment" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,8 +24,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="comment Text"
         android:id="@+id/userComment"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/userName"
-        android:layout_alignStart="@+id/userName" />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/userImage"
+        android:layout_toEndOf="@+id/userImage"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp" />
 
 </RelativeLayout>

@@ -17,14 +17,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
-        android:text="후기를 입력하세요"
-        android:layout_weight="1.01" />
 
-        <Button
+        android:layout_weight="1.01"
+        android:visibility="gone"/>
+
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="올리기"
-            android:id="@+id/button" />
+            android:id="@+id/buttons"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -16,6 +16,17 @@ public class Article {
 
     String reg_date;
 
+    public Article(int i, int i1, String sajhghn, int i2, String s, String s1, String s2) {
+        this.idx = i;
+        this.photo_idx =i1;
+        this.writer = sajhghn;
+        this.writer_type = i2;
+        this.contents = s;
+        this.belong_to = s1;
+        this.reg_date = s2;
+
+    }
+
     public int getIdx() {
         return idx;
     }
