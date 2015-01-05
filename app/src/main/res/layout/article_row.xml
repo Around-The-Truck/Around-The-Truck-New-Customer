@@ -4,18 +4,42 @@
     android:weightSum="1"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView2"
-        android:src="@drawable/ic_launcher"
- />
+        android:src="@drawable/sphoto"
+        android:layout_marginLeft="22.5dp"
+        android:layout_marginTop="8.5dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/textView3" />
+        android:id="@+id/textView3"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/textView9"
+                android:layout_marginLeft="20dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ListView
         android:layout_width="wrap_content"
@@ -25,17 +49,21 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/article_like" />
+            android:id="@+id/article_like"
+            android:src="@drawable/like_bt" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/article_ok" />
+            android:id="@+id/article_ok"
+            android:src="@drawable/reply"
+            android:layout_marginLeft="10dp" />
     </LinearLayout>
 
 

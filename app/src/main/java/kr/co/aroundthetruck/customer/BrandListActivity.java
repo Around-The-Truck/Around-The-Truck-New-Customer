@@ -30,7 +30,7 @@ import java.util.ArrayList;
  */
 public class BrandListActivity extends Activity {
 
-    String[] truckArea = {"서울시, 양재", "서울시 뭐뭐"};
+    String[] truckArea = {"  서울시, 양재", "  서울시 뭐뭐"};
     String[] navItems = {"이름", "나의 프로필", "나의 포인트",
             "팔로우한 트럭", "설정"};
     private ListView lvNavList;
@@ -47,12 +47,15 @@ public class BrandListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brand_list);
 
+        getActionBar().setDisplayShowHomeEnabled(false);
+
+
         Spinner mySpinner = (Spinner) findViewById(R.id.spinner);
         mySpinner.setAdapter(new MyCustomAdapter(BrandListActivity.this, R.layout.text_row, truckArea));
 
         lv = (ListView) findViewById(R.id.brandList);
         brands = new ArrayList<Brand>();
-        brands.add(new Brand(1, "s", "s", 2, "s"));
+        brands.add(new Brand(1, "Milano Express", "100", 100, "양식/피자,햄버거"));
         lv.setAdapter(new BrandAdapter(BrandListActivity.this, brands));
 
         lvNavList = (ListView)findViewById(R.id.drawer_frame);
@@ -255,8 +258,8 @@ public class BrandListActivity extends Activity {
             //holder.brandImage .setImageResource(mbrand.getBrandImage());
             holder.brandName.setText(mbrand.getBrandName());
             holder.brandDistance.setText(mbrand.getBrandDistance());
-            holder.like.setText(mbrand.getBrandDistance());
-            holder.category.setText(mbrand.getBrandDistance());
+            holder.like.setText(Integer.toString(mbrand.getLike()));
+            holder.category.setText(mbrand.getCategory());
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

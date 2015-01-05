@@ -40,11 +40,12 @@ public class BottomTimeLine extends Fragment {
 
 
         ArrayList<Article> Articles = new ArrayList<Article>();
-        Articles.add(new Article(0,11111,"sumin",1,"수민이가 쓴글","수민's truck","0103"));
-        Articles.add(new Article(1,11111,"sumin2",1,"수민이2가 쓴글","수민's truck","0103"));
+        Articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전"));
+        Articles.add(new Article(1,11111,"Milano Express",1,"수민이2가 쓴글","수민's truck","2시간전"));
         MyArticlesAdapter adapter = new MyArticlesAdapter(view.getContext(), Articles);
 
         lv.setAdapter(adapter);
+
 
         et = (EditText)view.findViewById(R.id.editText);
         ib = (ImageButton)view.findViewById(R.id.buttons);
@@ -104,6 +105,7 @@ public class BottomTimeLine extends Fragment {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.article_row, parent, false);
                 holder.articleImage = (ImageView) convertView.findViewById(R.id.imageView2);
                 holder.articleName = (TextView) convertView.findViewById(R.id.textView3);
+                holder.articleTime = (TextView) convertView.findViewById(R.id.textView9);
                 holder.articlelist= (ListView) convertView.findViewById(R.id.listView4);
                 holder.like= (ImageButton) convertView.findViewById(R.id.article_like);
                 holder.ok= (ImageButton) convertView.findViewById(R.id.article_ok); //댓글 다는 버튼
@@ -115,12 +117,13 @@ public class BottomTimeLine extends Fragment {
             }
             //holder.articleImage.setImageResource(list.get(pos).getmenuImage());
             holder.articleName.setText(list.get(pos).getWriter());  //타임라인 글 쓴사람
+            holder.articleTime.setText(list.get(pos).getReg_date());
 
             ArrayList<Reply> replies= new ArrayList<Reply>(); //댓글들
             replies.add(new Reply(0,"트럭좋아요","댓글쓴 사람 이름",0,list.get(pos).getIdx(),"1003"));
             replies.add(new Reply(1,"트럭싫어요","댓글쓴 사람 이름2",0,list.get(pos).getIdx(),"1003"));//5번째 칼럼 맞는 인덱스 지정
 
-            holder.articlelist.setAdapter(new MyCommentLAdapter(this.mContext,replies));
+            holder.articlelist.setAdapter(new MyCommentLAdapter(convertView.getContext(),replies));
 
             holder.ok.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -140,6 +143,7 @@ public class BottomTimeLine extends Fragment {
         {
             ImageView articleImage;
             TextView articleName;
+            TextView articleTime;
             ListView articlelist;
             ImageButton ok;
             ImageButton like;

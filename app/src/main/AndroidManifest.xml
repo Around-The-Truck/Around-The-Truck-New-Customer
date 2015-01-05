@@ -24,7 +24,8 @@
         <activity
             android:name=".BottomInfo"  ></activity>
         <activity
-            android:name=".MainActivity"></activity>
+            android:name=".MainActivity"
+            android:icon="@drawable/before"></activity>
 
         <activity
             android:name=".Searching"></activity>

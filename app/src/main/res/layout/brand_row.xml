@@ -1,46 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
-
-    <LinearLayout
+    <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="769px"
+        android:layout_height="wrap_content"
         android:background="@drawable/listback">
 
-        <ImageView
-            android:layout_width="606px"
-            android:layout_height="606px"
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/brandimage"
             android:background="@drawable/imgback"
             android:layout_alignTop="@+id/likebtn"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="90px"
-            android:layout_marginTop="75px"
-            android:layout_marginBottom="75px" />
+            android:layout_marginLeft="22.5dp"
+            android:layout_marginTop="21.25dp" />
 
-        <LinearLayout
+    <LinearLayout
                 android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:orientation="vertical"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="91px"
-            android:layout_marginTop="147px">
+        android:layout_marginLeft="30dp"
+            android:layout_marginTop="30.5dp">
          <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/brandname"/>
+            android:id="@+id/brandname" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/category"
-            android:layout_marginLeft="100px" />
+            android:id="@+id/category" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -49,8 +43,8 @@
                 android:layout_marginTop="108px">
 
                 <ImageView
-                    android:layout_width="55px"
-                    android:layout_height="76px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/imageView14"
                     android:src="@drawable/dis" />
 
@@ -59,11 +53,8 @@
                 android:layout_height="wrap_content"
                 android:text="New Text"
                 android:id="@+id/like"
-               />
-            </LinearLayout><![CDATA[
-
-            " />
-        ]]>
+                    android:layout_marginLeft="8dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -71,33 +62,31 @@
                 android:layout_height="fill_parent">
 
                 <ImageView
-                    android:layout_width="55px"
-                    android:layout_height="76px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/imageView15"
-                    android:src="@drawable/like" />
+                    android:src="@drawable/heart"
+                    android:layout_marginTop="5dp" />
 
                 <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
                 android:id="@+id/distance"
-               />
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="1dp" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/likebtn"
-            android:background="@drawable/ic_launcher"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-    </LinearLayout>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton4"
+        android:src="@drawable/like"
+        android:background="#ffffffff"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="60dp" />
 
-    ````
-
-
-</RelativeLayout>
+</LinearLayout>
