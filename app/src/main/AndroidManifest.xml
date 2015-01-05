@@ -19,7 +19,7 @@
         </activity>
         <activity
             android:label="푸드트럭 리스트"
-            android:icon="@drawable/menu"
+
             android:name=".BrandListActivity"  ></activity>
         <activity
             android:name=".BottomInfo"  ></activity>

@@ -3,6 +3,7 @@ package kr.co.aroundthetruck.customer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -59,7 +60,7 @@ public class BrandListActivity extends Activity {
         lvNavList.setAdapter( new ArrayAdapter<String>(BrandListActivity.this, android.R.layout.simple_list_item_1, navItems));
         lvNavList.setOnItemClickListener(new DrawerItemClickListener());
         dlDrawer = (DrawerLayout)findViewById(R.id.dl_activity_main_drawer);
-        dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.drawable.ic_launcher, R.string .app_name,  R.string.app_name) {
+        dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.drawable.menu, R.string .app_name,  R.string.app_name) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -76,8 +77,22 @@ public class BrandListActivity extends Activity {
 
         };
         dlDrawer.setDrawerListener(dtToggle);
-        getActionBar().setDisplayHomeAsUpEnabled(false);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
+    }
+
+
+    protected void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        dtToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        dtToggle.onConfigurationChanged(newConfig);
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener{
@@ -134,6 +149,11 @@ public class BrandListActivity extends Activity {
         // Handle presses on the action bar items
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                if(dtToggle.onOptionsItemSelected(item)){
+                    		return true;
+                     		}
+
             case R.id.menu_cate1:
 //                //액션바에 한식 눌렀을 때
                 return true;
