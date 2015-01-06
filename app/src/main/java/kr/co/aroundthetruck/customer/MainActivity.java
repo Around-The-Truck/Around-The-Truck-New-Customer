@@ -2,23 +2,30 @@ package kr.co.aroundthetruck.customer;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
 
+import java.sql.RowId;
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
@@ -28,6 +35,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     Intent intent;
     String thisBrand; //넘어온 브랜드
+
+    FragmentManager fragm;
+    Bundle bundle;
+    FragmentTransaction fragmentTransaction;
+
+    android.app.Fragment fragment1;
+    android.app.Fragment fragment2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,17 +86,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(false);
         getActionBar().setTitle(thisBrand);
+
+        onClick(truckInfoBtn);
     }
 
     @Override
     public void onClick(View view) {
 
-        FragmentManager fragm = getFragmentManager();
-        Bundle bundle = new Bundle();
-        FragmentTransaction fragmentTransaction = fragm.beginTransaction();
+        fragm = getFragmentManager();
+        bundle = new Bundle();
+        fragmentTransaction = fragm.beginTransaction();
 
-        android.app.Fragment fragment1 = fragm.findFragmentById(R.id.fragment);
-        android.app.Fragment fragment2 = fragm.findFragmentById(R.id.fragment_menu);
+        fragment1 = (android.app.Fragment) fragm.findFragmentById(R.id.fragment);
+        fragment2 = (android.app.Fragment)fragm.findFragmentById(R.id.fragment_menu);
 
         switch (view.getId()) {
             case R.id.truckinfobtn:
@@ -139,6 +156,3 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
 }
-
-
-

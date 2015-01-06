@@ -33,9 +33,12 @@ public class BottomMenu extends Fragment {
 
         ArrayList<Menu> menus= new ArrayList<Menu>();
         menus.add(new Menu(0,"짬뽕",7000,1,1111,"면,버섯","매워요"));
+        menus.add(new Menu(1,"짬뽕2",7006,1,1111,"면,버섯","매워요"));
 
         TruckMenuLAdapter adapter = new TruckMenuLAdapter(view.getContext(),menus);
         lv.setAdapter(adapter);
+
+        GetListViewHeight.setListViewHeight(lv);
 
         return view;
 
