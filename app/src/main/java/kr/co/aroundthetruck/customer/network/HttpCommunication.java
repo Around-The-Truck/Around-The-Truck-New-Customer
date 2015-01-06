@@ -20,10 +20,12 @@ import android.util.Log;
 
 public class HttpCommunication {
 
+    private static final String serverURL = "http://165.194.35.161:3000/";
+
     public String doPost(ArrayList<NameValuePair> param, String context) {
 
         String buf = "";
-        String url = "http://54.199.134.170/CawingHttpServer/";
+        String url = "http://165.194.35.161:3000/getTruckList";
 
         // fill in Context
         url += context;
@@ -53,5 +55,37 @@ public class HttpCommunication {
         }
         return buf;
 
+    }
+
+    public String getAllTruck() {
+
+        String resStr = "";
+        String url  = serverURL + "getTruckList";
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+
+        try {
+
+            HttpClient http = new DefaultHttpClient();
+
+            HttpParams params = http.getParams();
+
+            HttpPost httpPost = new HttpPost(url);
+            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+
+            httpPost.setEntity(entityRequest);
+
+            HttpResponse responsePost = http.execute(httpPost);
+            HttpEntity resEntity = responsePost.getEntity();
+
+            resStr = EntityUtils.toString(resEntity);
+            resStr = resStr.trim();
+
+        } catch (Exception e) {
+            Log.d("exception!","exception");
+            e.printStackTrace();
+            resStr = "Error";
+
+        }
+        return resStr;
     }
 }

@@ -16,16 +16,23 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import kr.co.aroundthetruck.customer.data.Samples;
+import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
+    ArrayList<Truck> truckList;
     Intent intent;
     String thisBrand; //넘어온 브랜드
     @Override
@@ -48,6 +55,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
+//        resStr = http.getAllTruck();
+//        jsonParser(resStr);
+        truckList = Samples.rtnTruckList();
+
+        // create layout
         ImageView truckImage = (ImageView)findViewById(R.id.imageView);
 
         TextView truckName = (TextView)findViewById(R.id.textView5);
@@ -138,6 +150,32 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    // HTTP return value (JSON) parse method
+    public void jsonParser (String str) {
+
+        JSONObject result = new JSONObject();
+        try {
+            result = new JSONObject(str);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONArray jArr = result.getJSONArray("result");
+            for (int i = 0; i < jArr.length(); i++) {
+                JSONObject jObj = jArr.getJSONObject(i);
+
+                Truck tempCVO = new Truck();
+
+                truckList.add(tempCVO);
+            }
+        } catch (JSONException e) {
+            Log.d("json exception", "error");
+            Toast.makeText(MainActivity.this, e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
 }
 
 
