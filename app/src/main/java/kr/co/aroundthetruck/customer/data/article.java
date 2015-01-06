@@ -12,11 +12,14 @@ public class Article {
     int writer_type;
 
     String contents;
-    String belong_to;   // 속한 트럭
+    String belong_to; // 속한 트럭
 
     String reg_date;
 
-    public Article(int i, int i1, String sajhghn, int i2, String s, String s1, String s2) {
+    int likeNumber;
+    int replyNumber;
+
+    public Article(int i, int i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber) {
         this.idx = i;
         this.photo_idx =i1;
         this.writer = sajhghn;
@@ -24,6 +27,8 @@ public class Article {
         this.contents = s;
         this.belong_to = s1;
         this.reg_date = s2;
+        this.likeNumber = likeNumber;
+        this.replyNumber = replyNumber;
 
     }
 
@@ -82,4 +87,7 @@ public class Article {
     public void setReg_date(String reg_date) {
         this.reg_date = reg_date;
     }
+
+    public int getLikeNumber(){ return likeNumber;}
+    public int getReplyNumber(){return replyNumber;}
 }

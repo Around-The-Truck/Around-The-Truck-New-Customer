@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,13 +41,14 @@ public class BottomTimeLine extends Fragment {
         View view = inflater.inflate(R.layout.bottom_timeline, null);
         ListView lv = (ListView)view.findViewById(R.id.listView);
 
-
         ArrayList<Article> Articles = new ArrayList<Article>();
-        Articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전"));
-        Articles.add(new Article(1,11111,"Milano Express",1,"수민이2가 쓴글","수민's truck","2시간전"));
+        Articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전",10,11));
+        Articles.add(new Article(1,11111,"Milano Express",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
         MyArticlesAdapter adapter = new MyArticlesAdapter(view.getContext(), Articles);
 
         lv.setAdapter(adapter);
+
+        GetListViewHeight.setListViewHeight(lv);
 
 
         et = (EditText)view.findViewById(R.id.editText);
@@ -67,15 +71,16 @@ public class BottomTimeLine extends Fragment {
         super.onSaveInstanceState(outState);
 
     }
-
     public class MyArticlesAdapter extends BaseAdapter {
         Context mContext;
         ArrayList<Article> list;
+
 
         public MyArticlesAdapter(Context context, ArrayList<Article> list) {
             this.mContext = context;
             this.list = list;
         }
+
 
         @Override
         public int getCount() {
@@ -103,21 +108,34 @@ public class BottomTimeLine extends Fragment {
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.article_row, parent, false);
-                holder.articleImage = (ImageView) convertView.findViewById(R.id.imageView2);
-                holder.articleName = (TextView) convertView.findViewById(R.id.textView3);
-                holder.articleTime = (TextView) convertView.findViewById(R.id.textView9);
+
+                holder.brandImage = (ImageView) convertView.findViewById(R.id.imageView2);
+                holder.brandName = (TextView) convertView.findViewById(R.id.textView3);
+                holder.articleTime = (TextView)convertView.findViewById(R.id.textView9);
+
+               holder.articleImage = (ImageView) convertView.findViewById(R.id.imageView18);
+
+                holder.likeNumber = (TextView) convertView.findViewById(R.id.textView10);
+                holder.replyNumber = (TextView) convertView.findViewById(R.id.textView11);
+
                 holder.articlelist= (ListView) convertView.findViewById(R.id.listView4);
+
                 holder.like= (ImageButton) convertView.findViewById(R.id.article_like);
                 holder.ok= (ImageButton) convertView.findViewById(R.id.article_ok); //댓글 다는 버튼
+
+
                 convertView.setTag(holder);
             }else{
 
                 holder = (ViewHolder) convertView.getTag();
 
             }
-            //holder.articleImage.setImageResource(list.get(pos).getmenuImage());
-            holder.articleName.setText(list.get(pos).getWriter());  //타임라인 글 쓴사람
-            holder.articleTime.setText(list.get(pos).getReg_date());
+            //holder.brandImage.setImageResource(list.get(pos).getmenuImage());
+            holder.brandName.setText(list.get(pos).getWriter());  //타임라인 글 쓴사람
+            //holder.articleImage.setImageResource(list.get(pos).getWriter());
+            holder.likeNumber.setText(Integer.toString(list.get(pos).getLikeNumber()));
+            holder.replyNumber.setText(Integer.toString(list.get(pos).getReplyNumber()));
+
 
             ArrayList<Reply> replies= new ArrayList<Reply>(); //댓글들
             replies.add(new Reply(0,"트럭좋아요","댓글쓴 사람 이름",0,list.get(pos).getIdx(),"1003"));
@@ -141,14 +159,23 @@ public class BottomTimeLine extends Fragment {
 
         private  class ViewHolder
         {
-            ImageView articleImage;
-            TextView articleName;
+            ImageView brandImage;
+            TextView brandName;
             TextView articleTime;
+
+            ImageView articleImage;
+
+            TextView likeNumber;
+            TextView replyNumber;
+
             ListView articlelist;
+
             ImageButton ok;
             ImageButton like;
         }
 
     }
+
+
 
 }
