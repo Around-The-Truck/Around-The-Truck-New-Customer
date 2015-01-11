@@ -123,4 +123,75 @@ public class HttpCommunication {
         }
         return resStr;
     }
+
+    public String getFollowList(String phoneNum) {
+
+        String resStr = "";
+        String url = serverURL + "getFollowList";
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+
+        param.add(new BasicNameValuePair("phoneNum", phoneNum));
+
+        try {
+
+
+            HttpClient http = new DefaultHttpClient();
+
+            HttpParams params = http.getParams();
+
+            HttpPost httpPost = new HttpPost(url);
+            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+
+            httpPost.setEntity(entityRequest);
+
+            HttpResponse responsePost = http.execute(httpPost);
+            HttpEntity resEntity = responsePost.getEntity();
+
+            resStr = EntityUtils.toString(resEntity);
+            resStr = resStr.trim();
+
+        } catch (Exception e) {
+            Log.d("exception!", "exception");
+            e.printStackTrace();
+            resStr = "Error";
+
+        }
+        return resStr;
+    }
+
+    public String getPointHistory(String phoneNum) {
+
+        String resStr = "";
+        String url = serverURL + "getFollowList";
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+
+        param.add(new BasicNameValuePair("phoneNum", phoneNum));
+
+        try {
+
+
+            HttpClient http = new DefaultHttpClient();
+
+            HttpParams params = http.getParams();
+
+            HttpPost httpPost = new HttpPost(url);
+            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+
+            httpPost.setEntity(entityRequest);
+
+            HttpResponse responsePost = http.execute(httpPost);
+            HttpEntity resEntity = responsePost.getEntity();
+
+            resStr = EntityUtils.toString(resEntity);
+            resStr = resStr.trim();
+
+        } catch (Exception e) {
+            Log.d("exception!", "exception");
+            e.printStackTrace();
+            resStr = "Error";
+
+        }
+        return resStr;
+    }
+    
 }

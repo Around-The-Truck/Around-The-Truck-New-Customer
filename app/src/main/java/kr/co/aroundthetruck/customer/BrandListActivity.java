@@ -25,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Samples;
@@ -36,6 +35,8 @@ import kr.co.aroundthetruck.customer.network.HttpCommunication;
  * Created by sumin on 2014-12-03.
  */
 public class BrandListActivity extends Activity {
+
+    public static final int REQUEST_WANT_TO_FIND = 1;
 
     String[] truckArea = {"  서울시, 양재", "  서울시 뭐뭐"};
     String[] navItems = {"이름", "나의 프로필", "나의 포인트",
@@ -105,8 +106,6 @@ public class BrandListActivity extends Activity {
         };
         dlDrawer.setDrawerListener(dtToggle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-
-
 
     }
 
@@ -186,17 +185,28 @@ public class BrandListActivity extends Activity {
                 return true;
             case R.id.menu_cate2:
                 //액션바에 중식 눌렀을 대
-//                return true;
+                return true;
             case R.id.search_button:
                 Intent intent =  new Intent(BrandListActivity.this,Searching.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_WANT_TO_FIND);
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        switch(requestCode){
+            case  REQUEST_WANT_TO_FIND :
+
+                //액션바에있는 찾기 버튼 누르고 왔을때
+                Log.d("User_want_to_find",data.getStringExtra("search"));
+        }
+    }
 
     public class MyCustomAdapter extends ArrayAdapter<String> {
 
@@ -279,7 +289,7 @@ public class BrandListActivity extends Activity {
 
             }
 
-            //holder.brandImage .setImageResource(mbrand.getBrandImage());
+            holder.brandImage .setImageResource(mbrand.getBrandImage());
             holder.brandName.setText(mbrand.getBrandName());
             holder.brandDistance.setText(mbrand.getBrandDistance());
             holder.like.setText(Integer.toString(mbrand.getLike()));

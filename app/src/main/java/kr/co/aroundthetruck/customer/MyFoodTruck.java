@@ -32,7 +32,7 @@ public class MyFoodTruck extends Activity {
         brandList = (ListView)findViewById(R.id.listView3);
 
         brandData = new ArrayList<Brand>();
-        brandData.add(new Brand(1, "수민카페", "s", 2, "s"));
+        brandData.add(new Brand(1, 1, "수민카페", "s", 2, "s"));
         brandList.setAdapter(new BrandAdapter(MyFoodTruck.this, brandData));
 
 

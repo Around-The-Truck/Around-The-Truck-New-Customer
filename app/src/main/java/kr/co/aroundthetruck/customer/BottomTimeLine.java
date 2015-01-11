@@ -7,13 +7,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +18,7 @@ import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Reply;
 import kr.co.aroundthetruck.customer.data.Article;
+import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
 
 /**
  * Created by sumin on 2014-12-01.
@@ -48,7 +46,7 @@ public class BottomTimeLine extends Fragment {
 
         lv.setAdapter(adapter);
 
-        GetListViewHeight.setListViewHeight(lv);
+        LayoutMethod.setListViewHeight(lv);
 
 
         et = (EditText)view.findViewById(R.id.editText);
@@ -142,7 +140,7 @@ public class BottomTimeLine extends Fragment {
             replies.add(new Reply(1,"트럭싫어요","댓글쓴 사람 이름2",0,list.get(pos).getIdx(),"1003"));//5번째 칼럼 맞는 인덱스 지정
 
             holder.articlelist.setAdapter(new MyCommentLAdapter(convertView.getContext(),replies));
-            GetListViewHeight.setListViewHeight(holder.articlelist);
+            LayoutMethod.setListViewHeight(holder.articlelist);
 
 
             holder.ok.setOnClickListener(new View.OnClickListener() {

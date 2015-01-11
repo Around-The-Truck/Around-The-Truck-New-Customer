@@ -4,6 +4,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -32,8 +39,12 @@ import org.json.JSONObject;
 import java.sql.RowId;
 import java.util.ArrayList;
 
+
 import kr.co.aroundthetruck.customer.data.Samples;
 import kr.co.aroundthetruck.customer.data.Truck;
+
+import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
+
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 
@@ -50,6 +61,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     android.app.Fragment fragment1;
     android.app.Fragment fragment2;
+
+    ImageView truckImage;
+    TextView truckName;
+    TextView truckCate;
+    TextView truckDis;
+    TextView truckLike;
+
+    Bitmap bitmapsp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,17 +91,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
-//        resStr = http.getAllTruck();
-//        jsonParser(resStr);
-        truckList = Samples.rtnTruckList();
 
         // create layout
         ImageView truckImage = (ImageView)findViewById(R.id.imageView);
+        truckImage = (ImageView)findViewById(R.id.imageView);
 
-        TextView truckName = (TextView)findViewById(R.id.textView5);
-        TextView truckCate = (TextView)findViewById(R.id.textView6);
-        TextView truckDis = (TextView)findViewById(R.id.textView7);
-        TextView truckLike = (TextView)findViewById(R.id.textView8);
+        truckName = (TextView)findViewById(R.id.textView5);
+        truckCate = (TextView)findViewById(R.id.textView6);
+        truckDis = (TextView)findViewById(R.id.textView7);
+        truckLike = (TextView)findViewById(R.id.textView8);
+
+        bitmapsp = BitmapFactory.decodeResource(getResources(),R.drawable.bitmapsp);
+        bitmapsp = LayoutMethod.getCircleBitmap(bitmapsp);
+
+        truckImage.setImageBitmap(bitmapsp);
 
         truckName.setText(thisBrand);
         truckCate.setText("양식/피자, 햄버거");
