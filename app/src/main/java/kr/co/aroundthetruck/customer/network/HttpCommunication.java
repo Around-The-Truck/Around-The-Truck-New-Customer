@@ -13,6 +13,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
@@ -48,7 +49,7 @@ public class HttpCommunication {
             buf = buf.trim();
 
         } catch (Exception e) {
-            Log.d("exception!","exception");
+            Log.d("exception!", "exception");
             e.printStackTrace();
             buf = "Error";
 
@@ -60,7 +61,7 @@ public class HttpCommunication {
     public String getAllTruck() {
 
         String resStr = "";
-        String url  = serverURL + "getTruckList";
+        String url = serverURL + "getTruckList";
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
         try {
@@ -81,7 +82,41 @@ public class HttpCommunication {
             resStr = resStr.trim();
 
         } catch (Exception e) {
-            Log.d("exception!","exception");
+            Log.d("exception!", "exception");
+            e.printStackTrace();
+            resStr = "Error";
+
+        }
+        return resStr;
+    }
+
+    public String getTruckInfo(int truckIdx) {
+
+        String resStr = "";
+        String url = serverURL + "getTruckInfo";
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+        param.add(new BasicNameValuePair("truckidx", String.valueOf(truckIdx)));
+
+        try {
+
+
+            HttpClient http = new DefaultHttpClient();
+
+            HttpParams params = http.getParams();
+
+            HttpPost httpPost = new HttpPost(url);
+            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+
+            httpPost.setEntity(entityRequest);
+
+            HttpResponse responsePost = http.execute(httpPost);
+            HttpEntity resEntity = responsePost.getEntity();
+
+            resStr = EntityUtils.toString(resEntity);
+            resStr = resStr.trim();
+
+        } catch (Exception e) {
+            Log.d("exception!", "exception");
             e.printStackTrace();
             resStr = "Error";
 

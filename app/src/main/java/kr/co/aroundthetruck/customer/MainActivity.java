@@ -42,6 +42,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     ArrayList<Truck> truckList;
     Intent intent;
     String thisBrand; //넘어온 브랜드
+    String thisTruckIdx;
 
     FragmentManager fragm;
     Bundle bundle;
@@ -58,7 +59,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Log.d("onCreate()", "MainActivity");
 
         intent = getIntent();
-        thisBrand = intent.getStringExtra("brand");
+        thisBrand = intent.getStringExtra("brandName");
+        thisTruckIdx = intent.getStringExtra("brandIdx");
 
 
         // StrictMode (Thread Policy == All)
