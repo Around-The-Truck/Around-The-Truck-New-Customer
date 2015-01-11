@@ -3,17 +3,15 @@ package kr.co.aroundthetruck.customer;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Menu;
+import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
 
 /**
  * Created by sumin on 2014-12-01.
@@ -38,7 +36,7 @@ public class BottomMenu extends Fragment {
         TruckMenuLAdapter adapter = new TruckMenuLAdapter(view.getContext(),menus);
         lv.setAdapter(adapter);
 
-        GetListViewHeight.setListViewHeight(lv);
+        LayoutMethod.setListViewHeight(lv);
 
         return view;
 
