@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -232,7 +234,7 @@ public class BrandListActivity extends Activity {
         @Override
         public View getView(int pos, View convertView, ViewGroup parent) {
 
-            ViewHolder holder;
+            final ViewHolder holder;
 
             final Brand mbrand = (Brand) this.getItem(pos);
 
@@ -246,7 +248,7 @@ public class BrandListActivity extends Activity {
                 holder.brandDistance= (TextView) convertView.findViewById(R.id.distance);
                 holder.like= (TextView) convertView.findViewById(R.id.like);
                 holder.category= (TextView) convertView.findViewById(R.id.category);
-                holder.likebtn= (Button) convertView.findViewById(R.id.likebtn);
+                holder.likebtn= (ImageButton) convertView.findViewById(R.id.imageButton4);
 
                 convertView.setTag(holder);
             }else{
@@ -260,6 +262,14 @@ public class BrandListActivity extends Activity {
             holder.brandDistance.setText(mbrand.getBrandDistance());
             holder.like.setText(Integer.toString(mbrand.getLike()));
             holder.category.setText(mbrand.getCategory());
+            holder.likebtn.setFocusable(false);
+
+            holder.likebtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.likebtn.setImageResource(R.drawable.unlike);
+                }
+            });
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -283,7 +293,7 @@ public class BrandListActivity extends Activity {
             TextView brandDistance;
             TextView like;
             TextView category;
-            Button likebtn;
+            ImageButton likebtn;
 
         }
 

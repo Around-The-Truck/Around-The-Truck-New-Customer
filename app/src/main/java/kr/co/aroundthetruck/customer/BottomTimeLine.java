@@ -142,6 +142,8 @@ public class BottomTimeLine extends Fragment {
             replies.add(new Reply(1,"트럭싫어요","댓글쓴 사람 이름2",0,list.get(pos).getIdx(),"1003"));//5번째 칼럼 맞는 인덱스 지정
 
             holder.articlelist.setAdapter(new MyCommentLAdapter(convertView.getContext(),replies));
+            GetListViewHeight.setListViewHeight(holder.articlelist);
+
 
             holder.ok.setOnClickListener(new View.OnClickListener() {
                 @Override
