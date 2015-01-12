@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -26,6 +28,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import java.util.ArrayList;
 
+import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
+
 /**
  * Created by sumin on 2014-12-03.
  */
@@ -33,7 +37,7 @@ public class BrandListActivity extends Activity {
 
     public static final int REQUEST_WANT_TO_FIND = 1;
 
-    String[] truckArea = {"  서울시, 양재", "  서울시 뭐뭐"};
+    String[] truckArea = {"  신천, 잠실", "  강남, 양재", "  신사, 압구정", "  신촌, 이대", "  이태원", "  삼청동, 인사동", "  홍대", "  분당, 판교"};
     String[] navItems = {"이름", "나의 프로필", "나의 포인트",
             "팔로우한 트럭", "설정"};
     private ListView lvNavList;
@@ -45,12 +49,13 @@ public class BrandListActivity extends Activity {
     private ListView lv;
     private ArrayList<Brand> brands;
 
+    String strColor = "#6d6d6d";
+    String strColor2 = "#9a9a9a";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brand_list);
-
-        getActionBar().setDisplayShowHomeEnabled(false);
 
 
         Spinner mySpinner = (Spinner) findViewById(R.id.spinner);
@@ -58,7 +63,7 @@ public class BrandListActivity extends Activity {
 
         lv = (ListView) findViewById(R.id.brandList);
         brands = new ArrayList<Brand>();
-        brands.add(new Brand(1, "Milano Express", "100", 100, "양식/피자,햄버거"));
+        brands.add(new Brand(1, "Milano Express", "100m", 100, "양식/피자,햄버거"));
         lv.setAdapter(new BrandAdapter(BrandListActivity.this, brands));
 
         lvNavList = (ListView)findViewById(R.id.drawer_frame);
@@ -66,7 +71,7 @@ public class BrandListActivity extends Activity {
         lvNavList.setAdapter( new ArrayAdapter<String>(BrandListActivity.this, android.R.layout.simple_list_item_1, navItems));
         lvNavList.setOnItemClickListener(new DrawerItemClickListener());
         dlDrawer = (DrawerLayout)findViewById(R.id.dl_activity_main_drawer);
-        dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.drawable.menu, R.string .app_name,  R.string.app_name) {
+        dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.drawable.threeline, R.string .app_name,  R.string.app_name) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -83,7 +88,9 @@ public class BrandListActivity extends Activity {
 
         };
         dlDrawer.setDrawerListener(dtToggle);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getActionBar().setDisplayHomeAsUpEnabled(false);
+        getActionBar().setHomeButtonEnabled(true);
 
     }
 
@@ -211,7 +218,10 @@ public class BrandListActivity extends Activity {
             LayoutInflater inflater=getLayoutInflater();
             View row=inflater.inflate(R.layout.text_row, parent, false);
             TextView label=(TextView)row.findViewById(R.id.area);
+            label.setTypeface(AroundTheTruckApplication.nanumGothic);
             label.setText(truckArea[position]);
+            label.setTextColor(Color.parseColor(strColor));
+
             return row;
         }
     }
@@ -255,6 +265,7 @@ public class BrandListActivity extends Activity {
 
                 holder.brandImage = (ImageView) convertView.findViewById(R.id.brandimage);
                 holder.brandName = (TextView) convertView.findViewById(R.id.brandname);
+
                 holder.brandDistance= (TextView) convertView.findViewById(R.id.distance);
                 holder.like= (TextView) convertView.findViewById(R.id.like);
                 holder.category= (TextView) convertView.findViewById(R.id.category);
@@ -267,11 +278,25 @@ public class BrandListActivity extends Activity {
 
             }
 
-            holder.brandImage .setImageResource(mbrand.getBrandImage());
+            //holder.brandImage .setImageResource(mbrand.getBrandImage());
             holder.brandName.setText(mbrand.getBrandName());
+            holder.brandName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
+            holder.brandName.setTextColor(Color.parseColor(strColor));
+
+
             holder.brandDistance.setText(mbrand.getBrandDistance());
+            holder.brandDistance.setTypeface(AroundTheTruckApplication.nanumGothic);
+            holder.brandDistance.setTextColor(Color.parseColor(strColor2));
+
             holder.like.setText(Integer.toString(mbrand.getLike()));
+            holder.like.setTypeface(AroundTheTruckApplication.nanumGothic);
+            holder.like.setTextColor(Color.parseColor(strColor2));
+
+
             holder.category.setText(mbrand.getCategory());
+            holder.category.setTypeface(AroundTheTruckApplication.nanumGothic);
+            holder.category.setTextColor(Color.parseColor(strColor2));
+
             holder.likebtn.setFocusable(false);
 
             holder.likebtn.setOnClickListener(new View.OnClickListener() {

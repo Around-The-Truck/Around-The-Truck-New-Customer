@@ -17,12 +17,13 @@
             android:layout_marginTop="21.25dp" />
 
     <LinearLayout
-                android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="30dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="30.5dp">
          <TextView
             android:layout_width="wrap_content"
@@ -30,38 +31,44 @@
             android:text="New Text"
             android:id="@+id/brandname"
 
-             />
+             android:textSize="17dp"
+             android:layout_marginTop="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/category" />
+            android:id="@+id/category"
+            android:layout_marginTop="7dp"
+            android:textSize="13dp" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginTop="108px">
+                android:layout_marginTop="40dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView14"
-                    android:src="@drawable/dis" />
+                    android:src="@drawable/dis"
+                    android:layout_marginLeft="1dp" />
 
                 <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:id="@+id/like"
-                    android:layout_marginLeft="8dp" />
+                android:id="@+id/distance"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="2dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:layout_marginTop="3dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -74,20 +81,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:id="@+id/distance"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="1dp" />
+                android:id="@+id/like"
+                    android:layout_marginLeft="6.3dp"
+                    android:layout_marginTop="5dp" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton4"
-        android:src="@drawable/like"
-        android:background="#ffffffff"
-        android:layout_gravity="bottom" />
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton4"
+            android:src="@drawable/like"
+            android:background="#ffffffff"
+            android:layout_gravity="bottom|right"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 
 </LinearLayout>

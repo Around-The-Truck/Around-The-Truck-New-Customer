@@ -34,20 +34,20 @@
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="270dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/find"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="0dp"
-            android:paddingLeft="20dp" />
+            android:layout_marginLeft="22.5dp"
+            android:paddingLeft="20dp"
+            android:layout_marginTop="12dp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView10"
             android:src="@drawable/all"
-            android:layout_marginTop="15.5dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginTop="14dp"
+            android:layout_marginLeft="18dp" />
 
 
     </LinearLayout>

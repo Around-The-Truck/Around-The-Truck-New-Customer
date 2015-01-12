@@ -6,5 +6,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/menulist"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:divider="#ffffff"/>
 </LinearLayout>

@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -35,6 +37,7 @@ import org.apache.http.NameValuePair;
 import java.sql.RowId;
 import java.util.ArrayList;
 
+import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
@@ -58,6 +61,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     TextView truckLike;
 
     Bitmap bitmapsp;
+
+    String strColor = "#6d6d6d";
+    String strColor2 = "#9a9a9a";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +98,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
         truckImage.setImageBitmap(bitmapsp);
 
         truckName.setText(thisBrand);
+        truckName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
+        truckName.setTextColor(Color.parseColor(strColor));
+
         truckCate.setText("양식/피자, 햄버거");
+        truckCate.setTypeface(AroundTheTruckApplication.nanumGothic);
+        truckCate.setTextColor(Color.parseColor(strColor));
+
         truckDis.setText("53m");
+        truckDis.setTypeface(AroundTheTruckApplication.nanumGothic);
+        truckDis.setTextColor(Color.parseColor(strColor2));
+
         truckLike.setText("127명");
+        truckLike.setTypeface(AroundTheTruckApplication.nanumGothic);
+        truckLike.setTextColor(Color.parseColor(strColor2));
 
         ImageButton truckInfoBtn = (ImageButton) findViewById(R.id.truckinfobtn);
         ImageButton menuBtn = (ImageButton) findViewById(R.id.menubtn);
@@ -104,9 +121,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         menuBtn.setOnClickListener(this);
         mapBtn.setOnClickListener(this);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setDisplayShowHomeEnabled(false);
-        getActionBar().setTitle(thisBrand);
+        getActionBar().setHomeButtonEnabled(true);
+
+        getActionBar().setTitle("   " +thisBrand);
 
         onClick(truckInfoBtn);
     }
@@ -137,8 +154,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             case R.id.mapbtn:
 
-                //다른 화면 으로 넘어가게 map 아니라 정보 화면
                 Intent intent = new Intent(this, BottomInfo.class);   // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
+                intent.putExtra("brand", thisBrand);
                 startActivity(intent);
                 break;
         }

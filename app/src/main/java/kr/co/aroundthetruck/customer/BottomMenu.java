@@ -27,6 +27,7 @@ public class BottomMenu extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState){
         View view = inflater.inflate(R.layout.bottom_menu, null);
+
         ListView lv = (ListView)view.findViewById(R.id.menulist);
 
         ArrayList<Menu> menus= new ArrayList<Menu>();

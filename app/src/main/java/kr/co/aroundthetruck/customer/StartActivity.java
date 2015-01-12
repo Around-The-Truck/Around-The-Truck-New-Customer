@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -31,8 +33,13 @@ public class StartActivity extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.hide();
 
+
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         ImageButton startBtn = (ImageButton)findViewById(R.id.imageButton2);
         TextView welcomeMsg = (TextView)findViewById(R.id.textView4);
+        TextView welcomeMsg2 = (TextView)findViewById(R.id.textView12);
 
 
         checkedUser = checkUser();
@@ -45,7 +52,11 @@ public class StartActivity extends Activity {
             //버튼 배경 '푸트트럭 찾기'
             startBtn.setBackgroundResource(R.drawable.start_find);
 
-            welcomeMsg.setText("오수민 환영");
+            welcomeMsg.setText("오수민 님");
+            welcomeMsg2.setText("지금 근처에 있는 푸드트럭을 찾아보세요!");
+            welcomeMsg.setTypeface(Typeface.createFromAsset(getAssets(), "NanumBarunGothicBold.otf"));
+            welcomeMsg2.setTypeface(Typeface.createFromAsset(getAssets(), "NanumBarunGothic.otf"));
+
         }
 
         startBtn.setOnClickListener(new View.OnClickListener() {
