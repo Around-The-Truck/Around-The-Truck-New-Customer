@@ -31,21 +31,35 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.RowId;
 import java.util.ArrayList;
 
+<<<<<<< HEAD
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
+=======
+
+import kr.co.aroundthetruck.customer.data.Samples;
+import kr.co.aroundthetruck.customer.data.Truck;
+
+>>>>>>> 429772f3bc63b170eef2fb15cdf839d828da7d19
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
+
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
+    ArrayList<Truck> truckList;
     Intent intent;
     String thisBrand; //넘어온 브랜드
+    String thisTruckIdx;
 
     FragmentManager fragm;
     Bundle bundle;
@@ -73,7 +87,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Log.d("onCreate()", "MainActivity");
 
         intent = getIntent();
-        thisBrand = intent.getStringExtra("brand");
+        thisBrand = intent.getStringExtra("brandName");
+        thisTruckIdx = intent.getStringExtra("brandIdx");
 
 
         // StrictMode (Thread Policy == All)
@@ -85,6 +100,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
+
+        // create layout
+        ImageView truckImage = (ImageView)findViewById(R.id.imageView);
         truckImage = (ImageView)findViewById(R.id.imageView);
 
         truckName = (TextView)findViewById(R.id.textView5);
@@ -193,4 +211,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    // HTTP return value (JSON) parse method
+    public void jsonParser (String str) {
+
+        JSONObject result = new JSONObject();
+        try {
+            result = new JSONObject(str);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONArray jArr = result.getJSONArray("result");
+            for (int i = 0; i < jArr.length(); i++) {
+                JSONObject jObj = jArr.getJSONObject(i);
+
+                Truck tempCVO = new Truck();
+
+                truckList.add(tempCVO);
+            }
+        } catch (JSONException e) {
+            Log.d("json exception", "error");
+            Toast.makeText(MainActivity.this, e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
 }

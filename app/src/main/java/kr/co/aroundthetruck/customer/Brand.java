@@ -6,17 +6,18 @@ import kr.co.aroundthetruck.customer.data.Truck;
  * Created by sumin on 2014-12-03.
  */
 public class Brand {
+
+    private int brandIdx;
     private int brandImage;
     private String brandName;
     private  String brandDistance;
     private int like;
     private String category;
 
-    private Truck trucker;
 
+    Brand(int brandIdx,int brandImage,String brandName, String brandDistance, int like, String category){
 
-    Brand(int brandImage,String brandName, String brandDistance, int like, String category){
-
+        this.brandIdx = brandIdx;
         this.brandImage = brandImage;
         //this.brandName = trucker.getName();
         //this.brandDistance = trucker.getGps_address();
@@ -27,8 +28,6 @@ public class Brand {
         //좋아요 수
         this.category = category;
         //트럭 카테고리
-
-
     }
 
     public int getBrandImage(){
@@ -43,4 +42,14 @@ public class Brand {
     public int getLike(){return  like; }
     public String getCategory(){return category; }
 
+    public int getBrandIdx() {
+        return brandIdx;
+    }
+
+    public void setBrandIdx(int brandIdx) {
+        this.brandIdx = brandIdx;
+    }
+    public String getBrandIdxString() {
+        return String.valueOf(getBrandIdx());
+    }
 }

@@ -7,11 +7,11 @@ import java.util.ArrayList;
  */
 public class Samples {
 
-    public static void Samples () {
+    public void Samples () {
 
     }
 
-    public ArrayList<Truck> rtnTruckList() {
+    public static ArrayList<Truck> rtnTruckList() {
 
         ArrayList<Truck> tmpList = new ArrayList<Truck>();
 

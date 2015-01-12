@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -27,8 +28,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import java.util.ArrayList;
-
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
+import kr.co.aroundthetruck.customer.data.Samples;
+import kr.co.aroundthetruck.customer.data.Truck;
+import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 /**
  * Created by sumin on 2014-12-03.
@@ -48,6 +51,7 @@ public class BrandListActivity extends Activity {
 
     private ListView lv;
     private ArrayList<Brand> brands;
+    private ArrayList<Truck> truckList;
 
     String strColor = "#6d6d6d";
     String strColor2 = "#9a9a9a";
@@ -61,11 +65,29 @@ public class BrandListActivity extends Activity {
         Spinner mySpinner = (Spinner) findViewById(R.id.spinner);
         mySpinner.setAdapter(new MyCustomAdapter(BrandListActivity.this, R.layout.text_row, truckArea));
 
+        // StrictMode (Thread Policy == All)
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // HTTP Connection
+        HttpCommunication http = new HttpCommunication();
+        String resStr = "";
+
+//        resStr = http.getAllTruck();
+//        jsonParser(resStr);
+        truckList = Samples.rtnTruckList();
+
+        // Brand List view
         lv = (ListView) findViewById(R.id.brandList);
         brands = new ArrayList<Brand>();
-        brands.add(new Brand(1, "Milano Express", "100m", 100, "양식/피자,햄버거"));
+
+        brands.add(new Brand(1, 1, "Milano Express", "100", 100, "양식/피자,햄버거"));
+        brands.add(new Brand(2, 2, "Milano Express2", "200", 100, "양식/피자,햄버거"));
+
         lv.setAdapter(new BrandAdapter(BrandListActivity.this, brands));
 
+        // Drawer list view
         lvNavList = (ListView)findViewById(R.id.drawer_frame);
         flContainer = (FrameLayout)findViewById(R.id.main_frame);
         lvNavList.setAdapter( new ArrayAdapter<String>(BrandListActivity.this, android.R.layout.simple_list_item_1, navItems));
@@ -311,7 +333,8 @@ public class BrandListActivity extends Activity {
                 public void onClick(View view) {
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("brand", mbrand.getBrandName());
+                    intent.putExtra("brandName", mbrand.getBrandName());
+                    intent.putExtra("brandIdx", mbrand.getBrandIdxString());
                     startActivity(intent);
 
                 }
