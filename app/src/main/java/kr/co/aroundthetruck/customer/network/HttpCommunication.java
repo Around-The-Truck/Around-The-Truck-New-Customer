@@ -19,6 +19,8 @@ import org.apache.http.util.EntityUtils;
 
 import android.util.Log;
 
+import kr.co.aroundthetruck.customer.data.Reply;
+
 public class HttpCommunication {
 
     private static final String serverURL = "http://165.194.35.161:3000/";
@@ -193,5 +195,33 @@ public class HttpCommunication {
         }
         return resStr;
     }
-    
+
+    public String addReply (Reply reply) {
+
+        String resStr = "";
+
+
+        return resStr;
+    }
+
+    public  String getReplyList (String articleIdx) {
+
+        String resStr = "";
+
+
+
+
+        return resStr;
+    }
+
+    public String getArticlList (String phoneNum) {
+
+        String resStr = "";
+
+        String writerType = "0";
+
+
+        return resStr;
+    }
+
 }
