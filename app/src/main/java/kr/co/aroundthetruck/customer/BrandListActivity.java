@@ -27,6 +27,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.data.Samples;
@@ -50,7 +54,7 @@ public class BrandListActivity extends Activity {
     private ActionBarDrawerToggle dtToggle;
 
     private ListView lv;
-    private ArrayList<Brand> brands;
+    private ArrayList<Brand> brands =null;
     private ArrayList<Truck> truckList;
 
     String strColor = "#6d6d6d";
@@ -74,17 +78,19 @@ public class BrandListActivity extends Activity {
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
-//        resStr = http.getAllTruck();
-//        jsonParser(resStr);
-        truckList = Samples.rtnTruckList();
+        resStr = http.getAllTruck();
+        Log.d("ebsud", "resStr :" + resStr);
+
+        // parsing TruckList
+        parseJSON(resStr);
 
         // Brand List view
         lv = (ListView) findViewById(R.id.brandList);
-        brands = new ArrayList<Brand>();
 
+        /*
         brands.add(new Brand(1, 1, "Milano Express", "100", 100, "양식/피자,햄버거"));
         brands.add(new Brand(2, 2, "Milano Express2", "200", 100, "양식/피자,햄버거"));
-
+*/
         lv.setAdapter(new BrandAdapter(BrandListActivity.this, brands));
 
         // Drawer list view
@@ -127,6 +133,29 @@ public class BrandListActivity extends Activity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         dtToggle.onConfigurationChanged(newConfig);
+    }
+
+    private void parseJSON (String str) {
+
+        brands = new ArrayList<Brand>();
+        Brand tmp = new Brand();
+
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
+            for (int i=0 ; i<arr.length(); i++) {
+                Log.d("ebsud", arr.getJSONObject(i).toString());
+                tmp = new Brand(arr.getJSONObject(i).getInt("idx"), 40, arr.getJSONObject(i).getString("name"), "50m", arr.getJSONObject(i).getInt("follow_count"), "한식");//arr.getJSONObject(i).getString("category"));
+                brands.add(tmp);
+            }
+
+        } catch (Exception e) {
+            Log.d("ebsud", "JSON error (BrandList) : " + e);
+            e.printStackTrace();
+            ;
+        }
+
+
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener{
@@ -176,8 +205,8 @@ public class BrandListActivity extends Activity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 if(dtToggle.onOptionsItemSelected(item)){
-                    		return true;
-                     		}
+                    return true;
+                }
 
             case R.id.menu_cate1:
 //                //액션바에 한식 눌렀을 때

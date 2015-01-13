@@ -4,14 +4,19 @@ package kr.co.aroundthetruck.customer.network;
  * Created by ebsud89 on 12/20/14.
  */
 
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIUtils;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpParams;
@@ -19,9 +24,12 @@ import org.apache.http.util.EntityUtils;
 
 import android.util.Log;
 
+import kr.co.aroundthetruck.customer.data.Reply;
+
 public class HttpCommunication {
 
     private static final String serverURL = "http://165.194.35.161:3000/";
+    private URI uri = null;
 
     public String doPost(ArrayList<NameValuePair> param, String context) {
 
@@ -62,7 +70,10 @@ public class HttpCommunication {
 
         String resStr = "";
         String url = serverURL + "getTruckList";
-        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+        url = "http://165.194.35.161:3000/getTruckList";
+        List<NameValuePair> param = new ArrayList<NameValuePair>();
+
+
 
         try {
 
@@ -70,12 +81,10 @@ public class HttpCommunication {
 
             HttpParams params = http.getParams();
 
-            HttpPost httpPost = new HttpPost(url);
+            HttpGet httpGet = new HttpGet(url);
             UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
 
-            httpPost.setEntity(entityRequest);
-
-            HttpResponse responsePost = http.execute(httpPost);
+            HttpResponse responsePost = http.execute(httpGet);
             HttpEntity resEntity = responsePost.getEntity();
 
             resStr = EntityUtils.toString(resEntity);
@@ -87,6 +96,7 @@ public class HttpCommunication {
             resStr = "Error";
 
         }
+//        resStr = "[getAllTruck : ";
         return resStr;
     }
 
@@ -193,5 +203,33 @@ public class HttpCommunication {
         }
         return resStr;
     }
-    
+
+    public String addReply (Reply reply) {
+
+        String resStr = "";
+
+
+        return resStr;
+    }
+
+    public  String getReplyList (String articleIdx) {
+
+        String resStr = "";
+
+
+
+
+        return resStr;
+    }
+
+    public String getArticlList (String phoneNum) {
+
+        String resStr = "";
+
+        String writerType = "0";
+
+
+        return resStr;
+    }
+
 }

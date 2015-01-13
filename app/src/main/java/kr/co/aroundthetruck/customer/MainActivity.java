@@ -43,6 +43,11 @@ import java.util.ArrayList;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.data.Samples;
 import kr.co.aroundthetruck.customer.data.Truck;
+import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
+
+import kr.co.aroundthetruck.customer.data.Samples;
+import kr.co.aroundthetruck.customer.data.Truck;
+
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
 
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
