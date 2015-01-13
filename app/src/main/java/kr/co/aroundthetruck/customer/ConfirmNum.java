@@ -38,13 +38,14 @@ public class ConfirmNum extends Activity {
 
         radio = (RadioGroup) findViewById(R.id.m_sex);
 
+        getActionBar().setHomeButtonEnabled(true);
 
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        getMenuInflater().inflate(R.menu.profile, menu);
+        getMenuInflater().inflate(R.menu.ok, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -53,9 +54,14 @@ public class ConfirmNum extends Activity {
         // Handle presses on the action bar items
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                //뒤로가기 버튼
+                finish();
+                return true;
             case R.id.next_button:
 
-                Intent intent =  new Intent(ConfirmNum.this, BrandListActivity.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
+                Intent intent =  new Intent(ConfirmNum.this, StartActivity.class);
+                intent.putExtra("CHEKEDUSER",false);// main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
                 startActivity(intent);
                 return true;
 

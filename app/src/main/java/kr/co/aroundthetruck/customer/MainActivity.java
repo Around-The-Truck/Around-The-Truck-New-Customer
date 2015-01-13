@@ -40,15 +40,9 @@ import org.json.JSONObject;
 
 import java.sql.RowId;
 import java.util.ArrayList;
-
-<<<<<<< HEAD
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
-=======
-
 import kr.co.aroundthetruck.customer.data.Samples;
 import kr.co.aroundthetruck.customer.data.Truck;
-
->>>>>>> 429772f3bc63b170eef2fb15cdf839d828da7d19
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
 
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
@@ -102,6 +96,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
         // create layout
+        LinearLayout ly = (LinearLayout)findViewById(R.id.layout_back);
+        ly.setBackgroundResource(R.drawable.back);
         ImageView truckImage = (ImageView)findViewById(R.id.imageView);
         truckImage = (ImageView)findViewById(R.id.imageView);
 
@@ -117,19 +113,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         truckName.setText(thisBrand);
         truckName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
-        truckName.setTextColor(Color.parseColor(strColor));
+        truckName.setTextColor(Color.WHITE);
 
         truckCate.setText("양식/피자, 햄버거");
         truckCate.setTypeface(AroundTheTruckApplication.nanumGothic);
-        truckCate.setTextColor(Color.parseColor(strColor));
+        truckCate.setTextColor(Color.WHITE);
 
         truckDis.setText("53m");
         truckDis.setTypeface(AroundTheTruckApplication.nanumGothic);
-        truckDis.setTextColor(Color.parseColor(strColor2));
+        truckDis.setTextColor(Color.WHITE);
 
         truckLike.setText("127명");
         truckLike.setTypeface(AroundTheTruckApplication.nanumGothic);
-        truckLike.setTextColor(Color.parseColor(strColor2));
+        truckLike.setTextColor(Color.WHITE);
 
         ImageButton truckInfoBtn = (ImageButton) findViewById(R.id.truckinfobtn);
         ImageButton menuBtn = (ImageButton) findViewById(R.id.menubtn);
@@ -140,7 +136,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mapBtn.setOnClickListener(this);
 
         getActionBar().setHomeButtonEnabled(true);
-
         getActionBar().setTitle("   " +thisBrand);
 
         onClick(truckInfoBtn);

@@ -41,8 +41,8 @@ public class BrandListActivity extends Activity {
     public static final int REQUEST_WANT_TO_FIND = 1;
 
     String[] truckArea = {"  신천, 잠실", "  강남, 양재", "  신사, 압구정", "  신촌, 이대", "  이태원", "  삼청동, 인사동", "  홍대", "  분당, 판교"};
-    String[] navItems = {"이름", "나의 프로필", "나의 포인트",
-            "팔로우한 트럭", "설정"};
+    String[] navItems = {"나의 프로필", "나의 포인트",
+            "팔로우한 트럭"};
     private ListView lvNavList;
     private FrameLayout flContainer;
 
@@ -90,7 +90,8 @@ public class BrandListActivity extends Activity {
         // Drawer list view
         lvNavList = (ListView)findViewById(R.id.drawer_frame);
         flContainer = (FrameLayout)findViewById(R.id.main_frame);
-        lvNavList.setAdapter( new ArrayAdapter<String>(BrandListActivity.this, android.R.layout.simple_list_item_1, navItems));
+       // lvNavList.setAdapter( new ArrayAdapter<String>(BrandListActivity.this, android.R.layout.simple_list_item_1, navItems));
+        lvNavList.setAdapter(new MyCustomAdapter(BrandListActivity.this, R.layout.text_row2,  navItems));
         lvNavList.setOnItemClickListener(new DrawerItemClickListener());
         dlDrawer = (DrawerLayout)findViewById(R.id.dl_activity_main_drawer);
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.drawable.threeline, R.string .app_name,  R.string.app_name) {
@@ -138,28 +139,19 @@ public class BrandListActivity extends Activity {
 
             switch(position){
                 case 0:
-
-                    //이름
-                    break;
-                case 1:
                     intent =  new Intent(BrandListActivity.this,MyInfo.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
                     startActivity(intent);
                     //나의 프로필
                     break;
-                case 2:
+                case 1:
                     intent =  new Intent(BrandListActivity.this,MyPoint.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
                     startActivity(intent);
                     //나의 포인트
                     break;
-                case 3:
+                case 2:
                     intent =  new Intent(BrandListActivity.this,MyFoodTruck.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
                     startActivity(intent);
                     //팔로우한 트럭
-                    break;
-                case 4:
-                    intent =  new Intent(BrandListActivity.this,Setting.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
-                    startActivity(intent);
-                    //설정
                     break;
             }
             dlDrawer.closeDrawer(lvNavList);
@@ -210,16 +202,24 @@ public class BrandListActivity extends Activity {
         switch(requestCode){
             case  REQUEST_WANT_TO_FIND :
 
+                if(resultCode == Activity.RESULT_OK){
+
                 //액션바에있는 찾기 버튼 누르고 왔을때
-                Log.d("User_want_to_find",data.getStringExtra("search"));
+                Log.d("User_want_to_find",data.getStringExtra("search"));}
         }
     }
 
     public class MyCustomAdapter extends ArrayAdapter<String> {
 
+        String[] objects;
+        int textViewResourceId;
+
         public MyCustomAdapter(Context context, int textViewResourceId,
                                String[] objects) {
             super(context, textViewResourceId, objects);
+
+            this.objects = objects;
+            this.textViewResourceId = textViewResourceId;
         }
         @Override
         public View getDropDownView(int position, View convertView,
@@ -238,10 +238,10 @@ public class BrandListActivity extends Activity {
             //return super.getView(position, convertView, parent);
 
             LayoutInflater inflater=getLayoutInflater();
-            View row=inflater.inflate(R.layout.text_row, parent, false);
+            View row=inflater.inflate(textViewResourceId, parent, false);
             TextView label=(TextView)row.findViewById(R.id.area);
             label.setTypeface(AroundTheTruckApplication.nanumGothic);
-            label.setText(truckArea[position]);
+            label.setText(objects[position]);
             label.setTextColor(Color.parseColor(strColor));
 
             return row;
@@ -324,7 +324,7 @@ public class BrandListActivity extends Activity {
             holder.likebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    holder.likebtn.setImageResource(R.drawable.unlike);
+                    holder.likebtn.setImageResource(R.drawable.like);
                 }
             });
 
