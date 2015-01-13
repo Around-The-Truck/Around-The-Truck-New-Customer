@@ -17,6 +17,7 @@ import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -27,16 +28,18 @@ public class MyInfo extends Activity {
     String[] truckArea = {"학생, 직장인", "주부"};
 
     ImageButton image;
+    TextView nameTextView;
     EditText name;
     EditText birth;
     RadioGroup radio;
     Boolean sex;
-    Spinner job;
     Button loginBtn;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_info);
+
+        getActionBar().setDisplayShowHomeEnabled(false);
 
         image = (ImageButton)findViewById(R.id.imageView11);
         name = (EditText)findViewById(R.id.m_name);
@@ -57,9 +60,6 @@ public class MyInfo extends Activity {
 
         });
 
-
-        job = (Spinner)findViewById(R.id.spinner2);
-        job.setAdapter(new ArrayAdapter<String>(MyInfo.this, android.R.layout.simple_list_item_1,truckArea));
     }
 
 

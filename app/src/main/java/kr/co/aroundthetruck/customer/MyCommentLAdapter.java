@@ -1,6 +1,8 @@
 package kr.co.aroundthetruck.customer;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Reply;
+import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 
 /**
  * Created by sumin on 2014-12-03.
@@ -19,6 +22,8 @@ import kr.co.aroundthetruck.customer.data.Reply;
 class MyCommentLAdapter extends BaseAdapter {
     Context mContext;
     ArrayList<Reply> list;
+
+    String strColor = "#6d6d6d";
 
     public MyCommentLAdapter(Context context, ArrayList<Reply> list) {
         this.mContext = context;
@@ -62,7 +67,11 @@ class MyCommentLAdapter extends BaseAdapter {
         }
         //holder.userImg .setImageResource(list.get(pos).getUserImage());
         holder.userName.setText(list.get(pos).getWriter());
+        holder.userName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
+        holder.userName.setTextColor(Color.parseColor(strColor));
         holder.userComment.setText(list.get(pos).getContents());
+        holder.userComment.setTypeface(AroundTheTruckApplication.nanumGothic);
+        holder.userComment.setTextColor(Color.parseColor(strColor));
 
 
 

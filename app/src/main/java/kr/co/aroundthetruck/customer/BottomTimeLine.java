@@ -3,6 +3,10 @@ package kr.co.aroundthetruck.customer;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.location.GpsStatus;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +22,7 @@ import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Reply;
 import kr.co.aroundthetruck.customer.data.Article;
+import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
 
 /**
@@ -25,8 +30,13 @@ import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
  */
 public class BottomTimeLine extends Fragment {
     int mStart = 0;
-    EditText et;
-    ImageButton ib;
+
+    ListView lv;
+    MyArticlesAdapter adapter;
+
+    String strColor = "#6d6d6d";
+    String strColor2 = "#9a9a9a";
+
 
 
     public static BottomTimeLine newInstance(int start){
@@ -37,29 +47,19 @@ public class BottomTimeLine extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState){
         View view = inflater.inflate(R.layout.bottom_timeline, null);
-        ListView lv = (ListView)view.findViewById(R.id.listView);
+        lv = (ListView)view.findViewById(R.id.listView);
 
         ArrayList<Article> Articles = new ArrayList<Article>();
         Articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전",10,11));
-        Articles.add(new Article(1,11111,"Milano Express",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
-        MyArticlesAdapter adapter = new MyArticlesAdapter(view.getContext(), Articles);
+        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
+        adapter = new MyArticlesAdapter(view.getContext(), Articles);
 
         lv.setAdapter(adapter);
+
 
         LayoutMethod.setListViewHeight(lv);
 
 
-        et = (EditText)view.findViewById(R.id.editText);
-        ib = (ImageButton)view.findViewById(R.id.buttons);
-
-        ib.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //댓글 올리는 버튼을 눌렀을때
-                et.setVisibility(View.GONE);
-                ib.setVisibility(View.GONE);
-            }
-        });
 
         return view;
 
@@ -101,7 +101,8 @@ public class BottomTimeLine extends Fragment {
         @Override
         public View getView(int pos, View convertView, ViewGroup parent) {
 
-            ViewHolder holder;
+            final ViewHolder holder;
+            final ArrayList<Reply> replies;
 
             if (convertView == null) {
                 holder = new ViewHolder();
@@ -121,6 +122,9 @@ public class BottomTimeLine extends Fragment {
                 holder.like= (ImageButton) convertView.findViewById(R.id.article_like);
                 holder.ok= (ImageButton) convertView.findViewById(R.id.article_ok); //댓글 다는 버튼
 
+                holder.et = (EditText)convertView.findViewById(R.id.editText);
+                holder.ib = (ImageButton)convertView.findViewById(R.id.buttons);
+
 
                 convertView.setTag(holder);
             }else{
@@ -130,12 +134,23 @@ public class BottomTimeLine extends Fragment {
             }
             //holder.brandImage.setImageResource(list.get(pos).getmenuImage());
             holder.brandName.setText(list.get(pos).getWriter());  //타임라인 글 쓴사람
+            holder.brandName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
             //holder.articleImage.setImageResource(list.get(pos).getWriter());
-            holder.likeNumber.setText(Integer.toString(list.get(pos).getLikeNumber()));
-            holder.replyNumber.setText(Integer.toString(list.get(pos).getReplyNumber()));
+            holder.brandName.setTextColor(Color.parseColor(strColor));
+
+            holder.articleTime.setTypeface(AroundTheTruckApplication.nanumGothic);
+            holder.articleTime.setTextColor(Color.parseColor(strColor2));
+
+            holder.likeNumber.setText(Integer.toString(list.get(pos).getLikeNumber()) + "명");
+            holder.likeNumber.setTypeface(AroundTheTruckApplication.nanumGothic);
+            holder.likeNumber.setTextColor(Color.parseColor(strColor));
+
+            holder.replyNumber.setText(Integer.toString(list.get(pos).getReplyNumber()) + "명");
+            holder.replyNumber.setTypeface(AroundTheTruckApplication.nanumGothic);
+            holder.replyNumber.setTextColor(Color.parseColor(strColor));
 
 
-            ArrayList<Reply> replies= new ArrayList<Reply>(); //댓글들
+            replies= new ArrayList<Reply>(); //댓글들
             replies.add(new Reply(0,"트럭좋아요","댓글쓴 사람 이름",0,list.get(pos).getIdx(),"1003"));
             replies.add(new Reply(1,"트럭싫어요","댓글쓴 사람 이름2",0,list.get(pos).getIdx(),"1003"));//5번째 칼럼 맞는 인덱스 지정
 
@@ -147,8 +162,24 @@ public class BottomTimeLine extends Fragment {
                 @Override
                 public void onClick(View view) {
                         //댓글쓰기 버튼 눌렀을때
-                        et.setVisibility(View.VISIBLE);
-                        ib.setVisibility(View.VISIBLE);
+                        holder.et.setVisibility(View.VISIBLE);
+                        holder.ib.setVisibility(View.VISIBLE);
+                        holder.et.requestFocus();
+
+                }
+            });
+
+
+            holder.ib.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //댓글쓰기 버튼 눌렀을때
+                    replies.add(new Reply(2, holder.et.getText().toString(), "현재로그인된사람", 0, 3, "1003"));
+//                    adapter.notifyDataSetChanged();
+                    LayoutMethod.setListViewHeight(holder.articlelist);
+                   // LayoutMethod.setListViewHeight(lv);
+                    holder.et.setVisibility(View.GONE);
+                    holder.ib.setVisibility(View.GONE);
 
                 }
             });
@@ -156,6 +187,8 @@ public class BottomTimeLine extends Fragment {
             return convertView;
 
         }
+
+
 
         private  class ViewHolder
         {
@@ -172,6 +205,9 @@ public class BottomTimeLine extends Fragment {
 
             ImageButton ok;
             ImageButton like;
+
+            EditText et;
+            ImageButton ib;
         }
 
     }
