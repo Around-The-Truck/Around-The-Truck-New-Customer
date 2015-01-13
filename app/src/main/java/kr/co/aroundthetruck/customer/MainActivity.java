@@ -41,14 +41,12 @@ import org.json.JSONObject;
 import java.sql.RowId;
 import java.util.ArrayList;
 
-<<<<<<< HEAD
+
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
-=======
 
 import kr.co.aroundthetruck.customer.data.Samples;
 import kr.co.aroundthetruck.customer.data.Truck;
 
->>>>>>> 429772f3bc63b170eef2fb15cdf839d828da7d19
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
 
 import kr.co.aroundthetruck.customer.network.HttpCommunication;

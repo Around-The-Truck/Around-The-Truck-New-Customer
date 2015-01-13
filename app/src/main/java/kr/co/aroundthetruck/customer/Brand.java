@@ -30,6 +30,10 @@ public class Brand {
         //트럭 카테고리
     }
 
+    public Brand() {
+
+    }
+
     public int getBrandImage(){
         return brandImage;
     }

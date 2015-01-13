@@ -43,7 +43,7 @@ public class StartActivity extends Activity {
 
 
         checkedUser = checkUser();
-        if(!checkedUser){
+        if(checkedUser){
             //회원가입 안 된 유저의 경우의 레이아웃
             //버튼 배경 '시작하기'로 주기
             startBtn.setBackgroundResource(R.drawable.start_find);
@@ -65,7 +65,7 @@ public class StartActivity extends Activity {
 
                 Intent intent;
 
-                if(!checkedUser){
+                if(checkedUser){
                     //로그인화면으로 다음 화면으로 넘기기
                     intent =  new Intent(StartActivity.this,MyInfo.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
                     startActivity(intent);
