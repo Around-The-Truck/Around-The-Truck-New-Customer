@@ -11,7 +11,9 @@ public class Menu {
     int price;
 
     int truck_idx;
+    String truck_name;
     int photo_idx;
+    String photo_filename;
 
     String ingredients;     // 식재료
     String description;     // 메뉴 설명
@@ -20,12 +22,14 @@ public class Menu {
 
     }
 
-    public Menu(int idx, String name, int price, int truck_idx, int photo_idx, String ingredients, String description) {
+    public Menu(int idx, String name, int price, int truck_idx, String truck_name, int photo_idx, String photo_filename, String ingredients, String description) {
         this.idx = idx;
         this.name = name;
         this.price = price;
         this.truck_idx = truck_idx;
+        this.truck_name = truck_name;
         this.photo_idx = photo_idx;
+        this.photo_filename = photo_filename;
         this.ingredients = ingredients;
         this.description = description;
     }

@@ -4,6 +4,7 @@ package kr.co.aroundthetruck.customer;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.GpsStatus;
@@ -36,6 +37,8 @@ import kr.co.aroundthetruck.customer.network.HttpCommunication;
  */
 public class BottomTimeLine extends Fragment {
     int mStart = 0;
+    String thisTruckIdx;
+    SharedPreferences prefs;
 
     ListView lv;
     MyArticlesAdapter adapter;
@@ -51,27 +54,37 @@ public class BottomTimeLine extends Fragment {
         return cf;
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState){
-        View view = inflater.inflate(R.layout.bottom_timeline, null);
-        lv = (ListView)view.findViewById(R.id.listView);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         // StrictMode (Thread Policy == All)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+//        thisTruckIdx = prefs.getString("truckIdx", null);
+////        thisTruckIdx = getArguments().getString("truckIdx");
+//
+
         // HTTP Connection
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
-        // get Truck idx
-        String thisTruckIdx = getArguments().getString("truckIdx");
-
         resStr = http.getArticlList(thisTruckIdx);
 
-        Log.d("ebsud", "resStr (TimeLine) : ");
+
+        Log.d("ebsud", "resStr (TimeLine) : " + resStr);
 
         parseJSON(resStr);
+
+
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState){
+        View view = inflater.inflate(R.layout.bottom_timeline, null);
+        lv = (ListView)view.findViewById(R.id.listView);
+
 
 //        Articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전",10,11));
 //        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));

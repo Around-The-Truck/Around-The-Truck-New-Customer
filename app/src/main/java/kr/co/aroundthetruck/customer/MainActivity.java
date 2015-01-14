@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -67,9 +68,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         Log.d("onCreate()", "MainActivity");
 
-        intent = getIntent();
-        thisBrand = intent.getStringExtra("brandName");
-        thisTruckIdx = intent.getStringExtra("brandIdx");
 
 
         // StrictMode (Thread Policy == All)
@@ -85,7 +83,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         parseJSON(resStr);
 
-//        Log.d("ebsud", "fc : " + String.valueOf(truck.getFollow_count()));
+        Log.d("ebsud", "fc : " + String.valueOf(truck.getFollow_count()));
+
+        fragm = getFragmentManager();
+        bundle = new Bundle();
+        fragmentTransaction = fragm.beginTransaction();
+//
+//        bundle.putString("truckIdx",thisTruckIdx);
+//
+//        fragment1 = new BottomTimeLine();
+//        fragment2 = new BottomMenu();
+//        fragment1.setArguments(bundle);
+//        fragment2.setArguments(bundle);
+
+        fragment1 = (android.app.Fragment)fragm.findFragmentById(R.id.fragment);
+        fragment2 = (android.app.Fragment)fragm.findFragmentById(R.id.fragment_menu);
+
+//        fragmentTransaction.add(R.id.fragment, fragment1);
+//        fragmentTransaction.add(R.id.fragment_menu, fragment2);
+//        fragmentTransaction.commit();
 
         // create layout
         LinearLayout ly = (LinearLayout)findViewById(R.id.layout_back);
@@ -136,18 +152,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
 
-        fragm = getFragmentManager();
-        bundle = new Bundle();
-        fragmentTransaction = fragm.beginTransaction();
-
-//        bundle.putString("truckIdx", thisTruckIdx);
-
-        fragment1 = (android.app.Fragment) fragm.findFragmentById(R.id.fragment);
-        fragment2 = (android.app.Fragment)fragm.findFragmentById(R.id.fragment_menu);
-
-//        fragment1.setArguments(bundle);
-//        fragment2.setArguments(bundle);
-
         switch (view.getId()) {
             case R.id.truckinfobtn:
 
@@ -170,7 +174,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
         }
         fragmentTransaction.commit();
-
     }
 
     @Override

@@ -253,4 +253,40 @@ public class HttpCommunication {
         return resStr;
     }
 
+    public String getMenuList (String truckIdx) {
+
+        String resStr = "";
+
+        String url = "http://165.194.35.161:3000/getMenuList";
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+
+        param.add(new BasicNameValuePair("truckIdx", truckIdx));
+
+        try {
+
+
+            HttpClient http = new DefaultHttpClient();
+
+            HttpParams params = http.getParams();
+
+            HttpPost httpPost = new HttpPost(url);
+            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+
+            httpPost.setEntity(entityRequest);
+
+            HttpResponse responsePost = http.execute(httpPost);
+            HttpEntity resEntity = responsePost.getEntity();
+
+            resStr = EntityUtils.toString(resEntity);
+            resStr = resStr.trim();
+
+        } catch (Exception e) {
+            Log.d("exception!", "exception");
+            e.printStackTrace();
+            resStr = "Error";
+
+        }
+
+        return resStr;
+    }
 }
