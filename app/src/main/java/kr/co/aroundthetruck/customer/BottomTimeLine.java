@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.GpsStatus;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +20,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Reply;
 import kr.co.aroundthetruck.customer.data.Article;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
+import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 /**
  * Created by sumin on 2014-12-01.
@@ -37,7 +43,7 @@ public class BottomTimeLine extends Fragment {
     String strColor = "#6d6d6d";
     String strColor2 = "#9a9a9a";
 
-
+    ArrayList<Article> articles = new ArrayList<Article>();
 
     public static BottomTimeLine newInstance(int start){
         BottomTimeLine cf = new BottomTimeLine();
@@ -49,10 +55,27 @@ public class BottomTimeLine extends Fragment {
         View view = inflater.inflate(R.layout.bottom_timeline, null);
         lv = (ListView)view.findViewById(R.id.listView);
 
-        ArrayList<Article> Articles = new ArrayList<Article>();
-        Articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전",10,11));
-        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
-        adapter = new MyArticlesAdapter(view.getContext(), Articles);
+        // StrictMode (Thread Policy == All)
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // HTTP Connection
+        HttpCommunication http = new HttpCommunication();
+        String resStr = "";
+
+        // get Truck idx
+        String thisTruckIdx = getArguments().getString("truckIdx");
+
+        resStr = http.getArticlList(thisTruckIdx);
+
+        Log.d("ebsud", "resStr (TimeLine) : ");
+
+        parseJSON(resStr);
+
+//        Articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전",10,11));
+//        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
+        adapter = new MyArticlesAdapter(view.getContext(), articles);
 
         lv.setAdapter(adapter);
 
@@ -63,6 +86,34 @@ public class BottomTimeLine extends Fragment {
 
         return view;
 
+    }
+
+    private void parseJSON(String resStr) {
+
+        Article tmp = null;
+
+        try {
+            JSONObject jsonObject = new JSONObject(resStr);
+            JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
+            for (int i=0 ; i<arr.length(); i++) {
+                Log.d("ebsud", arr.getJSONObject(i).toString());
+                tmp = new Article(arr.getJSONObject(i).getInt("idx"),
+                        arr.getJSONObject(i).getString("filename"),
+                        arr.getJSONObject(i).getString("writer"),
+                        arr.getJSONObject(i).getInt("writer_type"),
+                        arr.getJSONObject(i).getString("contents"),
+                        arr.getJSONObject(i).getInt("like"),
+                        arr.getJSONObject(i).getString("belong_to"),
+                        arr.getJSONObject(i).getString("reg_date")
+                );
+                articles.add(tmp);
+            }
+
+        } catch (Exception e) {
+            Log.d("ebsud", "JSON error (MainActivity) : " + e);
+            e.printStackTrace();
+            ;
+        }
     }
 
     public void onSaveInstanceState(Bundle outState){

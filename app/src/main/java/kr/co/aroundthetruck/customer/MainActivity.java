@@ -2,50 +2,31 @@ package kr.co.aroundthetruck.customer;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.StrictMode;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.apache.http.NameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.RowId;
 import java.util.ArrayList;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
-import kr.co.aroundthetruck.customer.data.Samples;
+
 import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 
-import kr.co.aroundthetruck.customer.data.Samples;
 import kr.co.aroundthetruck.customer.data.Truck;
 
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
@@ -55,10 +36,11 @@ import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    ArrayList<Truck> truckList;
     Intent intent;
     String thisBrand; //넘어온 브랜드
     String thisTruckIdx;
+
+    Truck truck;
 
     FragmentManager fragm;
     Bundle bundle;
@@ -99,6 +81,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
+        resStr = http.getTruckInfo(thisTruckIdx);
+
+        parseJSON(resStr);
+
+//        Log.d("ebsud", "fc : " + String.valueOf(truck.getFollow_count()));
 
         // create layout
         LinearLayout ly = (LinearLayout)findViewById(R.id.layout_back);
@@ -128,7 +115,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         truckDis.setTypeface(AroundTheTruckApplication.nanumGothic);
         truckDis.setTextColor(Color.WHITE);
 
-        truckLike.setText("127명");
+        truckLike.setText(String.valueOf(truck.getFollow_count()));
         truckLike.setTypeface(AroundTheTruckApplication.nanumGothic);
         truckLike.setTextColor(Color.WHITE);
 
@@ -153,8 +140,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         bundle = new Bundle();
         fragmentTransaction = fragm.beginTransaction();
 
+//        bundle.putString("truckIdx", thisTruckIdx);
+
         fragment1 = (android.app.Fragment) fragm.findFragmentById(R.id.fragment);
         fragment2 = (android.app.Fragment)fragm.findFragmentById(R.id.fragment_menu);
+
+//        fragment1.setArguments(bundle);
+//        fragment2.setArguments(bundle);
 
         switch (view.getId()) {
             case R.id.truckinfobtn:
@@ -212,29 +204,42 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     // HTTP return value (JSON) parse method
-    public void jsonParser (String str) {
+    public void parseJSON (String str) {
 
-        JSONObject result = new JSONObject();
-        try {
-            result = new JSONObject(str);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         try {
-            JSONArray jArr = result.getJSONArray("result");
-            for (int i = 0; i < jArr.length(); i++) {
-                JSONObject jObj = jArr.getJSONObject(i);
-
-                Truck tempCVO = new Truck();
-
-                truckList.add(tempCVO);
+            JSONObject jsonObject = new JSONObject(str);
+            JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
+            for (int i=0 ; i<arr.length(); i++) {
+                Log.d("ebsud", arr.getJSONObject(i).toString());
+                truck = new Truck(arr.getJSONObject(i).getInt("idx"),
+                        arr.getJSONObject(i).getString("name"),
+                        arr.getJSONObject(i).getDouble("gps_longitude"),
+                        arr.getJSONObject(i).getDouble("gps_latitude"),
+                        arr.getJSONObject(i).getDouble("gps_altitude"),
+                        arr.getJSONObject(i).getString("gps_address"),
+                        arr.getJSONObject(i).getInt("todays_sum"),
+                        arr.getJSONObject(i).getInt("follow_count"),
+                        arr.getJSONObject(i).getInt("start_yn"),
+                        arr.getJSONObject(i).getInt("takeout_yn"),
+                        arr.getJSONObject(i).getInt("cansit_yn"),
+                        arr.getJSONObject(i).getInt("card_yn"),
+                        arr.getJSONObject(i).getInt("reserve_yn"),
+                        arr.getJSONObject(i).getInt("group_order_yn"),
+                        arr.getJSONObject(i).getInt("always_open_yn"),
+                        arr.getJSONObject(i).getString("photo_filename"),
+                        arr.getJSONObject(i).getString("main_position"),
+                        arr.getJSONObject(i).getInt("category_id"),
+                        arr.getJSONObject(i).getString("category_small"),
+                        arr.getJSONObject(i).getString("reg_date")
+                        );
+//                brands.add(tmp);
             }
-        } catch (JSONException e) {
-            Log.d("json exception", "error");
-            Toast.makeText(MainActivity.this, e.getMessage(),
-                    Toast.LENGTH_LONG).show();
+
+        } catch (Exception e) {
+            Log.d("ebsud", "JSON error (MainActivity) : " + e);
             e.printStackTrace();
+            ;
         }
     }
 }

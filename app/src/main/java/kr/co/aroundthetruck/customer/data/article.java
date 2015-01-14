@@ -7,6 +7,7 @@ public class Article {
 
     int idx;
     int photo_idx;
+    String filename;
 
     String writer;
     int writer_type;
@@ -18,6 +19,33 @@ public class Article {
 
     int likeNumber;
     int replyNumber;
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public void setLikeNumber(int likeNumber) {
+        this.likeNumber = likeNumber;
+    }
+
+    public void setReplyNumber(int replyNumber) {
+        this.replyNumber = replyNumber;
+    }
+
+    public Article(int idx, String filename, String writer, int writer_type, String contents, int likeNumber, String belong_to, String reg_date) {
+        this.idx = idx;
+        this.filename = filename;
+        this.writer = writer;
+        this.writer_type = writer_type;
+        this.contents = contents;
+        this.likeNumber = likeNumber;
+        this.belong_to = belong_to;
+        this.reg_date = reg_date;
+    }
 
     public Article(int i, int i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber) {
         this.idx = i;

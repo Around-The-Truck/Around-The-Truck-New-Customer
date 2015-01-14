@@ -15,7 +15,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -73,8 +72,6 @@ public class HttpCommunication {
         url = "http://165.194.35.161:3000/getTruckList";
         List<NameValuePair> param = new ArrayList<NameValuePair>();
 
-
-
         try {
 
             HttpClient http = new DefaultHttpClient();
@@ -96,30 +93,26 @@ public class HttpCommunication {
             resStr = "Error";
 
         }
-//        resStr = "[getAllTruck : ";
         return resStr;
     }
 
-    public String getTruckInfo(int truckIdx) {
+    public String getTruckInfo(String truckIdx) {
 
         String resStr = "";
-        String url = serverURL + "getTruckInfo";
+        String url = "http://165.194.35.161:3000/getTruckInfo";
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
-        param.add(new BasicNameValuePair("truckidx", String.valueOf(truckIdx)));
+
+        param.add(new BasicNameValuePair("truckIdx", truckIdx));
 
         try {
-
 
             HttpClient http = new DefaultHttpClient();
 
             HttpParams params = http.getParams();
 
-            HttpPost httpPost = new HttpPost(url);
-            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+            HttpGet httpGet = new HttpGet(url+"?"+URLEncodedUtils.format(param, "UTF-8"));
 
-            httpPost.setEntity(entityRequest);
-
-            HttpResponse responsePost = http.execute(httpPost);
+            HttpResponse responsePost = http.execute(httpGet);
             HttpEntity resEntity = responsePost.getEntity();
 
             resStr = EntityUtils.toString(resEntity);
@@ -131,30 +124,27 @@ public class HttpCommunication {
             resStr = "Error";
 
         }
+
         return resStr;
     }
 
     public String getFollowList(String phoneNum) {
 
         String resStr = "";
-        String url = serverURL + "getFollowList";
+        String url = "http://165.194.35.161:3000/getFollowList";
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
         param.add(new BasicNameValuePair("phoneNum", phoneNum));
 
         try {
 
-
             HttpClient http = new DefaultHttpClient();
 
             HttpParams params = http.getParams();
 
-            HttpPost httpPost = new HttpPost(url);
-            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+            HttpGet httpGet = new HttpGet(url+"?"+URLEncodedUtils.format(param, "UTF-8"));
 
-            httpPost.setEntity(entityRequest);
-
-            HttpResponse responsePost = http.execute(httpPost);
+            HttpResponse responsePost = http.execute(httpGet);
             HttpEntity resEntity = responsePost.getEntity();
 
             resStr = EntityUtils.toString(resEntity);
@@ -166,6 +156,7 @@ public class HttpCommunication {
             resStr = "Error";
 
         }
+
         return resStr;
     }
 
@@ -222,13 +213,43 @@ public class HttpCommunication {
         return resStr;
     }
 
-    public String getArticlList (String phoneNum) {
+    public String getArticlList (String truckIdx) {
 
         String resStr = "";
 
         String writerType = "0";
 
+        String url = "http://165.194.35.161:3000/getArticleList";
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
+        param.add(new BasicNameValuePair("writer", truckIdx));
+//        param.add(new BasicNameValuePair("writer_type"), )
+
+
+        try {
+
+
+            HttpClient http = new DefaultHttpClient();
+
+            HttpParams params = http.getParams();
+
+            HttpPost httpPost = new HttpPost(url);
+            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+
+            httpPost.setEntity(entityRequest);
+
+            HttpResponse responsePost = http.execute(httpPost);
+            HttpEntity resEntity = responsePost.getEntity();
+
+            resStr = EntityUtils.toString(resEntity);
+            resStr = resStr.trim();
+
+        } catch (Exception e) {
+            Log.d("exception!", "exception");
+            e.printStackTrace();
+            resStr = "Error";
+
+        }
         return resStr;
     }
 

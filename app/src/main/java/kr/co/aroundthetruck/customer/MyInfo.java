@@ -3,6 +3,7 @@ package kr.co.aroundthetruck.customer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.Menu;
@@ -43,6 +44,10 @@ public class MyInfo extends Activity {
 
         getActionBar().setDisplayShowHomeEnabled(false);
 
+
+        SharedPreferences prefs = getSharedPreferences("ATT", MODE_PRIVATE);
+
+
         nameTextView = (TextView)findViewById(R.id.lala1);
         birthText = (TextView)findViewById(R.id.lala2);
         sexText = (TextView)findViewById(R.id.lala3);
@@ -50,6 +55,7 @@ public class MyInfo extends Activity {
         nameTextView.setTypeface(AroundTheTruckApplication.nanumGothic);
         birthText.setTypeface(AroundTheTruckApplication.nanumGothic);
         sexText.setTypeface(AroundTheTruckApplication.nanumGothic);
+
 
         image = (ImageButton)findViewById(R.id.imageView11);
         name = (EditText)findViewById(R.id.m_name);
