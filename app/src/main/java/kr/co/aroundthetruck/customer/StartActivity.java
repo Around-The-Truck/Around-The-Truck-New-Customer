@@ -22,9 +22,9 @@ public class StartActivity extends Activity {
 
     private SharedPreferences prefs;
     Editor editor;
-    Boolean checkedUser = true;
+    Boolean checkedUser = false;
     //회원가입한 유저인지 아닌지
-
+    Intent intent;
     String usrPhone;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +56,11 @@ public class StartActivity extends Activity {
         if(checkedUser){
             //회원가입 안 된 유저의 경우의 레이아웃
             //버튼 배경 '시작하기'로 주기
-            startBtn.setBackgroundResource(R.drawable.start_find);
+            startBtn.setImageResource(R.drawable.start_bt);
 
         }else {
             //버튼 배경 '푸트트럭 찾기'
-            startBtn.setBackgroundResource(R.drawable.start_find);
+            startBtn.setImageResource(R.drawable.finding);
 
             welcomeMsg.setText(prefs.getString("cusName", null)+" 님");
             welcomeMsg2.setText("지금 근처에 있는 푸드트럭을 찾아보세요!");
@@ -92,6 +92,7 @@ public class StartActivity extends Activity {
 
     private Boolean checkUser() {
 
+
 //        prefs = getSharedPreferences("ATT", MODE_PRIVATE);
 //        editor = prefs.edit();
 //
@@ -104,6 +105,15 @@ public class StartActivity extends Activity {
 //        editor.commit();
 
 //        return true;
+
+        prefs = getSharedPreferences("ATT", MODE_PRIVATE);
+        editor = prefs.edit();
+
+        intent = getIntent();  //전화번호 인증후 ConfirmNum
+
+        if (prefs.getString("cusPhone", "0").length() == 0 || intent.getBooleanExtra("CHEKEDUSER",true))
+            return true;
+
         return false;
     }
 }

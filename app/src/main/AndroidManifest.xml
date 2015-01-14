@@ -29,11 +29,14 @@
             android:name=".BottomInfo"
             android:icon="@drawable/before"></activity>
         <activity
+
             android:name=".MainActivity"
             android:icon="@drawable/before"></activity>
 
         <activity
-            android:name=".Searching"></activity>
+            android:label="   푸드트럭 검색"
+            android:name=".Searching"
+            android:icon="@drawable/before"></activity>
         <activity
             android:label="나의 프로필"
             android:name=".MyInfo"></activity>
@@ -47,8 +50,9 @@
             android:name=".Setting"></activity>
 
         <activity
-            android:label="전화번호 인증"
-            android:name=".ConfirmNum"></activity>
+            android:label="   전화번호 인증"
+            android:name=".ConfirmNum"
+            android:icon="@drawable/before"></activity>
 
     </application>
 

@@ -21,6 +21,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
+
 /**
  * Created by sumin on 2014-12-20.
  */
@@ -29,7 +31,7 @@ public class MyInfo extends Activity {
     String[] truckArea = {"학생, 직장인", "주부"};
 
     ImageButton image;
-    TextView nameTextView;
+    TextView nameTextView, birthText, sexText;
     EditText name;
     EditText birth;
     RadioGroup radio;
@@ -42,9 +44,18 @@ public class MyInfo extends Activity {
 
         getActionBar().setDisplayShowHomeEnabled(false);
 
+
         SharedPreferences prefs = getSharedPreferences("ATT", MODE_PRIVATE);
 
-        // prefs.getString("cusName", null);
+
+        nameTextView = (TextView)findViewById(R.id.lala1);
+        birthText = (TextView)findViewById(R.id.lala2);
+        sexText = (TextView)findViewById(R.id.lala3);
+
+        nameTextView.setTypeface(AroundTheTruckApplication.nanumGothic);
+        birthText.setTypeface(AroundTheTruckApplication.nanumGothic);
+        sexText.setTypeface(AroundTheTruckApplication.nanumGothic);
+
 
         image = (ImageButton)findViewById(R.id.imageView11);
         name = (EditText)findViewById(R.id.m_name);

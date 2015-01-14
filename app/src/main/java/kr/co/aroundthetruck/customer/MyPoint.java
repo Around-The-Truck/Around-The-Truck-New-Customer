@@ -30,7 +30,7 @@ public class MyPoint extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_point);
 
-        currebtP = (TextView) findViewById(R.id.TextView02);
+        currebtP = (TextView) findViewById(R.id.textView2);
         pointList = (ListView) findViewById(R.id.listView2);
 
         pointdata = new ArrayList<Point>();

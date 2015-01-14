@@ -213,13 +213,43 @@ public class HttpCommunication {
         return resStr;
     }
 
-    public String getArticlList (String phoneNum) {
+    public String getArticlList (String truckIdx) {
 
         String resStr = "";
 
         String writerType = "0";
 
+        String url = "http://165.194.35.161:3000/getArticleList";
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
+        param.add(new BasicNameValuePair("writer", truckIdx));
+//        param.add(new BasicNameValuePair("writer_type"), )
+
+
+        try {
+
+
+            HttpClient http = new DefaultHttpClient();
+
+            HttpParams params = http.getParams();
+
+            HttpPost httpPost = new HttpPost(url);
+            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+
+            httpPost.setEntity(entityRequest);
+
+            HttpResponse responsePost = http.execute(httpPost);
+            HttpEntity resEntity = responsePost.getEntity();
+
+            resStr = EntityUtils.toString(resEntity);
+            resStr = resStr.trim();
+
+        } catch (Exception e) {
+            Log.d("exception!", "exception");
+            e.printStackTrace();
+            resStr = "Error";
+
+        }
         return resStr;
     }
 

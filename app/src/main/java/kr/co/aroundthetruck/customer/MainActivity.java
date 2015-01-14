@@ -15,14 +15,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 
-
+import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 
 import kr.co.aroundthetruck.customer.data.Truck;
@@ -86,6 +88,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //        Log.d("ebsud", "fc : " + String.valueOf(truck.getFollow_count()));
 
         // create layout
+        LinearLayout ly = (LinearLayout)findViewById(R.id.layout_back);
+        ly.setBackgroundResource(R.drawable.back);
         ImageView truckImage = (ImageView)findViewById(R.id.imageView);
         truckImage = (ImageView)findViewById(R.id.imageView);
 
@@ -101,19 +105,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         truckName.setText(thisBrand);
         truckName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
-        truckName.setTextColor(Color.parseColor(strColor));
+        truckName.setTextColor(Color.WHITE);
 
         truckCate.setText("양식/피자, 햄버거");
         truckCate.setTypeface(AroundTheTruckApplication.nanumGothic);
-        truckCate.setTextColor(Color.parseColor(strColor));
+        truckCate.setTextColor(Color.WHITE);
 
         truckDis.setText("53m");
         truckDis.setTypeface(AroundTheTruckApplication.nanumGothic);
-        truckDis.setTextColor(Color.parseColor(strColor2));
+        truckDis.setTextColor(Color.WHITE);
 
         truckLike.setText(String.valueOf(truck.getFollow_count()));
         truckLike.setTypeface(AroundTheTruckApplication.nanumGothic);
-        truckLike.setTextColor(Color.parseColor(strColor2));
+        truckLike.setTextColor(Color.WHITE);
 
         ImageButton truckInfoBtn = (ImageButton) findViewById(R.id.truckinfobtn);
         ImageButton menuBtn = (ImageButton) findViewById(R.id.menubtn);
@@ -124,7 +128,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mapBtn.setOnClickListener(this);
 
         getActionBar().setHomeButtonEnabled(true);
-
         getActionBar().setTitle("   " +thisBrand);
 
         onClick(truckInfoBtn);
@@ -137,8 +140,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         bundle = new Bundle();
         fragmentTransaction = fragm.beginTransaction();
 
+//        bundle.putString("truckIdx", thisTruckIdx);
+
         fragment1 = (android.app.Fragment) fragm.findFragmentById(R.id.fragment);
         fragment2 = (android.app.Fragment)fragm.findFragmentById(R.id.fragment_menu);
+
+//        fragment1.setArguments(bundle);
+//        fragment2.setArguments(bundle);
 
         switch (view.getId()) {
             case R.id.truckinfobtn:
