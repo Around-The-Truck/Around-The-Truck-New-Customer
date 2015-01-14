@@ -3,10 +3,7 @@ package kr.co.aroundthetruck.customer;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.location.GpsStatus;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -65,9 +62,10 @@ public class BottomTimeLine extends Fragment {
         String resStr = "";
 
         // get Truck idx
-        String thisTruckIdx = getArguments().getString("truckIdx");
+//        String thisTruckIdx = getArguments().getString("truckIdx");
 
-        resStr = http.getArticlList(thisTruckIdx);
+ //\
+ //       resStr = http.getArticlList(thisTruckIdx);
 
         Log.d("ebsud", "resStr (TimeLine) : ");
 
