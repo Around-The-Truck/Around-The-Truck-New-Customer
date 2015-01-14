@@ -3,6 +3,7 @@ package kr.co.aroundthetruck.customer;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -22,8 +23,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import kr.co.aroundthetruck.customer.data.Reply;
 import kr.co.aroundthetruck.customer.data.Article;
+import kr.co.aroundthetruck.customer.data.Reply;
+import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
@@ -33,6 +35,10 @@ import kr.co.aroundthetruck.customer.network.HttpCommunication;
  */
 public class BottomTimeLine extends Fragment {
     int mStart = 0;
+    String thisTruckIdx;
+    SharedPreferences prefs;
+
+    Truck truck;
 
     ListView lv;
     MyArticlesAdapter adapter;
@@ -42,34 +48,53 @@ public class BottomTimeLine extends Fragment {
 
     ArrayList<Article> articles = new ArrayList<Article>();
 
-    public static BottomTimeLine newInstance(int start){
+    public static BottomTimeLine newInstance(int start) {
         BottomTimeLine cf = new BottomTimeLine();
         cf.mStart = start;
         return cf;
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState){
-        View view = inflater.inflate(R.layout.bottom_timeline, null);
-        lv = (ListView)view.findViewById(R.id.listView);
+    public static BottomTimeLine newInstance() {
+        BottomTimeLine fragment = new BottomTimeLine();
+        return fragment;
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Log.i("TAG", "Truck Info : " + truck.getName());
 
         // StrictMode (Thread Policy == All)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+//        thisTruckIdx = prefs.getString("truckIdx", null);
+////        thisTruckIdx = getArguments().getString("truckIdx");
+//
+
         // HTTP Connection
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
+
         // get Truck idx
 //        String thisTruckIdx = getArguments().getString("truckIdx");
 
- //\
- //       resStr = http.getArticlList(thisTruckIdx);
 
-        Log.d("ebsud", "resStr (TimeLine) : ");
+        Log.d("ebsud", "resStr (TimeLine) : " + resStr);
 
         parseJSON(resStr);
+
+
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState) {
+        View view = inflater.inflate(R.layout.bottom_timeline, null);
+        lv = (ListView) view.findViewById(R.id.listView);
+
 
 //        Articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전",10,11));
 //        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
@@ -79,7 +104,6 @@ public class BottomTimeLine extends Fragment {
 
 
         LayoutMethod.setListViewHeight(lv);
-
 
 
         return view;
@@ -93,7 +117,7 @@ public class BottomTimeLine extends Fragment {
         try {
             JSONObject jsonObject = new JSONObject(resStr);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
-            for (int i=0 ; i<arr.length(); i++) {
+            for (int i = 0; i < arr.length(); i++) {
                 Log.d("ebsud", arr.getJSONObject(i).toString());
                 tmp = new Article(arr.getJSONObject(i).getInt("idx"),
                         arr.getJSONObject(i).getString("filename"),
@@ -114,10 +138,19 @@ public class BottomTimeLine extends Fragment {
         }
     }
 
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
     }
+
+    public Truck getTruck() {
+        return truck;
+    }
+
+    public void setTruck(Truck truck) {
+        this.truck = truck;
+    }
+
     public class MyArticlesAdapter extends BaseAdapter {
         Context mContext;
         ArrayList<Article> list;
@@ -159,24 +192,24 @@ public class BottomTimeLine extends Fragment {
 
                 holder.brandImage = (ImageView) convertView.findViewById(R.id.imageView2);
                 holder.brandName = (TextView) convertView.findViewById(R.id.textView3);
-                holder.articleTime = (TextView)convertView.findViewById(R.id.textView9);
+                holder.articleTime = (TextView) convertView.findViewById(R.id.textView9);
 
-               holder.articleImage = (ImageView) convertView.findViewById(R.id.imageView18);
+                holder.articleImage = (ImageView) convertView.findViewById(R.id.imageView18);
 
                 holder.likeNumber = (TextView) convertView.findViewById(R.id.textView10);
                 holder.replyNumber = (TextView) convertView.findViewById(R.id.textView11);
 
-                holder.articlelist= (ListView) convertView.findViewById(R.id.listView4);
+                holder.articlelist = (ListView) convertView.findViewById(R.id.listView4);
 
-                holder.like= (ImageButton) convertView.findViewById(R.id.article_like);
-                holder.ok= (ImageButton) convertView.findViewById(R.id.article_ok); //댓글 다는 버튼
+                holder.like = (ImageButton) convertView.findViewById(R.id.article_like);
+                holder.ok = (ImageButton) convertView.findViewById(R.id.article_ok); //댓글 다는 버튼
 
-                holder.et = (EditText)convertView.findViewById(R.id.editText);
-                holder.ib = (ImageButton)convertView.findViewById(R.id.buttons);
+                holder.et = (EditText) convertView.findViewById(R.id.editText);
+                holder.ib = (ImageButton) convertView.findViewById(R.id.buttons);
 
 
                 convertView.setTag(holder);
-            }else{
+            } else {
 
                 holder = (ViewHolder) convertView.getTag();
 
@@ -199,21 +232,21 @@ public class BottomTimeLine extends Fragment {
             holder.replyNumber.setTextColor(Color.parseColor(strColor));
 
 
-            replies= new ArrayList<Reply>(); //댓글들
-            replies.add(new Reply(0,"트럭좋아요","댓글쓴 사람 이름",0,list.get(pos).getIdx(),"1003"));
-            replies.add(new Reply(1,"트럭싫어요","댓글쓴 사람 이름2",0,list.get(pos).getIdx(),"1003"));//5번째 칼럼 맞는 인덱스 지정
+            replies = new ArrayList<Reply>(); //댓글들
+            replies.add(new Reply(0, "트럭좋아요", "댓글쓴 사람 이름", 0, list.get(pos).getIdx(), "1003"));
+            replies.add(new Reply(1, "트럭싫어요", "댓글쓴 사람 이름2", 0, list.get(pos).getIdx(), "1003"));//5번째 칼럼 맞는 인덱스 지정
 
-            holder.articlelist.setAdapter(new MyCommentLAdapter(convertView.getContext(),replies));
+            holder.articlelist.setAdapter(new MyCommentLAdapter(convertView.getContext(), replies));
             LayoutMethod.setListViewHeight(holder.articlelist);
 
 
             holder.ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                        //댓글쓰기 버튼 눌렀을때
-                        holder.et.setVisibility(View.VISIBLE);
-                        holder.ib.setVisibility(View.VISIBLE);
-                        holder.et.requestFocus();
+                    //댓글쓰기 버튼 눌렀을때
+                    holder.et.setVisibility(View.VISIBLE);
+                    holder.ib.setVisibility(View.VISIBLE);
+                    holder.et.requestFocus();
 
                 }
             });
@@ -226,7 +259,7 @@ public class BottomTimeLine extends Fragment {
                     replies.add(new Reply(2, holder.et.getText().toString(), "현재로그인된사람", 0, 3, "1003"));
 //                    adapter.notifyDataSetChanged();
                     LayoutMethod.setListViewHeight(holder.articlelist);
-                   // LayoutMethod.setListViewHeight(lv);
+                    // LayoutMethod.setListViewHeight(lv);
                     holder.et.setVisibility(View.GONE);
                     holder.ib.setVisibility(View.GONE);
 
@@ -238,9 +271,7 @@ public class BottomTimeLine extends Fragment {
         }
 
 
-
-        private  class ViewHolder
-        {
+        private class ViewHolder {
             ImageView brandImage;
             TextView brandName;
             TextView articleTime;
@@ -260,7 +291,4 @@ public class BottomTimeLine extends Fragment {
         }
 
     }
-
-
-
 }

@@ -1,4 +1,5 @@
 package kr.co.aroundthetruck.customer;
+
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -6,8 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.StrictMode;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,20 +22,18 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
-
 import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
-
-import kr.co.aroundthetruck.customer.data.Truck;
-
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
-
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener, TruckCallback {
+
+    ImageButton truckInfoBtn;
+    ImageButton menuBtn;
+    ImageButton mapBtn;
+
 
     Intent intent;
     String thisBrand; //넘어온 브랜드
@@ -46,8 +45,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     Bundle bundle;
     FragmentTransaction fragmentTransaction;
 
-    android.app.Fragment fragment1;
-    android.app.Fragment fragment2;
+    BottomTimeLine fragmentBottomTimeLine;
+    BottomMenu fragmentBottomMenu;
 
     ImageView truckImage;
     TextView truckName;
@@ -67,10 +66,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         Log.d("onCreate()", "MainActivity");
 
-        intent = getIntent();
-        thisBrand = intent.getStringExtra("brandName");
-        thisTruckIdx = intent.getStringExtra("brandIdx");
-
 
         // StrictMode (Thread Policy == All)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -81,84 +76,72 @@ public class MainActivity extends Activity implements View.OnClickListener {
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
-        resStr = http.getTruckInfo(thisTruckIdx);
+        fragm = getFragmentManager();
+        bundle = new Bundle();
+        fragmentTransaction = fragm.beginTransaction();
 
-        parseJSON(resStr);
+        fragmentBottomTimeLine = BottomTimeLine.newInstance();
+        fragmentBottomMenu = BottomMenu.newInstance();
 
-//        Log.d("ebsud", "fc : " + String.valueOf(truck.getFollow_count()));
+        thisTruckIdx = getIntent().getStringExtra("brandIdx");
+        thisBrand = getIntent().getStringExtra("brandName");
+
+        http.getTruckInfo(thisTruckIdx, MainActivity.this);
+
+//        bundle.putString("truckIdx",thisTruckIdx);
+//
+//        fragment1 = new BottomTimeLine();
+//        fragment2 = new BottomMenu();
+//        fragment1.setArguments(bundle);
+//        fragment2.setArguments(bundle);
+
+//        fragmentTransaction.add(R.id.fragment, fragment1);
+//        fragmentTransaction.add(R.id.fragment_menu, fragment2);
+//        fragmentTransaction.commit();
 
         // create layout
-        LinearLayout ly = (LinearLayout)findViewById(R.id.layout_back);
+        LinearLayout ly = (LinearLayout) findViewById(R.id.layout_back);
         ly.setBackgroundResource(R.drawable.back);
-        ImageView truckImage = (ImageView)findViewById(R.id.imageView);
-        truckImage = (ImageView)findViewById(R.id.imageView);
+        ImageView truckImage = (ImageView) findViewById(R.id.imageView);
+        truckImage = (ImageView) findViewById(R.id.imageView);
 
-        truckName = (TextView)findViewById(R.id.textView5);
-        truckCate = (TextView)findViewById(R.id.textView6);
-        truckDis = (TextView)findViewById(R.id.textView7);
-        truckLike = (TextView)findViewById(R.id.textView8);
+        truckName = (TextView) findViewById(R.id.textView5);
+        truckCate = (TextView) findViewById(R.id.textView6);
+        truckDis = (TextView) findViewById(R.id.textView7);
+        truckLike = (TextView) findViewById(R.id.textView8);
 
-        bitmapsp = BitmapFactory.decodeResource(getResources(),R.drawable.bitmapsp);
+
+        bitmapsp = BitmapFactory.decodeResource(getResources(), R.drawable.bitmapsp);
         bitmapsp = LayoutMethod.getCircleBitmap(bitmapsp);
 
         truckImage.setImageBitmap(bitmapsp);
-
-        truckName.setText(thisBrand);
-        truckName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
-        truckName.setTextColor(Color.WHITE);
-
-        truckCate.setText("양식/피자, 햄버거");
-        truckCate.setTypeface(AroundTheTruckApplication.nanumGothic);
-        truckCate.setTextColor(Color.WHITE);
-
-        truckDis.setText("53m");
-        truckDis.setTypeface(AroundTheTruckApplication.nanumGothic);
-        truckDis.setTextColor(Color.WHITE);
-
-        truckLike.setText(String.valueOf(truck.getFollow_count()));
-        truckLike.setTypeface(AroundTheTruckApplication.nanumGothic);
-        truckLike.setTextColor(Color.WHITE);
-
-        ImageButton truckInfoBtn = (ImageButton) findViewById(R.id.truckinfobtn);
-        ImageButton menuBtn = (ImageButton) findViewById(R.id.menubtn);
-        ImageButton mapBtn = (ImageButton) findViewById(R.id.mapbtn);
+        truckInfoBtn = (ImageButton) findViewById(R.id.truckinfobtn);
+        menuBtn = (ImageButton) findViewById(R.id.menubtn);
+        mapBtn = (ImageButton) findViewById(R.id.mapbtn);
 
         truckInfoBtn.setOnClickListener(this);
         menuBtn.setOnClickListener(this);
         mapBtn.setOnClickListener(this);
 
         getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setTitle("   " +thisBrand);
+        getActionBar().setTitle("   " + thisBrand);
 
-        onClick(truckInfoBtn);
     }
 
     @Override
     public void onClick(View view) {
 
-        fragm = getFragmentManager();
-        bundle = new Bundle();
-        fragmentTransaction = fragm.beginTransaction();
-
-//        bundle.putString("truckIdx", thisTruckIdx);
-
-        fragment1 = (android.app.Fragment) fragm.findFragmentById(R.id.fragment);
-        fragment2 = (android.app.Fragment)fragm.findFragmentById(R.id.fragment_menu);
-
-//        fragment1.setArguments(bundle);
-//        fragment2.setArguments(bundle);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
 
         switch (view.getId()) {
             case R.id.truckinfobtn:
-
-                fragmentTransaction.show(fragment1);
-                fragmentTransaction.hide(fragment2);
+                ft.show(fragmentBottomTimeLine);
+                ft.hide(fragmentBottomMenu);
                 break;
 
             case R.id.menubtn:
-
-                fragmentTransaction.show(fragment2);
-                fragmentTransaction.hide(fragment1);
+                ft.show(fragmentBottomMenu);
+                ft.hide(fragmentBottomTimeLine);
                 break;
 
 
@@ -169,8 +152,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 startActivity(intent);
                 break;
         }
-        fragmentTransaction.commit();
-
+        ft.commit();
     }
 
     @Override
@@ -204,15 +186,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     // HTTP return value (JSON) parse method
-    public void parseJSON (String str) {
+    public void parseJSON(String str) {
 
 
         try {
             JSONObject jsonObject = new JSONObject(str);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
-            for (int i=0 ; i<arr.length(); i++) {
+            for (int i = 0; i < arr.length(); i++) {
                 Log.d("ebsud", arr.getJSONObject(i).toString());
-                truck = new Truck(arr.getJSONObject(i).getInt("idx"),
+                truck = new Truck(
+                        arr.getJSONObject(i).getInt("idx"),
                         arr.getJSONObject(i).getString("name"),
                         arr.getJSONObject(i).getDouble("gps_longitude"),
                         arr.getJSONObject(i).getDouble("gps_latitude"),
@@ -232,8 +215,37 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         arr.getJSONObject(i).getInt("category_id"),
                         arr.getJSONObject(i).getString("category_small"),
                         arr.getJSONObject(i).getString("reg_date")
-                        );
+                );
+
+                fragmentBottomTimeLine.setTruck(truck);
+                fragmentBottomMenu.setTruck(truck);
+
+                getFragmentManager().beginTransaction()
+                        .add(R.id.fragment, fragmentBottomTimeLine)
+                        .add(R.id.fragment_menu, fragmentBottomMenu)
+                        .commit();
+                // TODO: Fragment
+
 //                brands.add(tmp);
+
+
+                truckName.setText(thisBrand);
+                truckName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
+                truckName.setTextColor(Color.WHITE);
+
+                truckCate.setText("양식/피자, 햄버거");
+                truckCate.setTypeface(AroundTheTruckApplication.nanumGothic);
+                truckCate.setTextColor(Color.WHITE);
+
+                truckDis.setText("53m");
+                truckDis.setTypeface(AroundTheTruckApplication.nanumGothic);
+                truckDis.setTextColor(Color.WHITE);
+
+                truckLike.setText(String.valueOf(truck.getFollow_count()));
+                truckLike.setTypeface(AroundTheTruckApplication.nanumGothic);
+                truckLike.setTextColor(Color.WHITE);
+
+                onClick(truckInfoBtn);
             }
 
         } catch (Exception e) {
@@ -241,5 +253,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
             e.printStackTrace();
             ;
         }
+    }
+
+    @Override
+    public void onTruckLoad(byte[] bytes) {
+        String raw = new String(bytes);
+
+        parseJSON(raw);
     }
 }
