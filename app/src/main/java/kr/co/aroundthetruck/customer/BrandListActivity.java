@@ -149,7 +149,7 @@ public class BrandListActivity extends Activity {
         } catch (Exception e) {
             Log.d("ebsud", "JSON error (BrandList) : " + e);
             e.printStackTrace();
-            ;
+
         }
 
 
