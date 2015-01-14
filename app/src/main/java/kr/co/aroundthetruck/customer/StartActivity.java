@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -33,7 +34,17 @@ public class StartActivity extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.hide();
 
+        checkedUser = checkUser();
+        prefs = getSharedPreferences("ATT", MODE_PRIVATE);
+        editor = prefs.edit();
 
+        editor.putString("phoneNum", "01033400551");
+        editor.putString("cusName", "김희정");
+        editor.putString("cusLongitude", "");
+        editor.putString("cusLatitude", "");
+        editor.putString("cusAge", "24");
+        editor.putString("photo", "C360_2013-10-07-18-34-46-468_2.jpg");
+        editor.commit();
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -42,7 +53,6 @@ public class StartActivity extends Activity {
         TextView welcomeMsg2 = (TextView)findViewById(R.id.textView12);
 
 
-        checkedUser = checkUser();
         if(checkedUser){
             //회원가입 안 된 유저의 경우의 레이아웃
             //버튼 배경 '시작하기'로 주기
@@ -52,7 +62,7 @@ public class StartActivity extends Activity {
             //버튼 배경 '푸트트럭 찾기'
             startBtn.setBackgroundResource(R.drawable.start_find);
 
-            welcomeMsg.setText("오수민 님");
+            welcomeMsg.setText(prefs.getString("cusName", null)+" 님");
             welcomeMsg2.setText("지금 근처에 있는 푸드트럭을 찾아보세요!");
             welcomeMsg.setTypeface(Typeface.createFromAsset(getAssets(), "NanumBarunGothicBold.otf"));
             welcomeMsg2.setTypeface(Typeface.createFromAsset(getAssets(), "NanumBarunGothic.otf"));
@@ -82,12 +92,18 @@ public class StartActivity extends Activity {
 
     private Boolean checkUser() {
 
-        prefs = getSharedPreferences("ATT", MODE_PRIVATE);
-        editor = prefs.edit();
+//        prefs = getSharedPreferences("ATT", MODE_PRIVATE);
+//        editor = prefs.edit();
+//
+//        editor.putString("phoneNum", "01033400551");
+//        editor.putString("cusName", "김희정");
+//        editor.putString("cusLongitude", "");
+//        editor.putString("cusLatitude", "");
+//        editor.putString("cusAge", "24");
+//        editor.putString("photo", "C360_2013-10-07-18-34-46-468_2.jpg");
+//        editor.commit();
 
-        if (prefs.getString("cusPhone", "0").length() == 0)
-            return true;
-
+//        return true;
         return false;
     }
 }

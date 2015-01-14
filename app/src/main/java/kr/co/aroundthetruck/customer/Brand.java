@@ -8,14 +8,15 @@ import kr.co.aroundthetruck.customer.data.Truck;
 public class Brand {
 
     private int brandIdx;
-    private int brandImage;
+    private String brandImage;
     private String brandName;
     private  String brandDistance;
     private int like;
     private String category;
+    private String category_small;
 
 
-    Brand(int brandIdx,int brandImage,String brandName, String brandDistance, int like, String category){
+    Brand(int brandIdx,String brandImage,String brandName, String brandDistance, int like, String category, String category_small){
 
         this.brandIdx = brandIdx;
         this.brandImage = brandImage;
@@ -28,13 +29,14 @@ public class Brand {
         //좋아요 수
         this.category = category;
         //트럭 카테고리
+        this.category_small = category_small;
     }
 
     public Brand() {
 
     }
 
-    public int getBrandImage(){
+    public String getBrandImage(){
         return brandImage;
     }
     public String getBrandName(){

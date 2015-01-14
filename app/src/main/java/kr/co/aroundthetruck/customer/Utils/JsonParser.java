@@ -1,4 +1,4 @@
-package kr.co.aroundthetruck.customer.network;
+package kr.co.aroundthetruck.customer.Utils;
 
 import android.util.Log;
 

@@ -37,7 +37,7 @@ public class BottomTimeLine extends Fragment {
     String strColor = "#6d6d6d";
     String strColor2 = "#9a9a9a";
 
-
+    ArrayList<Article> articles = new ArrayList<Article>();
 
     public static BottomTimeLine newInstance(int start){
         BottomTimeLine cf = new BottomTimeLine();
@@ -49,10 +49,11 @@ public class BottomTimeLine extends Fragment {
         View view = inflater.inflate(R.layout.bottom_timeline, null);
         lv = (ListView)view.findViewById(R.id.listView);
 
-        ArrayList<Article> Articles = new ArrayList<Article>();
-        Articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전",10,11));
-        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
-        adapter = new MyArticlesAdapter(view.getContext(), Articles);
+
+
+//        Articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전",10,11));
+//        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
+        adapter = new MyArticlesAdapter(view.getContext(), articles);
 
         lv.setAdapter(adapter);
 

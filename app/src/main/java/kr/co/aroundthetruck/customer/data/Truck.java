@@ -15,6 +15,8 @@ public class Truck {
 
     int todays_sum;
 
+    int follow_count;
+
     int start_yn;
     int takeout_yn;
     int cansit_yn;
@@ -24,7 +26,7 @@ public class Truck {
 
     int group_order_yn;
     int always_open_yn;
-    int photo_id;
+    String photo_id;
 
     String main_position;
     int category_id;
@@ -36,7 +38,15 @@ public class Truck {
     public Truck() {
     }
 
-    public Truck(int idx, String name, double gps_longtitude, double gps_latitude, double gps_altitude, String gps_address, int todays_sum, int start_yn, int takeout_yn, int cansit_yn, int card_yn, int reserve_yn, int group_order_yn, int always_open_yn, int photo_id, String main_position, int category_id, String category_small, String reg_date) {
+    public int getFollow_count() {
+        return follow_count;
+    }
+
+    public void setFollow_count(int follow_count) {
+        this.follow_count = follow_count;
+    }
+
+    public Truck(int idx, String name, double gps_longtitude, double gps_latitude, double gps_altitude, String gps_address, int todays_sum, int follow_count, int start_yn, int takeout_yn, int cansit_yn, int card_yn, int reserve_yn, int group_order_yn, int always_open_yn, String photo_id, String main_position, int category_id, String category_small, String reg_date) {
         this.idx = idx;
         this.name = name;
         this.gps_longtitude = gps_longtitude;
@@ -44,6 +54,7 @@ public class Truck {
         this.gps_altitude = gps_altitude;
         this.gps_address = gps_address;
         this.todays_sum = todays_sum;
+        this.follow_count = follow_count;
         this.start_yn = start_yn;
         this.takeout_yn = takeout_yn;
         this.cansit_yn = cansit_yn;
@@ -55,6 +66,7 @@ public class Truck {
         this.main_position = main_position;
         this.category_id = category_id;
         this.category_small = category_small;
+
         this.reg_date = reg_date;
     }
 
@@ -170,11 +182,11 @@ public class Truck {
         this.always_open_yn = always_open_yn;
     }
 
-    public int getPhoto_id() {
+    public String getPhoto_id() {
         return photo_id;
     }
 
-    public void setPhoto_id(int photo_id) {
+    public void setPhoto_id(String photo_id) {
         this.photo_id = photo_id;
     }
 

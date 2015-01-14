@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,7 +31,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
-import kr.co.aroundthetruck.customer.data.Samples;
 import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
@@ -144,7 +141,7 @@ public class BrandListActivity extends Activity {
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i=0 ; i<arr.length(); i++) {
                 Log.d("ebsud", arr.getJSONObject(i).toString());
-                tmp = new Brand(arr.getJSONObject(i).getInt("idx"), 40, arr.getJSONObject(i).getString("name"), "50m", arr.getJSONObject(i).getInt("follow_count"), "한식");//arr.getJSONObject(i).getString("category"));
+                tmp = new Brand(arr.getJSONObject(i).getInt("idx"), arr.getJSONObject(i).getString("photo_filename"), arr.getJSONObject(i).getString("name"), "50m", arr.getJSONObject(i).getInt("follow_count"), null,null);//arr.getJSONObject(i).getString("category"));
                 brands.add(tmp);
             }
 
