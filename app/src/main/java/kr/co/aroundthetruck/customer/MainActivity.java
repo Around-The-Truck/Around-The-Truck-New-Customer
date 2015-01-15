@@ -60,7 +60,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
     TextView truckDis;
     TextView truckLike;
 
-    Bitmap bitmapsp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +138,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
 
                 Intent intent = new Intent(this, BottomInfo.class);   // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
                 intent.putExtra("brand", thisBrand);
+                intent.putExtra("brandIdx", thisTruckIdx);
                 startActivity(intent);
                 break;
         }
@@ -217,7 +217,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
                         .add(R.id.fragment_menu, fragmentBottomMenu)
                         .commit();
 
-                Picasso.with(this).load("http://165.194.35.161:3000/upload/" + truck.getPhoto_id()).fit().transform(new RoundedTransformation(400)).into(truckImage);
+                Picasso.with(this).load("http://165.194.35.161:3000/upload/" + truck.getPhoto_id()).fit().transform(new RoundedTransformation(440)).into(truckImage);
 
                 truckName.setText(thisBrand);
                 truckName.setTypeface(AroundTheTruckApplication.nanumGothicBold);

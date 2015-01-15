@@ -4,8 +4,8 @@
     android:background="@drawable/pointback">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="124.5dp"                                                                                                                                                                                                                                                                  
+        android:layout_height="124.5dp"
         android:id="@+id/imageView12"
         android:src="@drawable/point_pic"
         android:layout_marginLeft="22.5dp"
@@ -20,7 +20,8 @@
         android:layout_toRightOf="@+id/imageView12"
         android:layout_toEndOf="@+id/imageView12"
         android:layout_marginLeft="20dp"
-        android:id="@+id/linearLayout2">
+        android:id="@+id/linearLayout2"
+        android:layout_marginTop="30dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,8 +50,8 @@
             android:layout_alignBottom="@+id/linearLayout2"
             android:layout_toRightOf="@+id/imageView12"
             android:layout_toEndOf="@+id/imageView12"
-            android:layout_marginLeft="117dp"
-            android:layout_marginTop="24.5dp" />
+            android:layout_marginTop="30.5dp"
+            android:layout_marginLeft="130dp" />
 
     </LinearLayout>
 

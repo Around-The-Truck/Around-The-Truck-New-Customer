@@ -45,7 +45,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
     public static final int REQUEST_WANT_TO_FIND = 1;
 
-    String[] truckArea = {"  신천, 잠실", "  강남, 양재", "  신사, 압구정", "  신촌, 이대", "  이태원", "  삼청동, 인사동", "  홍대", "  분당, 판교"};
+    String[] truckArea = {"  신천, 잠실", "  강남, 양재", "  신사, 압구정", "  신촌, 이대", "  이태원", "  홍대"};
     String[] navItems = {"나의 프로필", "나의 포인트",
             "팔로우한 트럭"};
     private ListView lvNavList;

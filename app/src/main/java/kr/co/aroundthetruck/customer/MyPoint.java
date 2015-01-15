@@ -163,7 +163,7 @@ public class MyPoint extends Activity implements TruckCallback {
 
             }
 
-            Picasso.with(MyPoint.this).load("http://165.194.35.161:3000/upload/" + mpoint.getBrand_image()).fit().transform(new RoundedTransformation(207)).into(holder.brandImage);
+           // Picasso.with(MyPoint.this).load("http://165.194.35.161:3000/upload/" + mpoint.getBrand_image()).fit().transform(new RoundedTransformation(207)).into(holder.brandImage);
 
             holder.brandName.setText(mpoint.getBrand());
             holder.brandName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
