@@ -141,7 +141,7 @@ public class BottomInfo extends Activity implements TruckCallback {
                 );
 
                 //0false
-                if(truck.getCard_yn() == 0){item1.setImageResource(R.drawable,);}
+               // if(truck.getCard_yn() == 0){item1.setImageResource(R.drawable,);}
 
             }
 
