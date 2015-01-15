@@ -11,6 +11,7 @@ public class Article {
 
     String writer;
     int writer_type;
+    String writer_filename;
 
     String contents;
     String belong_to; // 속한 트럭
@@ -36,17 +37,20 @@ public class Article {
         this.replyNumber = replyNumber;
     }
 
-    public Article(int idx, String filename, String writer, int writer_type, String contents, int likeNumber, String belong_to, String reg_date) {
+    // 준형's constructor
+    public Article(int idx, String filename, String writer, int writer_type, String writer_filename, String contents, int likeNumber, String belong_to, String reg_date) {
         this.idx = idx;
         this.filename = filename;
         this.writer = writer;
         this.writer_type = writer_type;
+        this.writer_filename = writer_filename;
         this.contents = contents;
         this.likeNumber = likeNumber;
         this.belong_to = belong_to;
         this.reg_date = reg_date;
     }
 
+    // 수민's constructor
     public Article(int i, int i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber) {
         this.idx = i;
         this.photo_idx =i1;

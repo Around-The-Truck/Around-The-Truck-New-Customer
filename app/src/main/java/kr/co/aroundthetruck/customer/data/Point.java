@@ -8,9 +8,18 @@ public class Point {
     String brand;
     int mpoint;
     String date;
+    String brand_image;
 
     public Point() {
 
+    }
+
+    public Point(String brand, String brand_image, int mpoint, String date){
+
+        this.brand_image = brand_image;
+        this.brand = brand;
+        this.mpoint = mpoint;
+        this.date = date;
     }
 
     public Point(String brand, int mpoint, String date){

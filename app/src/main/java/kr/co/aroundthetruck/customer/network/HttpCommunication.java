@@ -158,24 +158,20 @@ public class HttpCommunication {
     public String getPointHistory(String phoneNum) {
 
         String resStr = "";
-        String url = serverURL + "getFollowList";
+        String url = "http://165.194.35.161:3000/getPointList";
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
         param.add(new BasicNameValuePair("phoneNum", phoneNum));
 
         try {
 
-
             HttpClient http = new DefaultHttpClient();
 
             HttpParams params = http.getParams();
 
-            HttpPost httpPost = new HttpPost(url);
-            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+            HttpGet httpGet = new HttpGet(url + "?" + URLEncodedUtils.format(param, "UTF-8"));
 
-            httpPost.setEntity(entityRequest);
-
-            HttpResponse responsePost = http.execute(httpPost);
+            HttpResponse responsePost = http.execute(httpGet);
             HttpEntity resEntity = responsePost.getEntity();
 
             resStr = EntityUtils.toString(resEntity);
