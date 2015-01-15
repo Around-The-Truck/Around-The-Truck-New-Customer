@@ -170,51 +170,52 @@ public class HttpCommunication {
         return resStr;
     }
 
-    public String getReplyList(String articleIdx) {
+    public void getReplyList(String articleIdx, final TruckCallback callback) {
 
-        String resStr = "";
+        String url = "http://165.194.35.161:3000/getReplyList?articleIdx=" + articleIdx;
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
+        param.add(new BasicNameValuePair("articleIdx", articleIdx));
 
-        return resStr;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
+
     }
 
-    public String getArticlList(String truckIdx) {
+    public String getArticlList(final String truckIdx, final TruckCallback callback) {
 
         String resStr = "";
 
         String writerType = "0";
 
-        String url = "http://165.194.35.161:3000/getArticleList";
+        String url = "http://165.194.35.161:3000/getArticleList?trcukIdx?="+truckIdx;
+
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
-        param.add(new BasicNameValuePair("writer", truckIdx));
-//        param.add(new BasicNameValuePair("writer_type"), )
+        param.add(new BasicNameValuePair("truckIdx", truckIdx));
 
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
+            }
 
-        try {
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
 
-
-            HttpClient http = new DefaultHttpClient();
-
-            HttpParams params = http.getParams();
-
-            HttpPost httpPost = new HttpPost(url);
-            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
-
-            httpPost.setEntity(entityRequest);
-
-            HttpResponse responsePost = http.execute(httpPost);
-            HttpEntity resEntity = responsePost.getEntity();
-
-            resStr = EntityUtils.toString(resEntity);
-            resStr = resStr.trim();
-
-        } catch (Exception e) {
-            Log.d("exception!", "exception");
-            e.printStackTrace();
-            resStr = "Error";
-
-        }
+            }
+        });
         return resStr;
     }
 

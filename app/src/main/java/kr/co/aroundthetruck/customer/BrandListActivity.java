@@ -406,7 +406,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
     @Override
     public void onTruckLoad(byte[] bytes) {
         String raw = new String(bytes);
-
+        Log.d("ebsud", "raw (BrandList) : " + raw);
         parseJSON(raw);
     }
 

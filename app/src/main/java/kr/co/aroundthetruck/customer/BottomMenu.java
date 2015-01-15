@@ -56,7 +56,7 @@ public class BottomMenu extends Fragment {
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
-        resStr = http.getArticlList(String.valueOf(truck.getIdx()));
+//        resStr = http.getArticlList(String.valueOf(truck.getIdx()));
 
         Log.d("ebsud", "resStr (Menu) : " + resStr);
 

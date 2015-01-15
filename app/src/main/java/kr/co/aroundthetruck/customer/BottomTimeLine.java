@@ -33,7 +33,7 @@ import kr.co.aroundthetruck.customer.network.HttpCommunication;
 /**
  * Created by sumin on 2014-12-01.
  */
-public class BottomTimeLine extends Fragment {
+public class BottomTimeLine extends Fragment implements TruckCallback {
     int mStart = 0;
     String thisTruckIdx;
     SharedPreferences prefs;
@@ -47,6 +47,7 @@ public class BottomTimeLine extends Fragment {
     String strColor2 = "#9a9a9a";
 
     ArrayList<Article> articles = new ArrayList<Article>();
+    ArrayList<Reply> replies = new ArrayList<Reply>();
 
     public static BottomTimeLine newInstance(int start) {
         BottomTimeLine cf = new BottomTimeLine();
@@ -79,12 +80,7 @@ public class BottomTimeLine extends Fragment {
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
-        resStr = http.getArticlList(String.valueOf(truck.getIdx()));
-
-        Log.d("ebsud", "resStr (TimeLine) : " + resStr);
-
-        parseJSON(resStr);
-
+        http.getArticlList(thisTruckIdx, BottomTimeLine.this);
 
     }
 
@@ -110,6 +106,7 @@ public class BottomTimeLine extends Fragment {
     private void parseJSON(String resStr) {
 
         Article tmp = null;
+        HttpCommunication http2 = new HttpCommunication();
 
         try {
             JSONObject jsonObject = new JSONObject(resStr);
@@ -126,6 +123,32 @@ public class BottomTimeLine extends Fragment {
                         arr.getJSONObject(i).getString("belong_to"),
                         arr.getJSONObject(i).getString("reg_date")
                 );
+                final ArrayList<Reply> replies1 = new ArrayList<Reply>();
+                http2.getReplyList(arr.getJSONObject(i).getString("idx"), new TruckCallback() {
+                    @Override
+                    public void onTruckLoad(byte[] bytes) {
+                        Reply tmp1;
+                        try {
+                            JSONObject jsonObject1 = new JSONObject(new String(bytes));
+                            JSONArray arr1 = new JSONArray(new String(jsonObject1.getString("result")));
+                            for (int j = 0; j < arr1.length(); j++) {
+                                tmp1 = new Reply(
+                                        arr1.getJSONObject(j).getInt("idx"),
+                                        arr1.getJSONObject(j).getString("content"),
+                                        arr1.getJSONObject(j).getString("writer"),
+                                        arr1.getJSONObject(j).getInt("writer_type"),
+                                        arr1.getJSONObject(j).getInt("article_idx"),
+                                        arr1.getJSONObject(j).getString("reg_date")
+                                );
+                                replies1.add(tmp1);
+                            }
+                        } catch (Exception e) {
+                            Log.d("ebsud", "error (TimeLine - getReply - JSON");
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                tmp.setReplies(replies1);
                 articles.add(tmp);
             }
 
@@ -133,7 +156,6 @@ public class BottomTimeLine extends Fragment {
             Log.d("ebsud", "JSON error (MainActivity) : " + e);
             e.printStackTrace();
 
-            ;
         }
     }
 
@@ -148,6 +170,12 @@ public class BottomTimeLine extends Fragment {
 
     public void setTruck(Truck truck) {
         this.truck = truck;
+    }
+
+    @Override
+    public void onTruckLoad(byte[] bytes) {
+        String resStr1 = new String(bytes);
+        parseJSON(resStr1);
     }
 
     public class MyArticlesAdapter extends BaseAdapter {
@@ -183,7 +211,7 @@ public class BottomTimeLine extends Fragment {
         public View getView(int pos, View convertView, ViewGroup parent) {
 
             final ViewHolder holder;
-            final ArrayList<Reply> replies;
+//            final ArrayList<Reply> replies;
 
             if (convertView == null) {
                 holder = new ViewHolder();
