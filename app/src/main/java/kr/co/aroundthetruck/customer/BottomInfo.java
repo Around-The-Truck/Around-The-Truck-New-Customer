@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
+import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 public class BottomInfo extends Activity implements TruckCallback {
@@ -36,6 +39,9 @@ public class BottomInfo extends Activity implements TruckCallback {
     Truck truck;
 
     ImageView item1,item2,item3,item4,item5,item6;
+    TextView bandName,phoneNumber,openDate;
+
+    ImageView brandImage;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,21 +49,16 @@ public class BottomInfo extends Activity implements TruckCallback {
         setContentView(R.layout.bottom_info);
 
         thisTruckIdx = getIntent().getStringExtra("brandIdx");
-        thisBrand = getIntent().getStringExtra("brandName");
+        thisBrand = getIntent().getStringExtra("brand");
 
         HttpCommunication hc = new HttpCommunication();
         hc.getTruckInfo(thisTruckIdx,BottomInfo.this);
 
-        ImageView brandImage = (ImageView)findViewById(R.id.imageView3);
+        brandImage = (ImageView)findViewById(R.id.imageView3);
 
-        bitmapsp = BitmapFactory.decodeResource(getResources(), R.drawable.bitmapsp);
-        bitmapsp = LayoutMethod.getCircleBitmap(bitmapsp);
-
-        brandImage.setImageBitmap(bitmapsp);
-
-        TextView bandName = (TextView)findViewById(R.id.phone);
-        TextView phoneNumber = (TextView)findViewById(R.id.brand);
-        TextView openDate = (TextView)findViewById(R.id.textView);
+        bandName = (TextView)findViewById(R.id.phone);
+        phoneNumber = (TextView)findViewById(R.id.brand);
+        openDate = (TextView)findViewById(R.id.textView);
 
 
 
@@ -65,13 +66,7 @@ public class BottomInfo extends Activity implements TruckCallback {
         bandName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
         bandName.setTextColor(Color.parseColor(strColor));
 
-        phoneNumber.setText("010-1234-5678");
-        phoneNumber.setTypeface(AroundTheTruckApplication.nanumGothic);
-        phoneNumber.setTextColor(Color.parseColor(strColor));
 
-        openDate.setText("이태원 경리단길");
-        openDate.setTypeface(AroundTheTruckApplication.nanumGothic);
-        openDate.setTextColor(Color.parseColor(strColor));
 
         item1 = (ImageView)findViewById(R.id.imageView4);
         item2 = (ImageView)findViewById(R.id.imageView5);
@@ -87,7 +82,15 @@ public class BottomInfo extends Activity implements TruckCallback {
 
     public void setData(){
 
+        phoneNumber.setText(truck.getPhone_num());
+        phoneNumber.setTypeface(AroundTheTruckApplication.nanumGothic);
+        phoneNumber.setTextColor(Color.parseColor(strColor));
 
+        openDate.setText(truck.getGps_address());
+        openDate.setTypeface(AroundTheTruckApplication.nanumGothic);
+        openDate.setTextColor(Color.parseColor(strColor));
+
+        Picasso.with(BottomInfo.this).load("http://165.194.35.161:3000/upload/" + truck.getPhoto_id()).fit().transform(new RoundedTransformation(300)).into(brandImage);
 
 
     }
@@ -120,6 +123,7 @@ public class BottomInfo extends Activity implements TruckCallback {
 
                         arr.getJSONObject(i).getInt("idx"),
                         arr.getJSONObject(i).getString("name"),
+                        arr.getJSONObject(i).getString("phone_num"),
                         arr.getJSONObject(i).getDouble("gps_longitude"),
                         arr.getJSONObject(i).getDouble("gps_latitude"),
                         arr.getJSONObject(i).getDouble("gps_altitude"),
@@ -141,7 +145,16 @@ public class BottomInfo extends Activity implements TruckCallback {
                 );
 
                 //0false
-               // if(truck.getCard_yn() == 0){item1.setImageResource(R.drawable,);}
+                if(truck.getCard_yn() == 1){item1.setImageResource(R.drawable.card);}
+                if(truck.getCansit_yn() == 1){item2.setImageResource(R.drawable.seat);}
+                if(truck.getAlways_open_yn() == 1){item3.setImageResource(R.drawable.open);}
+                if(truck.getTakeout_yn() == 1){item4.setImageResource(R.drawable.take);}
+                if(truck.getGroup_order_yn() == 1){item5.setImageResource(R.drawable.group);}
+                if(truck.getReserve_yn() == 1 ){item6.setImageResource(R.drawable.reser);}
+
+                setData();
+
+
 
             }
 

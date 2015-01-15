@@ -18,9 +18,8 @@
             android:layout_alignParentStart="true"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="14dp"
-            android:paddingEnd="4dp"
-            android:paddingStart="4dp"
-            android:background="@drawable/pic" />
+            android:background="@drawable/pic"
+            android:padding="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -94,30 +93,27 @@
                 android:layout_marginTop="30.25dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="85.5dp"
                 android:id="@+id/imageView4"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:src="@drawable/card" />
+                android:layout_alignParentStart="true" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="85.5dp"
                 android:id="@+id/imageView5"
                 android:layout_alignTop="@+id/imageView4"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/seat"
                 android:layout_marginLeft="30.25dp" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="85.5dp"
                 android:id="@+id/imageView6"
                 android:layout_alignTop="@+id/imageView5"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/open"
                 android:layout_marginLeft="30.25dp" />
 
         </LinearLayout>
@@ -129,32 +125,29 @@
                 android:layout_gravity="center_horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="65dp"
+                    android:layout_height="85.5dp"
                     android:id="@+id/imageView7"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:src="@drawable/take"
                     android:layout_marginTop="18.75dp" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="65dp"
+                    android:layout_height="85.5dp"
                     android:id="@+id/imageView8"
                     android:layout_alignTop="@+id/imageView4"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/group"
                     android:layout_marginLeft="30.25dp"
                     android:layout_marginTop="18.75dp" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="65dp"
+                    android:layout_height="85.5dp"
                     android:id="@+id/imageView9"
                     android:layout_alignTop="@+id/imageView5"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/reser"
                     android:layout_marginLeft="30.25dp"
                     android:layout_marginTop="18.75dp" />
 

@@ -45,7 +45,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
     public static final int REQUEST_WANT_TO_FIND = 1;
 
-    String[] truckArea = {"  신천, 잠실", "  강남, 양재", "  신사, 압구정", "  신촌, 이대", "  이태원", "  홍대"};
+    String[] truckArea = {"  신천, 잠실", "  강남, 양재", "  신사, 압구정", "  신촌, 이대, 홍대", "  이태원","  건대", "  종로, 명동"};
     String[] navItems = {"나의 프로필", "나의 포인트",
             "팔로우한 트럭"};
     private ListView lvNavList;
@@ -61,33 +61,48 @@ public class BrandListActivity extends Activity implements TruckCallback{
     String strColor = "#6d6d6d";
     String strColor2 = "#9a9a9a";
 
+    HttpCommunication http;
+
+    Boolean spinnerselected = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brand_list);
 
+        // HTTP Connection
+        http = new HttpCommunication();
 
-        Spinner mySpinner = (Spinner) findViewById(R.id.spinner);
+
+        final Spinner mySpinner = (Spinner) findViewById(R.id.spinner);
         mySpinner.setAdapter(new MyCustomAdapter(BrandListActivity.this, R.layout.text_row, truckArea));
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(spinnerselected){
+                http.getTruckByAddress(mySpinner.getSelectedItem().toString(), BrandListActivity.this);}
+                else {http.getAllTruck(BrandListActivity.this); spinnerselected = true;}
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+
+            }
+        });
+
+        http.getAllTruck(BrandListActivity.this);
 
         // StrictMode (Thread Policy == All)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        // HTTP Connection
-        HttpCommunication http = new HttpCommunication();
 
-        http.getAllTruck(BrandListActivity.this);
 
         // Brand List view
         lv = (ListView) findViewById(R.id.brandList);
-
-        /*
-        brands.add(new Brand(1, 1, "Milano Express", "100", 100, "양식/피자,햄버거"));
-        brands.add(new Brand(2, 2, "Milano Express2", "200", 100, "양식/피자,햄버거"));
-*/
-
 
         // Drawer list view
         lvNavList = (ListView)findViewById(R.id.drawer_frame);
@@ -235,7 +250,9 @@ public class BrandListActivity extends Activity implements TruckCallback{
                 if(resultCode == Activity.RESULT_OK){
 
                 //액션바에있는 찾기 버튼 누르고 왔을때
-                Log.d("User_want_to_find",data.getStringExtra("search"));}
+                Log.d("User_want_to_find",data.getStringExtra("search"));
+                http.getTruckListByName(data.getStringExtra("search"),BrandListActivity.this);
+                }
         }
     }
 
@@ -243,11 +260,13 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
         String[] objects;
         int textViewResourceId;
+        Context context;
 
         public MyCustomAdapter(Context context, int textViewResourceId,
                                String[] objects) {
             super(context, textViewResourceId, objects);
 
+            this.context = context;
             this.objects = objects;
             this.textViewResourceId = textViewResourceId;
         }
@@ -269,8 +288,10 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
             LayoutInflater inflater=getLayoutInflater();
             View row=inflater.inflate(textViewResourceId, parent, false);
+
             TextView label=(TextView)row.findViewById(R.id.area);
             label.setTypeface(AroundTheTruckApplication.nanumGothic);
+
             label.setText(objects[position]);
             label.setTextColor(Color.parseColor(strColor));
 

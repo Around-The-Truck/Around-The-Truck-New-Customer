@@ -27,6 +27,9 @@ public class BottomMenu extends Fragment implements TruckCallback {
     int mStart = 0;
 
     Truck truck;
+    View view;
+
+    ListView lv;
 
     ArrayList<Menu> menus = new ArrayList<Menu>();
 
@@ -43,9 +46,10 @@ public class BottomMenu extends Fragment implements TruckCallback {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState) {
-        View view = inflater.inflate(R.layout.bottom_menu, null);
 
-        ListView lv = (ListView) view.findViewById(R.id.menulist);
+        view = inflater.inflate(R.layout.bottom_menu, null);
+
+        lv = (ListView) view.findViewById(R.id.menulist);
 
         // StrictMode (Thread Policy == All)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -57,16 +61,6 @@ public class BottomMenu extends Fragment implements TruckCallback {
         String resStr = "";
 
         http.getMenuList(String.valueOf(truck.getIdx()), BottomMenu.this);
-
-//        parseJSON(resStr);
-
-//        menus.add(new Menu(0,"짬뽕",7000,1,1111,"면,버섯","매워요"));
-//        menus.add(new Menu(1,"짬뽕2",7006,1,1111,"면,버섯","매워요"));
-
-        TruckMenuLAdapter adapter = new TruckMenuLAdapter(view.getContext(), menus);
-        lv.setAdapter(adapter);
-
-        LayoutMethod.setListViewHeight(lv);
 
         return view;
 
@@ -92,6 +86,12 @@ public class BottomMenu extends Fragment implements TruckCallback {
                 );
                 menus.add(tmp);
             }
+
+            TruckMenuLAdapter adapter = new TruckMenuLAdapter(view.getContext(), menus);
+            lv.setAdapter(adapter);
+
+            LayoutMethod.setListViewHeight(lv);
+
 
         } catch (Exception e) {
             Log.d("ebsud", "JSON error (BottomMenu) : " + e);

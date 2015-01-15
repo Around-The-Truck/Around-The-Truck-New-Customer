@@ -93,6 +93,30 @@ public class HttpCommunication {
         });
     }
 
+    public void getTruckByAddress(String address,final TruckCallback callback) {
+
+        String resStr = "";
+        String url = "http://165.194.35.161:3000/getTruckList?addrStr="+address;
+        List<NameValuePair> param = new ArrayList<NameValuePair>();
+
+        param.add(new BasicNameValuePair("addStr", address));
+
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
+
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
+    }
+
 
     public void getTruckInfo(final String truckIdx, final TruckCallback callback) {
 
@@ -124,6 +148,28 @@ public class HttpCommunication {
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
         param.add(new BasicNameValuePair("phoneNum", phoneNum));
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
+
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
+    }
+
+    public void getTruckListByName(final String truckName,final TruckCallback callback) {
+
+        String url = "http://165.194.35.161:3000/getTruckList?truckName=" + truckName;
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+
+        param.add(new BasicNameValuePair("phoneNum", truckName));
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new AsyncHttpResponseHandler() {

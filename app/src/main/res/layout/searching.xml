@@ -8,7 +8,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText3"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="67dp" />
+        android:layout_marginTop="67dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -16,5 +18,7 @@
         android:text="검색"
         android:id="@+id/button2"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/searchbt"
+        android:background="#ffffffff" />
 </RelativeLayout>

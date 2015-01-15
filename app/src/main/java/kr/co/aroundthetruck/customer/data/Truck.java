@@ -23,6 +23,8 @@ public class Truck {
     int card_yn;
     int reserve_yn;
 
+    String phone_num;
+
 
     int group_order_yn;
     int always_open_yn;
@@ -45,9 +47,10 @@ public class Truck {
         this.follow_count = follow_count;
     }
 
-    public Truck(int idx, String name, double gps_longtitude, double gps_latitude, double gps_altitude, String gps_address, int todays_sum, int follow_count, int start_yn, int takeout_yn, int cansit_yn, int card_yn, int reserve_yn, int group_order_yn, int always_open_yn, String photo_id, String main_position, String category, String reg_date) {
+    public Truck(int idx, String name, String phone_num, double gps_longtitude, double gps_latitude, double gps_altitude, String gps_address, int todays_sum, int follow_count, int start_yn, int takeout_yn, int cansit_yn, int card_yn, int reserve_yn, int group_order_yn, int always_open_yn, String photo_id, String main_position, String category, String reg_date) {
         this.idx = idx;
         this.name = name;
+        this.phone_num = phone_num;
         this.gps_longtitude = gps_longtitude;
         this.gps_latitude = gps_latitude;
         this.gps_altitude = gps_altitude;
@@ -66,6 +69,8 @@ public class Truck {
         this.category = category;
         this.reg_date = reg_date;
     }
+
+    public String getPhone_num(){return phone_num;}
 
     public int getIdx() {
         return idx;

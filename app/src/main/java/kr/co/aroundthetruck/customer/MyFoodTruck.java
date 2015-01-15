@@ -156,7 +156,7 @@ public class MyFoodTruck extends Activity implements TruckCallback{
             holder.fdis.setTypeface(AroundTheTruckApplication.nanumGothic);
             holder.fdis.setTextColor(AroundTheTruckApplication.color9a);
 
-//            Picasso.with(MyFoodTruck.this).load("http://165.194.35.161:3000/upload/" + mbrand.getBrandImage()).fit().transform(new RoundedTransformation(300)).into(holder.brandImage);
+            Picasso.with(MyFoodTruck.this).load("http://165.194.35.161:3000/upload/" + mbrand.getBrandImage()).fit().transform(new RoundedTransformation(300)).into(holder.brandImage);
 
             holder.fbrand.setText(mbrand.getBrandName());
             holder.flike.setText(Integer.toString(mbrand.getLike()));

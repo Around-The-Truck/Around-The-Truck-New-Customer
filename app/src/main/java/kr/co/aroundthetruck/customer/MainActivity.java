@@ -117,6 +117,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
 
     }
 
+    public void onResume(){
+        super.onResume();
+
+        onClick(truckInfoBtn);
+    }
+
     @Override
     public void onClick(View view) {
 
@@ -187,6 +193,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
                 truck = new Truck(
 
                         arr.getJSONObject(i).getInt("idx"),
+                        arr.getJSONObject(i).getString("phone_num"),
                         arr.getJSONObject(i).getString("name"),
                         arr.getJSONObject(i).getDouble("gps_longitude"),
                         arr.getJSONObject(i).getDouble("gps_latitude"),
