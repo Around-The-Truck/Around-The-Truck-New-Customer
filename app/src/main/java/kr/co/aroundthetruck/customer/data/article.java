@@ -1,5 +1,7 @@
 package kr.co.aroundthetruck.customer.data;
 
+import java.util.ArrayList;
+
 /**
  * Created by ebsud89 on 12/20/14.
  */
@@ -20,6 +22,8 @@ public class Article {
 
     int likeNumber;
     int replyNumber;
+
+    ArrayList<Reply> replies;
 
     public String getFilename() {
         return filename;
@@ -122,4 +126,11 @@ public class Article {
 
     public int getLikeNumber(){ return likeNumber;}
     public int getReplyNumber(){return replyNumber;}
+
+    public void setReplies (ArrayList<Reply> replies) {
+        this.replies = replies;
+    }
+    public ArrayList<Reply> getReplies() {
+        return replies;
+    }
 }

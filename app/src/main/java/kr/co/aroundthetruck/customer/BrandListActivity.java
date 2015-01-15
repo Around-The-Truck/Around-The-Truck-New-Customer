@@ -140,7 +140,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
             JSONObject jsonObject = new JSONObject(str);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i=0 ; i<arr.length(); i++) {
-                Log.d("ebsud", arr.getJSONObject(i).toString());
+                Log.d("ebsud", "brandlist - parseJSON - toString" + arr.getJSONObject(i).toString());
                 tmp = new Brand(arr.getJSONObject(i).getInt("idx"),
                                 URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"),
                                 arr.getJSONObject(i).getString("name"), "50m",
@@ -406,7 +406,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
     @Override
     public void onTruckLoad(byte[] bytes) {
         String raw = new String(bytes);
-
+        Log.d("ebsud", "raw (BrandList) : " + raw);
         parseJSON(raw);
     }
 

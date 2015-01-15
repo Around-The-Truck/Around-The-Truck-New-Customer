@@ -13,6 +13,23 @@ public class Menu {
     int truck_idx;
     String truck_name;
     int photo_idx;
+
+    public String getPhoto_filename() {
+        return photo_filename;
+    }
+
+    public void setPhoto_filename(String photo_filename) {
+        this.photo_filename = photo_filename;
+    }
+
+    public String getTruck_name() {
+        return truck_name;
+    }
+
+    public void setTruck_name(String truck_name) {
+        this.truck_name = truck_name;
+    }
+
     String photo_filename;
 
     String ingredients;     // 식재료
@@ -22,13 +39,12 @@ public class Menu {
 
     }
 
-    public Menu(int idx, String name, int price, int truck_idx, String truck_name, int photo_idx, String photo_filename, String ingredients, String description) {
+    public Menu(int idx, String name, int price, int truck_idx, String truck_name, String photo_filename, String ingredients, String description) {
         this.idx = idx;
         this.name = name;
         this.price = price;
         this.truck_idx = truck_idx;
         this.truck_name = truck_name;
-        this.photo_idx = photo_idx;
         this.photo_filename = photo_filename;
         this.ingredients = ingredients;
         this.description = description;

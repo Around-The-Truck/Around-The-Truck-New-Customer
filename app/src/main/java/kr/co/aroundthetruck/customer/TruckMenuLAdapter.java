@@ -10,10 +10,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Menu;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
+import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
 
 /**
  * Created by sumin on 2014-12-03.
@@ -51,6 +54,8 @@ public class TruckMenuLAdapter extends BaseAdapter {
 
         ViewHolder holder;
 
+        final Menu mmenu = (Menu) this.getItem(pos);
+
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.menu_row, parent, false);
@@ -64,6 +69,9 @@ public class TruckMenuLAdapter extends BaseAdapter {
 
         }
         //holder.menuImg .setImageResource(list.get(pos).);
+
+//        Picasso.with(MyFoodTruck.this).load("http://165.194.35.161:3000/upload/" + mmenu.getPhoto_filename()).fit().transform(new RoundedTransformation(300)).into(holder.menuImg);
+
         holder.menuName.setText(list.get(pos).getName());
         holder.menuName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
         holder.menuName.setTextColor(Color.parseColor(strColor));

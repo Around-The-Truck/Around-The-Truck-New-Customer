@@ -183,7 +183,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
             JSONObject jsonObject = new JSONObject(str);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i = 0; i < arr.length(); i++) {
-                Log.d("ebsud", arr.getJSONObject(i).toString());
+                Log.d("ebsud", "mainactivity - parseJSON - toString" + arr.getJSONObject(i).toString());
                 truck = new Truck(
 
                         arr.getJSONObject(i).getInt("idx"),

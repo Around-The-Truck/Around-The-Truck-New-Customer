@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -170,87 +171,77 @@ public class HttpCommunication {
         return resStr;
     }
 
-    public String getReplyList(String articleIdx) {
+    public void getReplyList(String articleIdx, final TruckCallback callback) {
 
-        String resStr = "";
+        String url = "http://165.194.35.161:3000/getReplyList?articleIdx=" + articleIdx;
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
+        param.add(new BasicNameValuePair("articleIdx", articleIdx));
 
-        return resStr;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
+
     }
 
-    public String getArticlList(String truckIdx) {
+    public String getArticlList(final String truckIdx, final TruckCallback callback) {
 
         String resStr = "";
 
         String writerType = "0";
 
-        String url = "http://165.194.35.161:3000/getArticleList";
-        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+        String url = "http://165.194.35.161:3000/getArticleList?trcukIdx?="+truckIdx;
 
-        param.add(new BasicNameValuePair("writer", truckIdx));
-//        param.add(new BasicNameValuePair("writer_type"), )
-
-
-        try {
-
-
-            HttpClient http = new DefaultHttpClient();
-
-            HttpParams params = http.getParams();
-
-            HttpPost httpPost = new HttpPost(url);
-            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
-
-            httpPost.setEntity(entityRequest);
-
-            HttpResponse responsePost = http.execute(httpPost);
-            HttpEntity resEntity = responsePost.getEntity();
-
-            resStr = EntityUtils.toString(resEntity);
-            resStr = resStr.trim();
-
-        } catch (Exception e) {
-            Log.d("exception!", "exception");
-            e.printStackTrace();
-            resStr = "Error";
-
-        }
-        return resStr;
-    }
-
-    public String getMenuList(String truckIdx) {
-
-        String resStr = "";
-
-        String url = "http://165.194.35.161:3000/getMenuList";
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
         param.add(new BasicNameValuePair("truckIdx", truckIdx));
 
-        try {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
+            }
 
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
 
-            HttpClient http = new DefaultHttpClient();
+            }
+        });
+        return resStr;
+    }
 
-            HttpParams params = http.getParams();
+    public String getMenuList(final String truckIdx, final TruckCallback callback) {
 
-            HttpPost httpPost = new HttpPost(url);
-            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+        String resStr = "";
 
-            httpPost.setEntity(entityRequest);
+        String url = "http://165.194.35.161:3000/getMenuList";
 
-            HttpResponse responsePost = http.execute(httpPost);
-            HttpEntity resEntity = responsePost.getEntity();
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
-            resStr = EntityUtils.toString(resEntity);
-            resStr = resStr.trim();
+        RequestParams rp = new RequestParams("truckIdx", truckIdx);
 
-        } catch (Exception e) {
-            Log.d("exception!", "exception");
-            e.printStackTrace();
-            resStr = "Error";
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(url, rp, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
+            }
 
-        }
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
 
         return resStr;
     }
