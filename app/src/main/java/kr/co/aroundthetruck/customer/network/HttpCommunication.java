@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -219,39 +220,28 @@ public class HttpCommunication {
         return resStr;
     }
 
-    public String getMenuList(String truckIdx) {
+    public String getMenuList(final String truckIdx, final TruckCallback callback) {
 
         String resStr = "";
 
         String url = "http://165.194.35.161:3000/getMenuList";
+
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
-        param.add(new BasicNameValuePair("truckIdx", truckIdx));
+        RequestParams rp = new RequestParams("truckIdx", truckIdx);
 
-        try {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(url, rp, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
+            }
 
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
 
-            HttpClient http = new DefaultHttpClient();
-
-            HttpParams params = http.getParams();
-
-            HttpPost httpPost = new HttpPost(url);
-            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
-
-            httpPost.setEntity(entityRequest);
-
-            HttpResponse responsePost = http.execute(httpPost);
-            HttpEntity resEntity = responsePost.getEntity();
-
-            resStr = EntityUtils.toString(resEntity);
-            resStr = resStr.trim();
-
-        } catch (Exception e) {
-            Log.d("exception!", "exception");
-            e.printStackTrace();
-            resStr = "Error";
-
-        }
+            }
+        });
 
         return resStr;
     }

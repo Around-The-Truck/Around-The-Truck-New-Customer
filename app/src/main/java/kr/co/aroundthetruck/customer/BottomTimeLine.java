@@ -80,7 +80,7 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
-        http.getArticlList(thisTruckIdx, BottomTimeLine.this);
+        http.getArticlList(String.valueOf(truck.getIdx()), BottomTimeLine.this);
 
     }
 
@@ -112,7 +112,7 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
             JSONObject jsonObject = new JSONObject(resStr);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i = 0; i < arr.length(); i++) {
-                Log.d("ebsud", arr.getJSONObject(i).toString());
+                Log.d("ebsud", "TimeLine - parseJSON - tostring" + arr.getJSONObject(i).toString());
                 tmp = new Article(arr.getJSONObject(i).getInt("idx"),
                         arr.getJSONObject(i).getString("filename"),
                         arr.getJSONObject(i).getString("writer"),

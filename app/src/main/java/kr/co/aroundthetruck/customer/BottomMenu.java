@@ -23,7 +23,7 @@ import kr.co.aroundthetruck.customer.network.HttpCommunication;
 /**
  * Created by sumin on 2014-12-01.
  */
-public class BottomMenu extends Fragment {
+public class BottomMenu extends Fragment implements TruckCallback {
     int mStart = 0;
 
     Truck truck;
@@ -56,11 +56,9 @@ public class BottomMenu extends Fragment {
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
-//        resStr = http.getArticlList(String.valueOf(truck.getIdx()));
+        http.getMenuList(String.valueOf(truck.getIdx()), BottomMenu.this);
 
-        Log.d("ebsud", "resStr (Menu) : " + resStr);
-
-        parseJSON(resStr);
+//        parseJSON(resStr);
 
 //        menus.add(new Menu(0,"짬뽕",7000,1,1111,"면,버섯","매워요"));
 //        menus.add(new Menu(1,"짬뽕2",7006,1,1111,"면,버섯","매워요"));
@@ -88,7 +86,6 @@ public class BottomMenu extends Fragment {
                         arr.getJSONObject(i).getInt("price"),
                         arr.getJSONObject(i).getInt("truck_idx"),
                         arr.getJSONObject(i).getString("truck_name"),
-                        arr.getJSONObject(i).getInt("photo_idx"),
                         arr.getJSONObject(i).getString("photo_filename"),
                         arr.getJSONObject(i).getString("description"),
                         arr.getJSONObject(i).getString("ingredients")
@@ -114,4 +111,15 @@ public class BottomMenu extends Fragment {
     public void setTruck(Truck truck) {
         this.truck = truck;
     }
+
+    @Override
+    public void onTruckLoad(byte[] bytes) {
+        String raw = new String(bytes);
+
+        Log.d("ebsud", "Menu - callback - raw : " + raw);
+
+        parseJSON(raw);
+    }
+
+
 }
