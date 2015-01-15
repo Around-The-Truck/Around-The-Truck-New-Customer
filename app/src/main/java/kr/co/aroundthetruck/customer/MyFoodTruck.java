@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Point;
+import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 /**
@@ -34,8 +35,11 @@ public class MyFoodTruck extends Activity {
     private String phoneNum;
 
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_foodtruck);
+
+        getActionBar().setDisplayShowHomeEnabled(false);
 
         brandList = (ListView)findViewById(R.id.listView3);
 
@@ -120,7 +124,7 @@ public class MyFoodTruck extends Activity {
 
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.follow_row, parent, false);
 
-                holder.brandImage = (ImageView) convertView.findViewById(R.id.brandimage);
+                holder.brandImage = (ImageView) convertView.findViewById(R.id.fimage);
                 holder.fbrand = (TextView) convertView.findViewById(R.id.fbrand);
                 holder.flike= (TextView) convertView.findViewById(R.id.flike);
                 holder.fcate= (TextView) convertView.findViewById(R.id.fcate);
@@ -131,6 +135,15 @@ public class MyFoodTruck extends Activity {
                 holder = (ViewHolder) convertView.getTag();
 
             }
+
+            holder.fbrand.setTypeface(AroundTheTruckApplication.nanumGothicBold);
+            holder.fbrand.setTextColor(AroundTheTruckApplication.color6d);
+
+            holder.fcate.setTypeface(AroundTheTruckApplication.nanumGothic);
+            holder.fcate.setTextColor(AroundTheTruckApplication.color9a);
+
+            holder.flike.setTypeface(AroundTheTruckApplication.nanumGothic);
+            holder.flike.setTextColor(AroundTheTruckApplication.color9a);
 
             //holder.brandImage .setImageResource(mbrand.getBrandImage());
             holder.fbrand.setText(mbrand.getBrandName());

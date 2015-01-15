@@ -13,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Point;
+import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 
 /**
  * Created by sumin on 2014-12-20.
@@ -23,20 +26,45 @@ import kr.co.aroundthetruck.customer.data.Point;
 public class MyPoint extends Activity {
 
     private ListView pointList;
-    private TextView currebtP;
+    private TextView user,totalP,textview;
     private ArrayList<Point> pointdata;
+
+    String strColor = "#6d6d6d";
+    String strColor2 = "#9a9a9a";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_point);
 
-        currebtP = (TextView) findViewById(R.id.textView2);
-        pointList = (ListView) findViewById(R.id.listView2);
 
+        user = (TextView) findViewById(R.id.textView14);  //김희정
+        totalP = (TextView) findViewById(R.id.textView2);  //1450
+        textview =(TextView) findViewById(R.id.textView13);  //님의 현재 누적 포인트
+
+        user.setTypeface(AroundTheTruckApplication.nanumGothicBold);
+        totalP.setTypeface(AroundTheTruckApplication.nanumGothicBold);
+        textview.setTypeface(AroundTheTruckApplication.nanumGothic);
+
+        user.setTextColor(AroundTheTruckApplication.color6d);
+        textview.setTextColor(AroundTheTruckApplication.color9a);
+
+        pointList = (ListView) findViewById(R.id.listView2);
         pointdata = new ArrayList<Point>();
-        pointdata.add(new Point("수민카페",200,"11/25"));
+
+        setData();
+
         pointList.setAdapter(new BrandAdapter(MyPoint.this, pointdata));
 
+        getActionBar().setDisplayShowHomeEnabled(false);
+
+
+    }
+
+    public void setData(){
+
+        user.setText("김희정");
+        totalP.setText("1450");
+        pointdata.add(new Point("수민카페",200,"최종방문일 2015.01.15"));
 
     }
 
@@ -90,8 +118,16 @@ public class MyPoint extends Activity {
 
             //holder.brandImage .setImageResource(mbrand.getBrandImage());
             holder.brandName.setText(mpoint.getBrand());
+            holder.brandName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
+            holder.brandName.setTextColor(AroundTheTruckApplication.color6d);
+
             holder.brandPoint.setText(Integer.toString(mpoint.getMpoint()));
+            holder.brandPoint.setTypeface(AroundTheTruckApplication.nanumGothic);
+           // holder.brandPoint.setTextColor(AroundTheTruckApplication.color6d);
+
             holder.date.setText(mpoint.getDate());
+            holder.date.setTypeface(AroundTheTruckApplication.nanumGothic);
+            holder.date.setTextColor(AroundTheTruckApplication.color9a);
 
             return convertView;
 

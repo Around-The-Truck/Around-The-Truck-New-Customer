@@ -165,7 +165,7 @@ public class BrandListActivity extends Activity {
 
             switch(position){
                 case 0:
-                    intent =  new Intent(BrandListActivity.this,MyInfo.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
+                    intent =  new Intent(BrandListActivity.this,MyProfile.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
                     startActivity(intent);
                     //나의 프로필
                     break;
@@ -345,12 +345,23 @@ public class BrandListActivity extends Activity {
             holder.category.setTypeface(AroundTheTruckApplication.nanumGothic);
             holder.category.setTextColor(Color.parseColor(strColor2));
 
-            holder.likebtn.setFocusable(false);
+            // TODO: IF(FOLLOWlIST)
+            holder.likeUnlike = true; //like
+            holder.likebtn.setImageResource(R.drawable.like);
 
+
+            holder.likebtn.setFocusable(false);
             holder.likebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    holder.likebtn.setImageResource(R.drawable.like);
+
+                    if(holder.likeUnlike){
+                        //follow하는 경우
+                    holder.likebtn.setImageResource(R.drawable.unlike);
+                    holder.likeUnlike = false;}
+                    else {holder.likebtn.setImageResource(R.drawable.like);
+                    holder.likeUnlike = true;}
+
                 }
             });
 
@@ -378,6 +389,8 @@ public class BrandListActivity extends Activity {
             TextView like;
             TextView category;
             ImageButton likebtn;
+
+            boolean likeUnlike;
 
         }
 
