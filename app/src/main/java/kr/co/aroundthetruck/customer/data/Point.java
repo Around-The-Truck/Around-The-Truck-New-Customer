@@ -22,6 +22,13 @@ public class Point {
         this.date = date;
     }
 
+    public Point(String brand, int mpoint, String date){
+
+        this.brand = brand;
+        this.mpoint = mpoint;
+        this.date = date;
+    }
+
     public String getBrand(){
         return brand;
     }

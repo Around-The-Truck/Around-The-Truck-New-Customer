@@ -56,9 +56,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
 
     Bitmap bitmapsp;
 
-    String strColor = "#6d6d6d";
-    String strColor2 = "#9a9a9a";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +184,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
 
     // HTTP return value (JSON) parse method
     public void parseJSON(String str) {
+
 
 
         try {
