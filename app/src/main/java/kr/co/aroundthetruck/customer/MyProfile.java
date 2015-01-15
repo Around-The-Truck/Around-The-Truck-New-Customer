@@ -51,6 +51,10 @@ public class MyProfile extends Activity {
         birth = (TextView)findViewById(R.id.p_birth);
         psex = (TextView)findViewById(R.id.p_sex);
 
+        name.setTypeface(AroundTheTruckApplication.nanumGothic);
+        birth.setTypeface(AroundTheTruckApplication.nanumGothic);
+        psex.setTypeface(AroundTheTruckApplication.nanumGothic);
+
         name.setText("김희정");
         birth.setText("1992.10.22");
         psex.setText("여자");

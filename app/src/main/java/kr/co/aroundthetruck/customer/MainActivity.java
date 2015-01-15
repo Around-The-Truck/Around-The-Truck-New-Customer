@@ -186,7 +186,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
     public void parseJSON(String str) {
 
 
-
         try {
             JSONObject jsonObject = new JSONObject(str);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
@@ -222,9 +221,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
                         .add(R.id.fragment, fragmentBottomTimeLine)
                         .add(R.id.fragment_menu, fragmentBottomMenu)
                         .commit();
-                // TODO: Fragment
-
-//                brands.add(tmp);
 
 
                 truckName.setText(thisBrand);
