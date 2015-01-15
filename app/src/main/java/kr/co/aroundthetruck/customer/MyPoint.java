@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Point;
 
+import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
@@ -34,7 +37,7 @@ import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 /**
  * Created by sumin on 2014-12-20.
  */
-public class MyPoint extends Activity {
+public class MyPoint extends Activity implements TruckCallback {
 
     private ArrayList<Point> points;
 
@@ -85,12 +88,14 @@ public class MyPoint extends Activity {
 
         points = new ArrayList<Point>();
 
+        Point tmp = null;
+
         try {
             JSONObject jsonObject = new JSONObject(str);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
-//            for (int i=0 ; i<arr.length(); i++) {
+//                for (int i=0 ; i<arr.length(); i++) {
 //                Log.d("ebsud", arr.getJSONObject(i).toString());
-//                tmp = new Brand(arr.getJSONObject(i).getInt("idx"),
+//                tmp = new Point(arr.getJSONObject(i).getInt("idx"),
 //                        arr.getJSONObject(i).getString("filename"),
 //                        arr.getJSONObject(i).getString("name"),
 //                        "50m",
@@ -158,7 +163,8 @@ public class MyPoint extends Activity {
 
             }
 
-            //holder.brandImage .setImageResource(mbrand.getBrandImage());
+            Picasso.with(MyPoint.this).load("http://165.194.35.161:3000/upload/" + mpoint.getBrand_image()).fit().transform(new RoundedTransformation(207)).into(holder.brandImage);
+
             holder.brandName.setText(mpoint.getBrand());
             holder.brandName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
             holder.brandName.setTextColor(AroundTheTruckApplication.color6d);
@@ -183,5 +189,13 @@ public class MyPoint extends Activity {
         }
 
     }
+
+    @Override
+    public void onTruckLoad(byte[] bytes) {
+        String raw = new String(bytes);
+
+        parseJSON(raw);
+    }
+
 
 }

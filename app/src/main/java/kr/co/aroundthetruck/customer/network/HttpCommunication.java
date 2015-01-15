@@ -70,36 +70,28 @@ public class HttpCommunication {
 
     }
 
-    public String getAllTruck() {
+    public void getAllTruck(final TruckCallback callback) {
 
         String resStr = "";
-        String url = serverURL + "getTruckList";
-        url = "http://165.194.35.161:3000/getTruckList";
+        String url = "http://165.194.35.161:3000/getTruckList";
         List<NameValuePair> param = new ArrayList<NameValuePair>();
 
-        try {
 
-            HttpClient http = new DefaultHttpClient();
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
 
-            HttpParams params = http.getParams();
+            }
 
-            HttpGet httpGet = new HttpGet(url);
-            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(param, "UTF-8");
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
 
-            HttpResponse responsePost = http.execute(httpGet);
-            HttpEntity resEntity = responsePost.getEntity();
-
-            resStr = EntityUtils.toString(resEntity);
-            resStr = resStr.trim();
-
-        } catch (Exception e) {
-            Log.d("exception!", "exception");
-            e.printStackTrace();
-            resStr = "Error";
-
-        }
-        return resStr;
+            }
+        });
     }
+
 
     public void getTruckInfo(final String truckIdx, final TruckCallback callback) {
 
@@ -114,6 +106,7 @@ public class HttpCommunication {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 callback.onTruckLoad(bytes);
+
             }
 
             @Override
@@ -123,67 +116,50 @@ public class HttpCommunication {
         });
     }
 
-    public String getFollowList(String phoneNum) {
 
-        String resStr = "";
-        String url = "http://165.194.35.161:3000/getFollowList";
+    public void getFollowList(final String phoneNum,final TruckCallback callback) {
+
+        String url = "http://165.194.35.161:3000/getFollowList?phoneNum=" + phoneNum;
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
         param.add(new BasicNameValuePair("phoneNum", phoneNum));
 
-        try {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
 
-            HttpClient http = new DefaultHttpClient();
+            }
 
-            HttpParams params = http.getParams();
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
 
-            HttpGet httpGet = new HttpGet(url + "?" + URLEncodedUtils.format(param, "UTF-8"));
-
-            HttpResponse responsePost = http.execute(httpGet);
-            HttpEntity resEntity = responsePost.getEntity();
-
-            resStr = EntityUtils.toString(resEntity);
-            resStr = resStr.trim();
-
-        } catch (Exception e) {
-            Log.d("exception!", "exception");
-            e.printStackTrace();
-            resStr = "Error";
-
-        }
-
-        return resStr;
+            }
+        });
     }
 
-    public String getPointHistory(String phoneNum) {
+    public void getPointHistory(String phoneNum,final TruckCallback callback) {
 
         String resStr = "";
-        String url = "http://165.194.35.161:3000/getPointList";
+        String url = "http://165.194.35.161:3000/getPointHistory?phoneNum=" + phoneNum;
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
         param.add(new BasicNameValuePair("phoneNum", phoneNum));
 
-        try {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
 
-            HttpClient http = new DefaultHttpClient();
+            }
 
-            HttpParams params = http.getParams();
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
 
-            HttpGet httpGet = new HttpGet(url + "?" + URLEncodedUtils.format(param, "UTF-8"));
-
-            HttpResponse responsePost = http.execute(httpGet);
-            HttpEntity resEntity = responsePost.getEntity();
-
-            resStr = EntityUtils.toString(resEntity);
-            resStr = resStr.trim();
-
-        } catch (Exception e) {
-            Log.d("exception!", "exception");
-            e.printStackTrace();
-            resStr = "Error";
-
-        }
-        return resStr;
+            }
+        });
     }
 
     public String addReply(Reply reply) {

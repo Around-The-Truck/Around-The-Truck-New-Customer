@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,7 +23,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
+import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
 
 /**
  * Created by sumin on 2014-12-20.
@@ -37,6 +42,8 @@ public class MyInfo extends Activity {
     RadioGroup radio;
     Boolean sex;
     Button loginBtn;
+
+    final int REQUEST_IMAGE = 10;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +70,17 @@ public class MyInfo extends Activity {
 
         radio = (RadioGroup)findViewById(R.id.m_sex);
 
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                MyInfo.this.startActivityForResult(intent, REQUEST_IMAGE);
+
+            }
+        });
+
         radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -78,7 +96,36 @@ public class MyInfo extends Activity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
 
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK && data != null) {
+            Log.d("YoonTag", "====== OnActivityResult is start ========= \n");
+
+            Uri selPhotoUri = data.getData();
+            try {
+
+                Picasso.with(MyInfo.this)
+                        .load(selPhotoUri)
+                        .skipMemoryCache().fit()
+                        .transform(new RoundedTransformation(211))
+                        .into(image);
+
+
+                // sangho
+                //  fullPath = getRealPathFromURI(this, selPhotoUri);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+
+            }
+
+        }
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

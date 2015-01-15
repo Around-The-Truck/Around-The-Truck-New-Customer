@@ -10,11 +10,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/fimage"
         android:background="@drawable/imgback"
-        android:layout_alignTop="@+id/likebtn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="22.5dp"
-        android:layout_marginTop="21.25dp" />
+        android:layout_marginTop="21.25dp"
+        android:padding="2dp" />
 
     <RelativeLayout
 
@@ -46,12 +46,33 @@
                 android:layout_marginTop="7dp"
                 android:textSize="13dp" />
 
-
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginTop="40dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView14"
+                    android:src="@drawable/dis"
+                    android:layout_marginLeft="1dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/fdis"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="3dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -71,6 +92,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
 
     </RelativeLayout>
 

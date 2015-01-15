@@ -26,18 +26,22 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.data.Truck;
+import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 /**
  * Created by sumin on 2014-12-03.
  */
-public class BrandListActivity extends Activity {
+public class BrandListActivity extends Activity implements TruckCallback{
 
     public static final int REQUEST_WANT_TO_FIND = 1;
 
@@ -73,13 +77,8 @@ public class BrandListActivity extends Activity {
 
         // HTTP Connection
         HttpCommunication http = new HttpCommunication();
-        String resStr = "";
 
-        resStr = http.getAllTruck();
-        Log.d("ebsud", "resStr :" + resStr);
-
-        // parsing TruckList
-        parseJSON(resStr);
+        http.getAllTruck(BrandListActivity.this);
 
         // Brand List view
         lv = (ListView) findViewById(R.id.brandList);
@@ -88,7 +87,7 @@ public class BrandListActivity extends Activity {
         brands.add(new Brand(1, 1, "Milano Express", "100", 100, "양식/피자,햄버거"));
         brands.add(new Brand(2, 2, "Milano Express2", "200", 100, "양식/피자,햄버거"));
 */
-        lv.setAdapter(new BrandAdapter(BrandListActivity.this, brands));
+
 
         // Drawer list view
         lvNavList = (ListView)findViewById(R.id.drawer_frame);
@@ -142,9 +141,14 @@ public class BrandListActivity extends Activity {
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i=0 ; i<arr.length(); i++) {
                 Log.d("ebsud", arr.getJSONObject(i).toString());
-                tmp = new Brand(arr.getJSONObject(i).getInt("idx"), arr.getJSONObject(i).getString("photo_filename"), arr.getJSONObject(i).getString("name"), "50m", arr.getJSONObject(i).getInt("follow_count"), null,null);//arr.getJSONObject(i).getString("category"));
+                tmp = new Brand(arr.getJSONObject(i).getInt("idx"),
+                                URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"),
+                                arr.getJSONObject(i).getString("name"), "50m",
+                                arr.getJSONObject(i).getInt("follow_count"), arr.getJSONObject(i).getString("cat_name_big")+" / "+arr.getJSONObject(i).getString("cat_name_small"));
                 brands.add(tmp);
             }
+
+            lv.setAdapter(new BrandAdapter(BrandListActivity.this, brands));
 
         } catch (Exception e) {
             Log.d("ebsud", "JSON error (BrandList) : " + e);
@@ -326,7 +330,8 @@ public class BrandListActivity extends Activity {
 
             }
 
-            //holder.brandImage .setImageResource(mbrand.getBrandImage());
+            Picasso.with(BrandListActivity.this).load("http://165.194.35.161:3000/upload/" + mbrand.getBrandImage()).fit().transform(new RoundedTransformation(300)).into(holder.brandImage);
+
             holder.brandName.setText(mbrand.getBrandName());
             holder.brandName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
             holder.brandName.setTextColor(Color.parseColor(strColor));
@@ -394,8 +399,15 @@ public class BrandListActivity extends Activity {
 
         }
 
+    }
 
 
 
+    @Override
+    public void onTruckLoad(byte[] bytes) {
+        String raw = new String(bytes);
 
-    }}
+        parseJSON(raw);
+    }
+
+}

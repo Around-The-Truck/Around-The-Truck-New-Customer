@@ -3,6 +3,7 @@ package kr.co.aroundthetruck.customer;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,12 +20,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.net.URLEncoder;
 
 import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
+import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 
@@ -83,23 +89,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
         thisTruckIdx = getIntent().getStringExtra("brandIdx");
         thisBrand = getIntent().getStringExtra("brandName");
 
+
         http.getTruckInfo(thisTruckIdx, MainActivity.this);
-
-//        bundle.putString("truckIdx",thisTruckIdx);
-//
-//        fragment1 = new BottomTimeLine();
-//        fragment2 = new BottomMenu();
-//        fragment1.setArguments(bundle);
-//        fragment2.setArguments(bundle);
-
-//        fragmentTransaction.add(R.id.fragment, fragment1);
-//        fragmentTransaction.add(R.id.fragment_menu, fragment2);
-//        fragmentTransaction.commit();
 
         // create layout
         LinearLayout ly = (LinearLayout) findViewById(R.id.layout_back);
         ly.setBackgroundResource(R.drawable.back);
-        ImageView truckImage = (ImageView) findViewById(R.id.imageView);
+
         truckImage = (ImageView) findViewById(R.id.imageView);
 
         truckName = (TextView) findViewById(R.id.textView5);
@@ -107,11 +103,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
         truckDis = (TextView) findViewById(R.id.textView7);
         truckLike = (TextView) findViewById(R.id.textView8);
 
-
-        bitmapsp = BitmapFactory.decodeResource(getResources(), R.drawable.bitmapsp);
-        bitmapsp = LayoutMethod.getCircleBitmap(bitmapsp);
-
-        truckImage.setImageBitmap(bitmapsp);
         truckInfoBtn = (ImageButton) findViewById(R.id.truckinfobtn);
         menuBtn = (ImageButton) findViewById(R.id.menubtn);
         mapBtn = (ImageButton) findViewById(R.id.mapbtn);
@@ -119,6 +110,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
         truckInfoBtn.setOnClickListener(this);
         menuBtn.setOnClickListener(this);
         mapBtn.setOnClickListener(this);
+
+        onClick(truckInfoBtn);
 
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setTitle("   " + thisBrand);
@@ -192,6 +185,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
             for (int i = 0; i < arr.length(); i++) {
                 Log.d("ebsud", arr.getJSONObject(i).toString());
                 truck = new Truck(
+
                         arr.getJSONObject(i).getInt("idx"),
                         arr.getJSONObject(i).getString("name"),
                         arr.getJSONObject(i).getDouble("gps_longitude"),
@@ -207,12 +201,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
                         arr.getJSONObject(i).getInt("reserve_yn"),
                         arr.getJSONObject(i).getInt("group_order_yn"),
                         arr.getJSONObject(i).getInt("always_open_yn"),
-                        arr.getJSONObject(i).getString("photo_filename"),
+                        URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"),
                         arr.getJSONObject(i).getString("main_position"),
-                        arr.getJSONObject(i).getInt("category_id"),
-                        arr.getJSONObject(i).getString("category_small"),
+                        arr.getJSONObject(i).getString("cat_name_big")+" / "+arr.getJSONObject(i).getString("cat_name_small"),
                         arr.getJSONObject(i).getString("reg_date")
                 );
+
+
 
                 fragmentBottomTimeLine.setTruck(truck);
                 fragmentBottomMenu.setTruck(truck);
@@ -222,12 +217,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
                         .add(R.id.fragment_menu, fragmentBottomMenu)
                         .commit();
 
+                Picasso.with(this).load("http://165.194.35.161:3000/upload/" + truck.getPhoto_id()).fit().transform(new RoundedTransformation(400)).into(truckImage);
 
                 truckName.setText(thisBrand);
                 truckName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
                 truckName.setTextColor(Color.WHITE);
 
-                truckCate.setText("양식/피자, 햄버거");
+                truckCate.setText(truck.getCategory());
                 truckCate.setTypeface(AroundTheTruckApplication.nanumGothic);
                 truckCate.setTextColor(Color.WHITE);
 
@@ -255,4 +251,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
 
         parseJSON(raw);
     }
+
+
 }

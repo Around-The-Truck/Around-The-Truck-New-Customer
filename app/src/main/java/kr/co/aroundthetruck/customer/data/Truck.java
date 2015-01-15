@@ -29,8 +29,7 @@ public class Truck {
     String photo_id;
 
     String main_position;
-    int category_id;
-    String category_small;
+    String category;
 
     String reg_date;
 
@@ -46,7 +45,7 @@ public class Truck {
         this.follow_count = follow_count;
     }
 
-    public Truck(int idx, String name, double gps_longtitude, double gps_latitude, double gps_altitude, String gps_address, int todays_sum, int follow_count, int start_yn, int takeout_yn, int cansit_yn, int card_yn, int reserve_yn, int group_order_yn, int always_open_yn, String photo_id, String main_position, int category_id, String category_small, String reg_date) {
+    public Truck(int idx, String name, double gps_longtitude, double gps_latitude, double gps_altitude, String gps_address, int todays_sum, int follow_count, int start_yn, int takeout_yn, int cansit_yn, int card_yn, int reserve_yn, int group_order_yn, int always_open_yn, String photo_id, String main_position, String category, String reg_date) {
         this.idx = idx;
         this.name = name;
         this.gps_longtitude = gps_longtitude;
@@ -64,9 +63,7 @@ public class Truck {
         this.always_open_yn = always_open_yn;
         this.photo_id = photo_id;
         this.main_position = main_position;
-        this.category_id = category_id;
-        this.category_small = category_small;
-
+        this.category = category;
         this.reg_date = reg_date;
     }
 
@@ -198,21 +195,12 @@ public class Truck {
         this.main_position = main_position;
     }
 
-    public int getCategory_id() {
-        return category_id;
+
+
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
-    }
-
-    public String getCategory_small() {
-        return category_small;
-    }
-
-    public void setCategory_small(String category_small) {
-        this.category_small = category_small;
-    }
 
     public String getReg_date() {
         return reg_date;

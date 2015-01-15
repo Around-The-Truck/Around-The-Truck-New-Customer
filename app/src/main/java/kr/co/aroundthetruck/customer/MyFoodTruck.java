@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +17,23 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Point;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
+import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 /**
  * Created by sumin on 2014-12-20.
  */
-public class MyFoodTruck extends Activity {
+public class MyFoodTruck extends Activity implements TruckCallback{
 
     private ListView brandList;
     private ArrayList<Brand> brands;
@@ -52,15 +57,10 @@ public class MyFoodTruck extends Activity {
 
         // HTTP Connection
         HttpCommunication http = new HttpCommunication();
-        String resStr = "";
 
-        resStr = http.getFollowList(prefs.getString("phoneNum", null));
-        Log.d("ebsud", "resStr :" + resStr);
+        //http.getFollowList(prefs.getString("phoneNum", null), MyFoodTruck.this);
+        http.getFollowList("01033400551", MyFoodTruck.this);
 
-        // parsing TruckList
-        parseJSON(resStr);
-
-        brandList.setAdapter(new BrandAdapter(MyFoodTruck.this, brands));
 
     }
 
@@ -74,9 +74,16 @@ public class MyFoodTruck extends Activity {
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i=0 ; i<arr.length(); i++) {
                 Log.d("ebsud", arr.getJSONObject(i).toString());
-                tmp = new Brand(arr.getJSONObject(i).getInt("idx"), arr.getJSONObject(i).getString("filename"), arr.getJSONObject(i).getString("name"), "50m", arr.getJSONObject(i).getInt("follow_count"), arr.getJSONObject(i).getString("cat_name_big"), arr.getJSONObject(i).getString("cat_name_small"));
+                tmp = new Brand(arr.getJSONObject(i).getInt("idx"),
+                                arr.getJSONObject(i).getString("filename"),
+                                arr.getJSONObject(i).getString("name"),
+                                "50m",
+                                arr.getJSONObject(i).getInt("follow_count"),
+                                arr.getJSONObject(i).getString("cat_name_big")+"/"+arr.getJSONObject(i).getString("cat_name_small"));
                 brands.add(tmp);
             }
+
+            brandList.setAdapter(new BrandAdapter(MyFoodTruck.this, brands));
 
         } catch (Exception e) {
             Log.d("ebsud", "JSON error (MyFoodTruck) : " + e);
@@ -128,6 +135,7 @@ public class MyFoodTruck extends Activity {
                 holder.fbrand = (TextView) convertView.findViewById(R.id.fbrand);
                 holder.flike= (TextView) convertView.findViewById(R.id.flike);
                 holder.fcate= (TextView) convertView.findViewById(R.id.fcate);
+                holder.fdis = (TextView) convertView.findViewById(R.id.fdis);
 
                 convertView.setTag(holder);
             }else{
@@ -145,10 +153,15 @@ public class MyFoodTruck extends Activity {
             holder.flike.setTypeface(AroundTheTruckApplication.nanumGothic);
             holder.flike.setTextColor(AroundTheTruckApplication.color9a);
 
-            //holder.brandImage .setImageResource(mbrand.getBrandImage());
+            holder.fdis.setTypeface(AroundTheTruckApplication.nanumGothic);
+            holder.fdis.setTextColor(AroundTheTruckApplication.color9a);
+
+            Picasso.with(MyFoodTruck.this).load("http://165.194.35.161:3000/upload/" + mbrand.getBrandImage()).fit().transform(new RoundedTransformation(300)).into(holder.brandImage);
+
             holder.fbrand.setText(mbrand.getBrandName());
             holder.flike.setText(Integer.toString(mbrand.getLike()));
             holder.fcate.setText(mbrand.getCategory());
+            holder.fdis.setText(mbrand.getBrandDistance());
 
             return convertView;
 
@@ -160,8 +173,18 @@ public class MyFoodTruck extends Activity {
             TextView fbrand;
             TextView flike;
             TextView fcate;
+            TextView fdis;
 
         }
 
     }
+
+
+    @Override
+    public void onTruckLoad(byte[] bytes) {
+        String raw = new String(bytes);
+
+        parseJSON(raw);
+    }
+
 }

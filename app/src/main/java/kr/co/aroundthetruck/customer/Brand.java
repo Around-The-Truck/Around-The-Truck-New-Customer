@@ -13,10 +13,9 @@ public class Brand {
     private  String brandDistance;
     private int like;
     private String category;
-    private String category_small;
 
 
-    Brand(int brandIdx,String brandImage,String brandName, String brandDistance, int like, String category, String category_small){
+    Brand(int brandIdx,String brandImage,String brandName, String brandDistance, int like, String category){
 
         this.brandIdx = brandIdx;
         this.brandImage = brandImage;
@@ -29,7 +28,7 @@ public class Brand {
         //좋아요 수
         this.category = category;
         //트럭 카테고리
-        this.category_small = category_small;
+
     }
 
     public Brand() {

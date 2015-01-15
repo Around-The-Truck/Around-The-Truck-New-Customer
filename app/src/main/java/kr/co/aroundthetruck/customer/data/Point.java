@@ -40,4 +40,6 @@ public class Point {
     public String getDate(){
         return date;
     }
+
+    public String getBrand_image(){return brand_image;}
 }
