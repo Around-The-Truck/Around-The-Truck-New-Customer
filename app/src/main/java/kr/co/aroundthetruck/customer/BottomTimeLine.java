@@ -79,10 +79,7 @@ public class BottomTimeLine extends Fragment {
         HttpCommunication http = new HttpCommunication();
         String resStr = "";
 
-
-        // get Truck idx
-//        String thisTruckIdx = getArguments().getString("truckIdx");
-
+        resStr = http.getArticlList(String.valueOf(truck.getIdx()));
 
         Log.d("ebsud", "resStr (TimeLine) : " + resStr);
 
@@ -96,8 +93,8 @@ public class BottomTimeLine extends Fragment {
         lv = (ListView) view.findViewById(R.id.listView);
 
 
-//        Articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전",10,11));
-//        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
+        articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전",10,11));
+        articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
         adapter = new MyArticlesAdapter(view.getContext(), articles);
 
         lv.setAdapter(adapter);
@@ -123,6 +120,7 @@ public class BottomTimeLine extends Fragment {
                         arr.getJSONObject(i).getString("filename"),
                         arr.getJSONObject(i).getString("writer"),
                         arr.getJSONObject(i).getInt("writer_type"),
+                        arr.getJSONObject(i).getString("writer_filename"),
                         arr.getJSONObject(i).getString("contents"),
                         arr.getJSONObject(i).getInt("like"),
                         arr.getJSONObject(i).getString("belong_to"),
@@ -134,6 +132,7 @@ public class BottomTimeLine extends Fragment {
         } catch (Exception e) {
             Log.d("ebsud", "JSON error (MainActivity) : " + e);
             e.printStackTrace();
+
             ;
         }
     }
