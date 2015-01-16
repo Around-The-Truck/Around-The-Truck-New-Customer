@@ -39,6 +39,7 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
     SharedPreferences prefs;
 
     Truck truck;
+    View view;
 
     ListView lv;
     MyArticlesAdapter adapter;
@@ -48,6 +49,7 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
 
     ArrayList<Article> articles = new ArrayList<Article>();
     ArrayList<Reply> replies = new ArrayList<Reply>();
+//    ArrayList<ArrayList<re>>
 
     public static BottomTimeLine newInstance(int start) {
         BottomTimeLine cf = new BottomTimeLine();
@@ -65,32 +67,22 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.i("TAG", "Truck Info : " + truck.getName());
+    }
 
-        // StrictMode (Thread Policy == All)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState) {
+
+        view = inflater.inflate(R.layout.bottom_timeline, null);
+        lv = (ListView) view.findViewById(R.id.listView);
+
+        // Strcik Mode
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-//        thisTruckIdx = prefs.getString("truckIdx", null);
-////        thisTruckIdx = getArguments().getString("truckIdx");
-//
-
         // HTTP Connection
         HttpCommunication http = new HttpCommunication();
-        String resStr = "";
-
         http.getArticlList(String.valueOf(truck.getIdx()), BottomTimeLine.this);
 
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState) {
-        View view = inflater.inflate(R.layout.bottom_timeline, null);
-        lv = (ListView) view.findViewById(R.id.listView);
-
-
-        articles.add(new Article(0,11111,"Milano Express",1,"수민이가 쓴글","수민's truck","1시간전",10,11));
-        articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
         adapter = new MyArticlesAdapter(view.getContext(), articles);
 
         lv.setAdapter(adapter);
@@ -112,7 +104,7 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
             JSONObject jsonObject = new JSONObject(resStr);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i = 0; i < arr.length(); i++) {
-                Log.d("ebsud", "TimeLine - parseJSON - tostring" + arr.getJSONObject(i).toString());
+                Log.d("ebsud", "TimeLine - parseJSON - tostring (article) : " + arr.getJSONObject(i).toString());
                 tmp = new Article(arr.getJSONObject(i).getInt("idx"),
                         arr.getJSONObject(i).getString("filename"),
                         arr.getJSONObject(i).getString("writer"),
@@ -123,32 +115,40 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
                         arr.getJSONObject(i).getString("belong_to"),
                         arr.getJSONObject(i).getString("reg_date")
                 );
-                final ArrayList<Reply> replies1 = new ArrayList<Reply>();
-                http2.getReplyList(arr.getJSONObject(i).getString("idx"), new TruckCallback() {
-                    @Override
-                    public void onTruckLoad(byte[] bytes) {
-                        Reply tmp1;
-                        try {
-                            JSONObject jsonObject1 = new JSONObject(new String(bytes));
-                            JSONArray arr1 = new JSONArray(new String(jsonObject1.getString("result")));
-                            for (int j = 0; j < arr1.length(); j++) {
-                                tmp1 = new Reply(
-                                        arr1.getJSONObject(j).getInt("idx"),
-                                        arr1.getJSONObject(j).getString("content"),
-                                        arr1.getJSONObject(j).getString("writer"),
-                                        arr1.getJSONObject(j).getInt("writer_type"),
-                                        arr1.getJSONObject(j).getInt("article_idx"),
-                                        arr1.getJSONObject(j).getString("reg_date")
-                                );
-                                replies1.add(tmp1);
-                            }
-                        } catch (Exception e) {
-                            Log.d("ebsud", "error (TimeLine - getReply - JSON");
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                tmp.setReplies(replies1);
+//                final ArrayList<Reply> replies1 = new ArrayList<Reply>();
+//
+//                http2.getReplyList(arr.getJSONObject(i).getString("idx"), new TruckCallback() {
+//                    @Override
+//                    public void onTruckLoad(byte[] bytes) {
+//                        Reply tmp1;
+//                        try {
+//                            JSONObject jsonObject1 = new JSONObject(new String(bytes));
+//                            JSONArray arr1 = new JSONArray(new String(jsonObject1.getString("result")));
+////                            replies1.clear();
+//                            for (int j = 0; j < arr1.length(); j++) {
+//
+//                                Log.d("ebsud", "TimeLine - parseJSON - tostring (reply) : " + arr1.getJSONObject(j).toString());
+//                                tmp1 = new Reply(
+//                                        arr1.getJSONObject(j).getInt("idx"),
+//                                        arr1.getJSONObject(j).getString("contents"),
+//                                        arr1.getJSONObject(j).getString("writer"),
+//                                        arr1.getJSONObject(j).getInt("writer_type"),
+//                                        arr1.getJSONObject(j).getInt("article_idx"),
+//                                        arr1.getJSONObject(j).getString("reg_date")
+//                                );
+////                                replies1.add(tmp1);
+//////                                tmp.replies.add(tmp1);
+////                             if (arr1.length() != 0)
+////                                 articles.get(arr1.getJSONObject(0).getInt("article_idx")).setReplies(replies1);
+//
+//                            };
+//                        } catch (Exception e) {
+//                            Log.d("ebsud", "error (TimeLine - getReply - JSON)");
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//                articles.add(tmp.getIdx(), tmp);
                 articles.add(tmp);
             }
 
@@ -172,11 +172,16 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
         this.truck = truck;
     }
 
+    // callback Method
     @Override
     public void onTruckLoad(byte[] bytes) {
         String resStr1 = new String(bytes);
+        Log.d("ebsud", "Timeline - callback - raw : " + resStr1);
         parseJSON(resStr1);
     }
+
+
+
 
     public class MyArticlesAdapter extends BaseAdapter {
         Context mContext;

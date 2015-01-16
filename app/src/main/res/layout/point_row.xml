@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:background="@drawable/pointback">
+    android:layout_width="match_parent" android:layout_height="86.5dp"
+    android:background="@drawable/box">
 
-    <ImageView
-        android:layout_width="124.5dp"                                                                                                                                                                                                                                                                  
-        android:layout_height="124.5dp"
-        android:id="@+id/imageView12"
-        android:src="@drawable/point_pic"
-        android:layout_marginLeft="22.5dp"
-        android:layout_marginTop="18.5dp"
-        android:layout_marginBottom="18.5dp" />
+
 
     <LinearLayout
         android:orientation="vertical"
@@ -19,18 +12,8 @@
         android:layout_below="@+id/point"
         android:layout_toRightOf="@+id/imageView12"
         android:layout_toEndOf="@+id/imageView12"
-        android:layout_marginLeft="20dp"
-        android:id="@+id/linearLayout2"
-        android:layout_marginTop="30dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/pointbrand"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/imageView12"
-            android:layout_toEndOf="@+id/imageView12" />
+        android:layout_marginLeft="121.75dp"
+        android:id="@+id/linearLayout2">
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,7 +23,7 @@
             android:layout_below="@+id/pointbrand"
             android:layout_alignLeft="@+id/pointbrand"
             android:layout_alignStart="@+id/pointbrand"
-            android:layout_marginTop="8.25dp" />
+            android:layout_marginTop="21.25dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,8 +33,9 @@
             android:layout_alignBottom="@+id/linearLayout2"
             android:layout_toRightOf="@+id/imageView12"
             android:layout_toEndOf="@+id/imageView12"
-            android:layout_marginTop="30.5dp"
-            android:layout_marginLeft="130dp" />
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="right" />
 
     </LinearLayout>
 

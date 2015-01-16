@@ -179,10 +179,12 @@ public class BrandListActivity extends Activity implements TruckCallback{
             for (int i=0 ; i<arr.length(); i++) {
                 Log.d("ebsud", "brandlist - parseJSON - toString" + arr.getJSONObject(i).toString());
                 tmp = new Brand(arr.getJSONObject(i).getInt("idx"),
-                                URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"),
+                                URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8").replaceAll("\\+","%20"),
                                 arr.getJSONObject(i).getString("name"), "50m",
                                 arr.getJSONObject(i).getInt("follow_count"), arr.getJSONObject(i).getString("cat_name_big")+" / "+arr.getJSONObject(i).getString("cat_name_small"),
                                 false);
+
+                Log.d("sssssssssssssfileencoder",URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"));
                 brands.add(tmp);
             }
             adapter = new BrandAdapter(BrandListActivity.this, brands);
@@ -274,10 +276,33 @@ public class BrandListActivity extends Activity implements TruckCallback{
                 }
 
             case R.id.menu_cate1:
-               // cateIcon.setImageResource(R.drawable.);
+                cateIcon.setImageResource(R.drawable.west);
 
                 return true;
             case R.id.menu_cate2:
+                cateIcon.setImageResource(R.drawable.chinese);
+                //액션바에 중식 눌렀을 대
+                return true;
+
+            case R.id.menu_cate3:
+                //cateIcon.setImageResource(R.drawable.);
+                //액션바에 한식 눌렀을 대
+                return true;
+
+            case R.id.menu_cate4:
+                cateIcon.setImageResource(R.drawable.japan);
+                //액션바에 중식 눌렀을 대
+                return true;
+            case R.id.menu_cate5:
+                cateIcon.setImageResource(R.drawable.snack);
+                //액션바에 중식 눌렀을 대
+                return true;
+            case R.id.menu_cate6:
+                cateIcon.setImageResource(R.drawable.fushion);
+                //액션바에 중식 눌렀을 대
+                return true;
+            case R.id.menu_cate7:
+                cateIcon.setImageResource(R.drawable.spe);
                 //액션바에 중식 눌렀을 대
                 return true;
 

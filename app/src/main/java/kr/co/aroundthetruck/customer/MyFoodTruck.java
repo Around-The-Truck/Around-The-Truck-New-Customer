@@ -23,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Point;
@@ -75,7 +76,7 @@ public class MyFoodTruck extends Activity implements TruckCallback{
             for (int i=0 ; i<arr.length(); i++) {
                 Log.d("ebsud", arr.getJSONObject(i).toString());
                 tmp = new Brand(arr.getJSONObject(i).getInt("idx"),
-                                arr.getJSONObject(i).getString("filename"),
+                                URLEncoder.encode(arr.getJSONObject(i).getString("filename"), "UTF-8").replaceAll("\\+", "%20"),
                                 arr.getJSONObject(i).getString("name"),
                                 "50m",
                                 arr.getJSONObject(i).getInt("follow_count"),

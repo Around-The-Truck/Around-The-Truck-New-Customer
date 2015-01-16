@@ -2,10 +2,14 @@ package kr.co.aroundthetruck.customer;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Typeface;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +18,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import kr.co.aroundthetruck.customer.data.GPS;
 
 /**
  * Created by sumin on 2014-12-20.
@@ -27,6 +33,10 @@ public class StartActivity extends Activity {
     Intent intent;
     String usrPhone;
 
+    private LocationManager mLocationManager;
+    private String locationProvider = null;
+    private LocationListener locationListener = null;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_activity);
@@ -35,16 +45,31 @@ public class StartActivity extends Activity {
         actionBar.hide();
 
         checkedUser = checkUser();
-        prefs = getSharedPreferences("ATT", MODE_PRIVATE);
-        editor = prefs.edit();
 
-        editor.putString("phoneNum", "01033400551");
-        editor.putString("cusName", "김희정");
-        editor.putString("cusLongitude", "");
-        editor.putString("cusLatitude", "");
-        editor.putString("cusAge", "24");
-        editor.putString("photo", "C360_2013-10-07-18-34-46-468_2.jpg");
+        editor = prefs.edit();
+//
+//        editor.putString("phoneNum", "01033400551");
+//        editor.putString("cusName", "김희정");
+//        editor.putString("cusLongitude", "");
+//        editor.putString("cusLatitude", "");
+//        editor.putString("cusAge", "24");
+//        editor.putString("photo", "C360_2013-10-07-18-34-46-468_2.jpg");
+
+        // get GPS
+        GPS gps = new GPS(this);
+
+        if(gps.canGetLocation()){
+            gps.showSettingsAlert();
+        }
+
+        editor.putString("latitude", Double.toString(gps.getLatitude()));
+        editor.putString("longitude", Double.toString(gps.getLongitude()));
+
         editor.commit();
+
+        Log.d("GPS", "GPS long : " + Double.toString(gps.getLongitude()));
+
+        // create View
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -76,13 +101,14 @@ public class StartActivity extends Activity {
                 Intent intent;
 
                 if(checkedUser){
-                    //로그인화면으로 다음 화면으로 넘기기
-                    intent =  new Intent(StartActivity.this,MyInfo.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
+                    //3번 화면으로 다음 화면 넘기기
+                    intent =  new Intent(StartActivity.this,BrandListActivity.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
                     startActivity(intent);
 
                 }else {
-                    //3번 화면으로 다음 화면 넘기기
-                    intent =  new Intent(StartActivity.this,BrandListActivity.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
+
+                    //로그인화면으로 다음 화면으로 넘기기
+                    intent =  new Intent(StartActivity.this,MyInfo.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
                     startActivity(intent);
                 }
             }
@@ -93,27 +119,37 @@ public class StartActivity extends Activity {
     private Boolean checkUser() {
 
 
-//        prefs = getSharedPreferences("ATT", MODE_PRIVATE);
-//        editor = prefs.edit();
-//
-//        editor.putString("phoneNum", "01033400551");
-//        editor.putString("cusName", "김희정");
-//        editor.putString("cusLongitude", "");
-//        editor.putString("cusLatitude", "");
-//        editor.putString("cusAge", "24");
-//        editor.putString("photo", "C360_2013-10-07-18-34-46-468_2.jpg");
-//        editor.commit();
+        getMySharedPreferences("CHEKEDUSER");
+        //editor = prefs.edit();
 
-//        return true;
+        intent = getIntent();  //전화번호 인증후 ConfirmNum 둘중 하나만 해도 되겠다
 
-        prefs = getSharedPreferences("ATT", MODE_PRIVATE);
-        editor = prefs.edit();
+        Log.d("startActivity로 넘어온값",prefs.getString("CHEKEDUSER", "0"));
 
-        intent = getIntent();  //전화번호 인증후 ConfirmNum
+       // setMySharedPreferences("CHEKEDUSER","01066970644");
 
-        if (prefs.getString("cusPhone", "0").length() == 0 || intent.getBooleanExtra("CHEKEDUSER",true))
-            return true;
+        if (prefs.getString("CHEKEDUSER", "0").equals("NO"))
+                return false;
 
-        return false;
+        else {
+                    return true;}
     }
+
+    private void getMySharedPreferences(String _key) {
+        if(prefs == null){
+            prefs = getSharedPreferences("ATT",MODE_PRIVATE);
+        }
+        prefs.getString(_key, "");
+    }
+
+//    private void setMySharedPreferences(String _key, String _value) {
+//        if(prefs == null){
+//            prefs = getSharedPreferences("ATT", MODE_PRIVATE);
+//        }
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putString(_key, _value);
+//        editor.commit();
+//    }
+
+
 }

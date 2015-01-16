@@ -43,7 +43,6 @@ import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
  */
 public class MyInfo extends Activity {
 
-    String[] truckArea = {"학생, 직장인", "주부"};
 
     ImageButton image;
     TextView nameTextView, birthText, sexText;
@@ -62,9 +61,6 @@ public class MyInfo extends Activity {
         setContentView(R.layout.my_info);
 
         getActionBar().setDisplayShowHomeEnabled(false);
-
-
-        SharedPreferences prefs = getSharedPreferences("ATT", MODE_PRIVATE);
 
 
         nameTextView = (TextView)findViewById(R.id.lala1);
@@ -108,6 +104,8 @@ public class MyInfo extends Activity {
 
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
@@ -128,9 +126,6 @@ public class MyInfo extends Activity {
                         .transform(new RoundedTransformation(211))
                         .into(image);
 
-
-                // sangho
-                //  fullPath = getRealPathFromURI(this, selPhotoUri);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -158,7 +153,7 @@ public class MyInfo extends Activity {
                 intent.putExtra("name",name.getText().toString());
                 intent.putExtra("birth", birth.getText().toString());
                 intent.putExtra("gender",sex);
-                intent.putExtra("file",file);
+                intent.putExtra("file", file);
 
                 Log.d("test",name.getText().toString() + birth.getText().toString() + sex);
 

@@ -47,7 +47,7 @@
             android:id="@+id/imageView10"
             android:src="@drawable/all"
             android:layout_marginTop="14dp"
-            android:layout_marginLeft="18dp" />
+            android:layout_marginLeft="17dp" />
 
 
     </LinearLayout>
