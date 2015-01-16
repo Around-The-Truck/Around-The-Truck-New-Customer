@@ -78,7 +78,8 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
     Boolean spinnerselected = false;
 
-    String phoneNum = "01033400551";
+    String phoneNum;
+    private SharedPreferences prefs;
 
     DistancCaculator dc;
     GPS gps;
@@ -87,6 +88,8 @@ public class BrandListActivity extends Activity implements TruckCallback{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brand_list);
+
+        phoneNum = getMySharedPreferences("CHEKEDUSER");
 
         getFollowList(phoneNum);
 //        dc = new DistancCaculator();
@@ -624,6 +627,13 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
             }
         });
+    }
+
+    private String getMySharedPreferences(String _key) {
+        if(prefs == null){
+            prefs = getSharedPreferences("ATT",MODE_PRIVATE);
+        }
+        return prefs.getString(_key, "NO");
     }
 
 }

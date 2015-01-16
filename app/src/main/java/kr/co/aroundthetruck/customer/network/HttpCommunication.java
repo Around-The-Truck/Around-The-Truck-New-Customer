@@ -147,6 +147,8 @@ public class HttpCommunication {
         String url = "http://165.194.35.161:3000/getFollowList?phoneNum=" + phoneNum;
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
+        Log.d("urlllllllllllllllllllllll",url);
+
         param.add(new BasicNameValuePair("phoneNum", phoneNum));
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -191,13 +193,14 @@ public class HttpCommunication {
     public void getPointHistory(String phoneNum,final TruckCallback callback) {
 
         String resStr = "";
-        String url = "http://165.194.35.161:3000/getPointHistory?phoneNum=" + phoneNum;
-        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+        String url = "http://165.194.35.161:3000/getPointHistory";
 
-        param.add(new BasicNameValuePair("phoneNum", phoneNum));
+        RequestParams params = new RequestParams();
+
+        params.put("phoneNum", phoneNum);
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post(url, new AsyncHttpResponseHandler() {
+        client.post(url,params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 callback.onTruckLoad(bytes);

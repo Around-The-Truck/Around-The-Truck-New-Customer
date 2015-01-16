@@ -69,6 +69,11 @@ public class ConfirmNum extends Activity {
                      phone = phoneEdit.getText().toString();
                     requestServer();
                 }
+
+                phone = phoneEdit.getText().toString();
+                requestServer();
+
+
             }
         });
 
@@ -164,11 +169,12 @@ public class ConfirmNum extends Activity {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 String raw = new String(bytes);
+                Log.d("whaaaaaaaaaaaaaaaaat",raw);
 
+              //  "{"code":100}"
 
-                if(raw.equals("100")) {
-                    confirm = true;
-                }
+                confirm = true;
+
                 try {
                     JSONObject data = new JSONObject(new String(bytes));
 //                    if (data.getString())

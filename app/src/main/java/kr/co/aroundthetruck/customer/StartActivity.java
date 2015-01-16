@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -47,13 +48,6 @@ public class StartActivity extends Activity {
         checkedUser = checkUser();
 
         editor = prefs.edit();
-//
-//        editor.putString("phoneNum", "01033400551");
-//        editor.putString("cusName", "김희정");
-//        editor.putString("cusLongitude", "");
-//        editor.putString("cusLatitude", "");
-//        editor.putString("cusAge", "24");
-//        editor.putString("photo", "C360_2013-10-07-18-34-46-468_2.jpg");
 
 
         // get GPS
@@ -80,18 +74,17 @@ public class StartActivity extends Activity {
 
 
         if(checkedUser){
-            //회원가입 안 된 유저의 경우의 레이아웃
-            //버튼 배경 '시작하기'로 주기
-            startBtn.setImageResource(R.drawable.start_bt);
-
-        }else {
             //버튼 배경 '푸트트럭 찾기'
             startBtn.setImageResource(R.drawable.finding);
 
-            welcomeMsg.setText(prefs.getString("cusName", null)+" 님");
+            welcomeMsg.setText(prefs.getString("CHEKEDUSER", null)+" 님");
             welcomeMsg2.setText("지금 근처에 있는 푸드트럭을 찾아보세요!");
             welcomeMsg.setTypeface(Typeface.createFromAsset(getAssets(), "NanumBarunGothicBold.otf"));
             welcomeMsg2.setTypeface(Typeface.createFromAsset(getAssets(), "NanumBarunGothic.otf"));
+
+        }else {
+
+            startBtn.setImageResource(R.drawable.start_bt);
 
         }
 
@@ -119,38 +112,37 @@ public class StartActivity extends Activity {
 
     private Boolean checkUser() {
 
+        String checkedUser = getMySharedPreferences("CHEKEDUSER");
 
-        getMySharedPreferences("CHEKEDUSER");
-        //editor = prefs.edit();
+        Log.d("checkedUser",checkedUser);
+
 
         intent = getIntent();  //전화번호 인증후 ConfirmNum 둘중 하나만 해도 되겠다
 
-        Log.d("startActivity로 넘어온값",prefs.getString("CHEKEDUSER", "0"));
 
-       // setMySharedPreferences("CHEKEDUSER","01066970644");
+        if (checkedUser.equals("NO"))
+        {  return false;}
 
-        if (prefs.getString("CHEKEDUSER", "0").equals("NO"))
-                return false;
-
-        else {
-                    return true;}
+        else { return true;}
     }
 
-    private void getMySharedPreferences(String _key) {
+    private String getMySharedPreferences(String _key) {
         if(prefs == null){
             prefs = getSharedPreferences("ATT",MODE_PRIVATE);
         }
-        prefs.getString(_key, "");
+        return prefs.getString(_key, "NO");
     }
 
-//    private void setMySharedPreferences(String _key, String _value) {
-//        if(prefs == null){
-//            prefs = getSharedPreferences("ATT", MODE_PRIVATE);
-//        }
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.putString(_key, _value);
-//        editor.commit();
-//    }
+    private void setMySharedPreferences(String _key, String _value) {
+        if(prefs == null){
+            prefs = getSharedPreferences("ATT", MODE_PRIVATE);
+        }
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(_key, _value);
+        editor.commit();
+    }
+
+
 
 
 }
