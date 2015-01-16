@@ -1,5 +1,7 @@
 package kr.co.aroundthetruck.customer.Utils;
 
+import android.location.Location;
+
 /**
  * Created by ebsud89 on 1/14/15.
  */
@@ -8,7 +10,9 @@ public class DistancCaculator {
     double x1,x2,y1,y2;
     int distance;
 
-    DistancCaculator () {
+    Location a,b;
+
+    public DistancCaculator () {
 
     }
 
@@ -17,12 +21,24 @@ public class DistancCaculator {
         this.x2 = x2;
         this.y1 = y1;
         this.y2 = y2;
+
+        a = new Location("truck");
+        b = new Location("customer");
+        a.setLatitude(y1);
+        a.setLongitude(x1);
+        b.setLatitude(y2);
+        b.setLongitude(x2);
+
+        float v = a.distanceTo(b);
     }
 
-    public int calculate() {
+    public String calculate() {
 
-        double dis = Math.sqrt(Math.pow(Math.abs(this.x1-this.x2), 2) + Math.pow(Math.abs(this.y1-this.y2), 2));
-        return (int)dis;
+
+//        double dis = Math.sqrt(Math.pow(Math.abs(this.x1-this.x2), 2) + Math.pow(Math.abs(this.y1-this.y2), 2));
+//        return String.valueOf((int)dis);
+
+        return String.valueOf((int)this.distance);
 
     }
 }

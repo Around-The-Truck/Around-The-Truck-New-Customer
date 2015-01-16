@@ -253,11 +253,11 @@ public class HttpCommunication {
 
         String writerType = "0";
 
-        String url = "http://165.194.35.161:3000/getArticleList";
+        String url = "http://165.194.35.161:3000/getTimeline";
 
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
-        RequestParams rp = new RequestParams("writer", truckIdx);
+        RequestParams rp = new RequestParams("truckIdx", truckIdx);
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(url, rp, new AsyncHttpResponseHandler() {

@@ -49,19 +49,20 @@ public class StartActivity extends Activity {
 
         editor = prefs.edit();
 
+
         // get GPS
         GPS gps = new GPS(this);
 
         if(gps.canGetLocation()){
             gps.showSettingsAlert();
         }
-
-        editor.putString("latitude", Double.toString(gps.getLatitude()));
-        editor.putString("longitude", Double.toString(gps.getLongitude()));
-
-        editor.commit();
-
-        Log.d("GPS", "GPS long : " + Double.toString(gps.getLongitude()));
+//
+//        editor.putString("latitude", Double.toString(gps.getLatitude()));
+//        editor.putString("longitude", Double.toString(gps.getLongitude()));
+//
+//        editor.commit();
+//
+//        Log.d("GPS", "GPS long : " + Double.toString(gps.getLongitude()) + " / la : " + Double.toString(g));
 
         // create View
 

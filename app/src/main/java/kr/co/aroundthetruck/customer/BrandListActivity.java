@@ -40,6 +40,9 @@ import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import kr.co.aroundthetruck.customer.Utils.DistancCaculator;
+import kr.co.aroundthetruck.customer.data.GPS;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
@@ -78,6 +81,9 @@ public class BrandListActivity extends Activity implements TruckCallback{
     String phoneNum;
     private SharedPreferences prefs;
 
+    DistancCaculator dc;
+    GPS gps;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +92,8 @@ public class BrandListActivity extends Activity implements TruckCallback{
         phoneNum = getMySharedPreferences("CHEKEDUSER");
 
         getFollowList(phoneNum);
+//        dc = new DistancCaculator();
+        gps = new GPS(this);
 
 //        lv.setAdapter(adapter);
 
@@ -181,14 +189,16 @@ public class BrandListActivity extends Activity implements TruckCallback{
             JSONObject jsonObject = new JSONObject(str);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i=0 ; i<arr.length(); i++) {
-                Log.d("ebsud", "brandlist - parseJSON - toString" + arr.getJSONObject(i).toString());
+//                Log.d("ebsud", "brandlist - parseJSON - toString" + arr.getJSONObject(i).toString());
                 tmp = new Brand(arr.getJSONObject(i).getInt("idx"),
-                                URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8").replaceAll("\\+", "%20"),
-                                arr.getJSONObject(i).getString("name"), "50m",
+                                URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8").replaceAll("\\+","%20"),
+                                arr.getJSONObject(i).getString("name"),
+                                String.valueOf(1000 + 150*(-i)) + " m",
+//                                (new DistancCaculator(arr.getJSONObject(i).getDouble("gps_longitude"), gps.getLongitude(), arr.getJSONObject(i).getDouble("gps_latitude"), gps.getLatitude()).calculate()) + " m",
                                 arr.getJSONObject(i).getInt("follow_count"), arr.getJSONObject(i).getString("cat_name_big")+" / "+arr.getJSONObject(i).getString("cat_name_small"),
                                 false);
 
-                Log.d("sssssssssssssfileencoder",URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"));
+//                Log.d("sssssssssssssfileencoder",URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"));
                 brands.add(tmp);
             }
             adapter = new BrandAdapter(BrandListActivity.this, brands);
@@ -473,8 +483,8 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
                 for (int i = 0; i < followbrands.size(); i++) {
 
-                    Log.d("followbrandidx", Integer.toString(followbrands.get(i)));
-                    Log.d("현재 리스트 브랜드 idx", Integer.toString(mbrand.getBrandIdx()));
+//                    Log.d("followbrandidx", Integer.toString(followbrands.get(i)));
+//                    Log.d("현재 리스트 브랜드 idx", Integer.toString(mbrand.getBrandIdx()));
                     if (mbrand.getBrandIdx() == followbrands.get(i)) {
 
                         mbrand.setLikeOrNot(true);
@@ -508,7 +518,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
                             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                                 String raw = new String(bytes);
 
-                                Log.d("sssssssssssssssssssss",raw);
+//                                Log.d("sssssssssssssssssssss",raw);
                                 holder.likebtn.setImageResource(R.drawable.unlike);
                                 mbrand.setLikeOrNot(false);
                             }

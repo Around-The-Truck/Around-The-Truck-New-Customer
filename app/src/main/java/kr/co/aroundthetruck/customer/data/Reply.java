@@ -10,14 +10,24 @@ public class Reply {
     String contents;
 
     String writer;
+    String writer_name;
     int writer_type;
 
     int article_idx;
 
     String reg_date;
+    String writer_filename;
 
     public Reply() {
 
+    }
+
+    public String getWriter_filename() {
+        return writer_filename;
+    }
+
+    public void setWriter_filename(String writer_filename) {
+        this.writer_filename = writer_filename;
     }
 
     public Reply(int idx, String contents, String writer, int writer_type, int article_idx, String reg_date) {
@@ -27,7 +37,28 @@ public class Reply {
         this.writer_type = writer_type;
         this.article_idx = article_idx;
         this.reg_date = reg_date;
+
     }
+
+    public String getWriter_name() {
+        return writer_name;
+    }
+
+    public void setWriter_name(String writer_name) {
+        this.writer_name = writer_name;
+    }
+
+    public Reply(int idx, String contents, String writer, int writer_type, int article_idx, String reg_date, String writer_filename, String writer_name) {
+        this.contents = contents;
+        this.writer = writer;
+        this.writer_type = writer_type;
+        this.article_idx = article_idx;
+        this.reg_date = reg_date;
+        this.writer_filename = writer_filename;
+        this.writer_name = writer_name;
+
+    }
+
 
     public int getIdx() {
         return idx;
