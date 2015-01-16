@@ -120,10 +120,11 @@ public class StartActivity extends Activity {
         intent = getIntent();  //전화번호 인증후 ConfirmNum 둘중 하나만 해도 되겠다
 
 
-        if (checkedUser.equals("NO"))
-        {  return false;}
-
-        else { return true;}
+//        if (checkedUser.equals("NO"))
+//        {  return false;}
+//
+//        else { return true;}
+        return true;
     }
 
     private String getMySharedPreferences(String _key) {
