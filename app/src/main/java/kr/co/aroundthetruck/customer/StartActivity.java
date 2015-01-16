@@ -50,8 +50,8 @@ public class StartActivity extends Activity {
 
         editor.putString("phoneNum", "01033400551");
         editor.putString("cusName", "김희정");
-        editor.putString("cusLongitude", "");
-        editor.putString("cusLatitude", "");
+//        editor.putString("cusLongitude", "");
+//        editor.putString("cusLatitude", "");
         editor.putString("cusAge", "24");
         editor.putString("photo", "C360_2013-10-07-18-34-46-468_2.jpg");
 
