@@ -164,6 +164,8 @@ public class HttpCommunication {
         });
     }
 
+
+
     public void getTruckListByName(final String truckName,final TruckCallback callback) {
 
         String url = "http://165.194.35.161:3000/getTruckList?truckName=" + truckName;
@@ -195,7 +197,7 @@ public class HttpCommunication {
         param.add(new BasicNameValuePair("phoneNum", phoneNum));
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new AsyncHttpResponseHandler() {
+        client.post(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 callback.onTruckLoad(bytes);
@@ -256,6 +258,32 @@ public class HttpCommunication {
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(url, rp, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                callback.onTruckLoad(bytes);
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
+        return resStr;
+    }
+
+    public String getCustomerInfo(final String phoneNum, final TruckCallback callback) {
+
+        String resStr = "";
+
+        String writerType = "0";
+
+        String url = "http://165.194.35.161:3000/getCustomerInfo?phoneNum=" + phoneNum;
+        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+
+        param.add(new BasicNameValuePair("phoneNum", phoneNum));
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 callback.onTruckLoad(bytes);

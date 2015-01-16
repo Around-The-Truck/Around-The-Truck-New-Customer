@@ -41,9 +41,13 @@ public class MyProfile extends Activity {
         birthText = (TextView)findViewById(R.id.lala2);
         sexText = (TextView)findViewById(R.id.lala3);
 
-        nameTextView.setTypeface(AroundTheTruckApplication.nanumGothic);
-        birthText.setTypeface(AroundTheTruckApplication.nanumGothic);
-        sexText.setTypeface(AroundTheTruckApplication.nanumGothic);
+        nameTextView.setTypeface(AroundTheTruckApplication.nanumGothicBold);
+        birthText.setTypeface(AroundTheTruckApplication.nanumGothicBold);
+        sexText.setTypeface(AroundTheTruckApplication.nanumGothicBold);
+
+        nameTextView.setTextColor(AroundTheTruckApplication.color6d);
+        birthText.setTextColor(AroundTheTruckApplication.color6d);
+        sexText.setTextColor(AroundTheTruckApplication.color6d);
 
 
         image = (ImageButton)findViewById(R.id.imageView11);
@@ -54,6 +58,10 @@ public class MyProfile extends Activity {
         name.setTypeface(AroundTheTruckApplication.nanumGothic);
         birth.setTypeface(AroundTheTruckApplication.nanumGothic);
         psex.setTypeface(AroundTheTruckApplication.nanumGothic);
+
+        name.setTextColor(AroundTheTruckApplication.color6d);
+        birth.setTextColor(AroundTheTruckApplication.color6d);
+        psex.setTextColor(AroundTheTruckApplication.color6d);
 
         name.setText("김희정");
         birth.setText("1992.10.22");

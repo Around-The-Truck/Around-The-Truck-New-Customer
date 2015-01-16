@@ -1,45 +1,38 @@
 package kr.co.aroundthetruck.customer.data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by sumin on 2014-12-28.
  */
 public class Point {
 
-    String brand;
-    int mpoint;
+    int point;
     String date;
-    String brand_image;
 
-    public Point() {
-
-    }
-
-    public Point(String brand, String brand_image, int mpoint, String date){
-
-        this.brand_image = brand_image;
-        this.brand = brand;
-        this.mpoint = mpoint;
+    public Point(int point,String date) {
+        this.point = point;
         this.date = date;
     }
 
-    public Point(String brand, int mpoint, String date){
-
-        this.brand = brand;
-        this.mpoint = mpoint;
-        this.date = date;
+    public int getPoint(){
+        return point;
     }
 
-    public String getBrand(){
-        return brand;
+    public String getDate() throws ParseException {
+
+        return transFormatDate(date);
     }
 
-    public int getMpoint(){
-        return mpoint;
+    public String transFormatDate(String date) throws ParseException {
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date to = transFormat.parse(date);
+
+        transFormat = new SimpleDateFormat("yyyy.MM.dd");
+
+        return transFormat.format(to);
     }
 
-    public String getDate(){
-        return date;
-    }
-
-    public String getBrand_image(){return brand_image;}
 }

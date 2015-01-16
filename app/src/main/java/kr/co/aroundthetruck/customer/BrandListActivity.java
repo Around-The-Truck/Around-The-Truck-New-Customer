@@ -26,8 +26,14 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
+import org.apache.http.Header;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -55,8 +61,11 @@ public class BrandListActivity extends Activity implements TruckCallback{
     private ActionBarDrawerToggle dtToggle;
 
     private ListView lv;
+    private BrandAdapter adapter;
     private ArrayList<Brand> brands =null;
-    private ArrayList<Truck> truckList;
+    private ArrayList<Integer> followbrands;
+
+    private ImageView cateIcon;
 
     String strColor = "#6d6d6d";
     String strColor2 = "#9a9a9a";
@@ -65,10 +74,16 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
     Boolean spinnerselected = false;
 
+    String phoneNum = "01033400551";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brand_list);
+
+        getFollowList(phoneNum);
+
+//        lv.setAdapter(adapter);
 
         // HTTP Connection
         http = new HttpCommunication();
@@ -81,9 +96,11 @@ public class BrandListActivity extends Activity implements TruckCallback{
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(spinnerselected){
                 http.getTruckByAddress(mySpinner.getSelectedItem().toString(), BrandListActivity.this);}
-                else {http.getAllTruck(BrandListActivity.this); spinnerselected = true;}
+                else {
 
-            }
+                    http.getAllTruck(BrandListActivity.this); spinnerselected = true;}
+
+                }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -94,12 +111,16 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
         http.getAllTruck(BrandListActivity.this);
 
+
+
         // StrictMode (Thread Policy == All)
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
 
+
+        cateIcon = (ImageView)findViewById(R.id.imageView10);
 
         // Brand List view
         lv = (ListView) findViewById(R.id.brandList);
@@ -148,6 +169,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
     private void parseJSON (String str) {
 
+
         brands = new ArrayList<Brand>();
         Brand tmp = new Brand();
 
@@ -159,11 +181,14 @@ public class BrandListActivity extends Activity implements TruckCallback{
                 tmp = new Brand(arr.getJSONObject(i).getInt("idx"),
                                 URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"),
                                 arr.getJSONObject(i).getString("name"), "50m",
-                                arr.getJSONObject(i).getInt("follow_count"), arr.getJSONObject(i).getString("cat_name_big")+" / "+arr.getJSONObject(i).getString("cat_name_small"));
+                                arr.getJSONObject(i).getInt("follow_count"), arr.getJSONObject(i).getString("cat_name_big")+" / "+arr.getJSONObject(i).getString("cat_name_small"),
+                                false);
                 brands.add(tmp);
             }
+            adapter = new BrandAdapter(BrandListActivity.this, brands);
+            adapter.setFollowbrands(followbrands);
+            lv.setAdapter(adapter);
 
-            lv.setAdapter(new BrandAdapter(BrandListActivity.this, brands));
 
         } catch (Exception e) {
             Log.d("ebsud", "JSON error (BrandList) : " + e);
@@ -173,6 +198,30 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
 
     }
+
+    private void parseJSON2 (String str) {
+
+
+        followbrands = new ArrayList<>();
+
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
+            for (int i=0 ; i<arr.length(); i++) {
+                Log.d("parseJSON2",Integer.toString(arr.getJSONObject(i).getInt("idx")));
+                followbrands.add(arr.getJSONObject(i).getInt("idx"));
+            }
+
+
+        } catch (Exception e) {
+            Log.d("ebsud", "JSON error (BrandList) : " + e);
+            e.printStackTrace();
+
+        }
+
+
+    }
+
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener{
 
@@ -225,11 +274,13 @@ public class BrandListActivity extends Activity implements TruckCallback{
                 }
 
             case R.id.menu_cate1:
-//                //액션바에 한식 눌렀을 때
+               // cateIcon.setImageResource(R.drawable.);
+
                 return true;
             case R.id.menu_cate2:
                 //액션바에 중식 눌렀을 대
                 return true;
+
             case R.id.search_button:
                 Intent intent =  new Intent(BrandListActivity.this,Searching.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
                 startActivityForResult(intent, REQUEST_WANT_TO_FIND);
@@ -293,7 +344,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
             label.setTypeface(AroundTheTruckApplication.nanumGothic);
 
             label.setText(objects[position]);
-            label.setTextColor(Color.parseColor(strColor));
+          //  label.setTextColor(Color.parseColor(strColor));
 
             return row;
         }
@@ -302,11 +353,26 @@ public class BrandListActivity extends Activity implements TruckCallback{
     public class BrandAdapter extends BaseAdapter {
         Context mContext;
         ArrayList<Brand> list;
+        ArrayList<Integer> followbrands;
 
         public BrandAdapter(Context context, ArrayList<Brand> list) {
             super();
             this.mContext = context;
             this.list = list;
+            this.followbrands = new ArrayList<>();
+//            if (list == null){
+//                list = new ArrayList<>();
+//            }
+        }
+
+        public void setList(ArrayList<Brand> list){
+            this.list = list;
+            notifyDataSetChanged();
+        }
+
+        public void setFollowbrands(ArrayList<Integer> followbrands){
+            this.followbrands = followbrands;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -371,22 +437,94 @@ public class BrandListActivity extends Activity implements TruckCallback{
             holder.category.setTypeface(AroundTheTruckApplication.nanumGothic);
             holder.category.setTextColor(Color.parseColor(strColor2));
 
-            // TODO: IF(FOLLOWlIST)
-            holder.likeUnlike = true; //like
-            holder.likebtn.setImageResource(R.drawable.like);
+            holder.likebtn.setImageResource(R.drawable.unlike);
 
+
+            try {
+
+                for (int i = 0; i < followbrands.size(); i++) {
+
+                    Log.d("followbrandidx", Integer.toString(followbrands.get(i)));
+                    Log.d("현재 리스트 브랜드 idx", Integer.toString(mbrand.getBrandIdx()));
+                    if (mbrand.getBrandIdx() == followbrands.get(i)) {
+
+                        mbrand.setLikeOrNot(true);
+                        holder.likebtn.setImageResource(R.drawable.like);
+
+                    }
+
+                }
+
+            }catch(Exception e) {
+
+        }
 
             holder.likebtn.setFocusable(false);
             holder.likebtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    if(holder.likeUnlike){
-                        //follow하는 경우
-                    holder.likebtn.setImageResource(R.drawable.unlike);
-                    holder.likeUnlike = false;}
-                    else {holder.likebtn.setImageResource(R.drawable.like);
-                    holder.likeUnlike = true;}
+                    if(mbrand.getLikeOrNot()){
+
+                        RequestParams params = new RequestParams();
+
+                        params.add("truckIdx",Integer.toString(mbrand.getBrandIdx()));
+                        params.add("phoneNum",phoneNum);
+
+
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        client.get("http://165.194.35.161:3000/unfollowTruck", params , new AsyncHttpResponseHandler() {
+
+                            @Override
+                            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                                String raw = new String(bytes);
+
+                                Log.d("sssssssssssssssssssss",raw);
+                                holder.likebtn.setImageResource(R.drawable.unlike);
+                                mbrand.setLikeOrNot(false);
+                            }
+
+                            @Override
+                            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                            }
+                        });
+
+
+
+                    }
+                    else {
+
+                        RequestParams params = new RequestParams();
+
+                        params.add("truckIdx",Integer.toString(mbrand.getBrandIdx()));
+                        params.add("phoneNum",phoneNum);
+
+
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        client.get("http://165.194.35.161:3000/followTruck", params , new AsyncHttpResponseHandler() {
+
+                            @Override
+                            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+
+                                String raw = new String(bytes);
+
+                                Log.d("sssssssssssssssssssss",raw);
+                                holder.likebtn.setImageResource(R.drawable.like);
+                                mbrand.setLikeOrNot(true);
+
+
+
+                            }
+
+                            @Override
+                            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                            }
+                        });
+                    holder.likebtn.setImageResource(R.drawable.like);
+
+                   }
 
                 }
             });
@@ -416,8 +554,6 @@ public class BrandListActivity extends Activity implements TruckCallback{
             TextView category;
             ImageButton likebtn;
 
-            boolean likeUnlike;
-
         }
 
     }
@@ -429,6 +565,30 @@ public class BrandListActivity extends Activity implements TruckCallback{
         String raw = new String(bytes);
         Log.d("ebsud", "raw (BrandList) : " + raw);
         parseJSON(raw);
+    }
+
+    public void getFollowList(String phone){
+
+        String url = "http://165.194.35.161:3000/getFollowList?phoneNum=" + phone;
+        //        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+
+        //      param.add(new BasicNameValuePair("phoneNum", phoneNum));
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+
+                parseJSON2(new String(bytes));
+                http.getAllTruck(BrandListActivity.this);
+
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
     }
 
 }
