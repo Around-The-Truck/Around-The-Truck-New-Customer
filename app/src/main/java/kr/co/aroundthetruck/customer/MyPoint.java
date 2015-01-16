@@ -17,15 +17,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
+import org.apache.http.Header;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
+import kr.co.aroundthetruck.customer.data.Customer;
 import kr.co.aroundthetruck.customer.data.Point;
 
 import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
@@ -43,7 +51,6 @@ public class MyPoint extends Activity implements TruckCallback {
 
     private ListView pointList;
     private TextView user,totalP,textview;
-    private ArrayList<Point> pointdata;
 
     String strColor = "#6d6d6d";
     String strColor2 = "#9a9a9a";
@@ -64,12 +71,32 @@ public class MyPoint extends Activity implements TruckCallback {
         textview.setTextColor(AroundTheTruckApplication.color9a);
 
         pointList = (ListView) findViewById(R.id.listView2);
-        pointdata = new ArrayList<Point>();
 
-        setData();
+        HttpCommunication hc = new HttpCommunication();
+        hc.getPointHistory("01033400551", MyPoint.this);
 
 
-        pointList.setAdapter(new BrandAdapter(MyPoint.this, pointdata));
+        String resStr = "";
+
+        String writerType = "0";
+
+        String url = "http://165.194.35.161:3000/getCustomerInfo";
+        RequestParams param = new RequestParams();
+
+        param.put("customerPhone", "01044550423");
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(url, param, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                onTruckLoad2(bytes);
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
 
         getActionBar().setDisplayShowHomeEnabled(false);
 
@@ -78,42 +105,67 @@ public class MyPoint extends Activity implements TruckCallback {
 
     public void setData(){
 
-        user.setText("김희정");
-        totalP.setText("1450");
-        pointdata.add(new Point("수민카페",200,"최종방문일 2015.01.15"));
+        pointList.setAdapter(new BrandAdapter(MyPoint.this, points));
 
     }
 
     private void parseJSON (String str) {
 
-        points = new ArrayList<Point>();
+        points = new ArrayList<>();
 
         Point tmp = null;
+
 
         try {
             JSONObject jsonObject = new JSONObject(str);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
-//                for (int i=0 ; i<arr.length(); i++) {
-//                Log.d("ebsud", arr.getJSONObject(i).toString());
-//                tmp = new Point(arr.getJSONObject(i).getInt("idx"),
-//                        arr.getJSONObject(i).getString("filename"),
-//                        arr.getJSONObject(i).getString("name"),
-//                        "50m",
-//                        arr.getJSONObject(i).getInt("follow_count"),
-//                        arr.getJSONObject(i).getString("cat_name_big"),
-//                        arr.getJSONObject(i).getString("cat_name_small")
-//                );
-//                brands.add(tmp);
-//            }
+            for (int i = 0; i < arr.length(); i++) {
+                Log.d("ebsud", arr.getJSONObject(i).toString());
+                tmp = new Point(arr.getJSONObject(i).getInt("sum"),
+                        arr.getJSONObject(i).getString("date")
+                );
+                points.add(tmp);
+            }
 
-        } catch (Exception e) {
+            setData();
+
+            }catch(Exception e){
+                Log.d("ebsud", "JSON error (MyFoodTruck) : " + e);
+                e.printStackTrace();
+
+            }
+
+
+        }
+
+    private void parseJSON2 (String str) {
+
+
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
+            for (int i = 0; i < arr.length(); i++) {
+                Log.d("ebsud", arr.getJSONObject(i).toString());
+
+
+                user.setText(arr.getJSONObject(i).getString("name"));
+                totalP.setText( arr.getJSONObject(i).getString("point"));
+
+
+            }
+
+            setData();
+
+        }catch(Exception e){
             Log.d("ebsud", "JSON error (MyFoodTruck) : " + e);
             e.printStackTrace();
-            ;
+
         }
 
 
     }
+
+
 
     public class BrandAdapter extends BaseAdapter {
         Context mContext;
@@ -152,9 +204,7 @@ public class MyPoint extends Activity implements TruckCallback {
 
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.point_row, parent, false);
 
-                holder.brandImage = (ImageView) convertView.findViewById(R.id.imageView12);
-                holder.brandName = (TextView) convertView.findViewById(R.id.pointbrand);
-                holder.brandPoint = (TextView) convertView.findViewById(R.id.point);
+                holder.dayPoint = (TextView) convertView.findViewById(R.id.point);
                 holder.date = (TextView) convertView.findViewById(R.id.pointdate);
                 convertView.setTag(holder);
             } else {
@@ -163,17 +213,17 @@ public class MyPoint extends Activity implements TruckCallback {
 
             }
 
-           // Picasso.with(MyPoint.this).load("http://165.194.35.161:3000/upload/" + mpoint.getBrand_image()).fit().transform(new RoundedTransformation(207)).into(holder.brandImage);
 
-            holder.brandName.setText(mpoint.getBrand());
-            holder.brandName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
-            holder.brandName.setTextColor(AroundTheTruckApplication.color6d);
 
-            holder.brandPoint.setText(Integer.toString(mpoint.getMpoint()));
-            holder.brandPoint.setTypeface(AroundTheTruckApplication.nanumGothic);
+            holder.dayPoint.setText(Integer.toString(mpoint.getPoint()));
+            holder.dayPoint.setTypeface(AroundTheTruckApplication.nanumGothic);
            // holder.brandPoint.setTextColor(AroundTheTruckApplication.color6d);
 
-            holder.date.setText(mpoint.getDate());
+            try {
+                holder.date.setText(mpoint.getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             holder.date.setTypeface(AroundTheTruckApplication.nanumGothic);
             holder.date.setTextColor(AroundTheTruckApplication.color9a);
 
@@ -182,9 +232,7 @@ public class MyPoint extends Activity implements TruckCallback {
         }
 
         private class ViewHolder {
-            ImageView brandImage;
-            TextView brandName;
-            TextView brandPoint;
+            TextView dayPoint;
             TextView date;
         }
 
@@ -195,6 +243,13 @@ public class MyPoint extends Activity implements TruckCallback {
         String raw = new String(bytes);
 
         parseJSON(raw);
+    }
+
+    public void onTruckLoad2(byte[] bytes) {
+        String raw = new String(bytes);
+
+        Log.d("sssssssssssssssssssss",raw);
+        parseJSON2(raw);
     }
 
 

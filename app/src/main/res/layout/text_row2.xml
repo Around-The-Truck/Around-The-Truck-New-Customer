@@ -8,5 +8,8 @@
         android:id="@+id/area"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:textSize="20sp" />
+        android:textSize="15sp"
+        android:textColor="#ffffffff"
+        android:paddingTop="20dp"
+        android:paddingLeft="20dp" />
 </LinearLayout>

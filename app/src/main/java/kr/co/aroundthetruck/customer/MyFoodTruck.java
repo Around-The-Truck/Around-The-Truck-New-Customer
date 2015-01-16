@@ -37,7 +37,7 @@ public class MyFoodTruck extends Activity implements TruckCallback{
 
     private ListView brandList;
     private ArrayList<Brand> brands;
-    private String phoneNum;
+    private String phoneNum = "01033400551";
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -59,7 +59,7 @@ public class MyFoodTruck extends Activity implements TruckCallback{
         HttpCommunication http = new HttpCommunication();
 
         //http.getFollowList(prefs.getString("phoneNum", null), MyFoodTruck.this);
-        http.getFollowList("01033400551", MyFoodTruck.this);
+        http.getFollowList(phoneNum, MyFoodTruck.this);
 
 
     }
@@ -79,7 +79,7 @@ public class MyFoodTruck extends Activity implements TruckCallback{
                                 arr.getJSONObject(i).getString("name"),
                                 "50m",
                                 arr.getJSONObject(i).getInt("follow_count"),
-                                arr.getJSONObject(i).getString("cat_name_big")+"/"+arr.getJSONObject(i).getString("cat_name_small"));
+                                arr.getJSONObject(i).getString("cat_name_big")+"/"+arr.getJSONObject(i).getString("cat_name_small"),false);
                 brands.add(tmp);
             }
 

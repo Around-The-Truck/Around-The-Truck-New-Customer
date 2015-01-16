@@ -13,9 +13,10 @@ public class Brand {
     private  String brandDistance;
     private int like;
     private String category;
+    private boolean likeOrNot;
 
 
-    Brand(int brandIdx,String brandImage,String brandName, String brandDistance, int like, String category){
+    Brand(int brandIdx,String brandImage,String brandName, String brandDistance, int like, String category,boolean likeOrNot){
 
         this.brandIdx = brandIdx;
         this.brandImage = brandImage;
@@ -29,11 +30,22 @@ public class Brand {
         this.category = category;
         //트럭 카테고리
 
+        this.likeOrNot = likeOrNot;
+
     }
 
     public Brand() {
 
     }
+
+    public void setLikeOrNot(boolean likeOrNot){
+        this.likeOrNot = likeOrNot;
+    }
+
+    public boolean getLikeOrNot(){
+        return likeOrNot;
+    }
+
 
     public String getBrandImage(){
         return brandImage;
