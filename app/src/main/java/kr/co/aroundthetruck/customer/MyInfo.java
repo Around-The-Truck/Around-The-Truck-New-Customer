@@ -2,10 +2,13 @@ package kr.co.aroundthetruck.customer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
@@ -23,7 +26,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
+
+import org.apache.http.Header;
+
+import java.io.File;
 
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
@@ -40,8 +50,10 @@ public class MyInfo extends Activity {
     EditText name;
     EditText birth;
     RadioGroup radio;
-    Boolean sex;
+    String sex;
     Button loginBtn;
+
+    String file;
 
     final int REQUEST_IMAGE = 10;
 
@@ -85,11 +97,11 @@ public class MyInfo extends Activity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 if(radio.getCheckedRadioButtonId() == R.id.m_sex1)
-                    sex = true;
+                    sex = "1";
                 //남자 선택된 경우
 
                 if(radio.getCheckedRadioButtonId() == R.id.m_sex2)
-                    sex = false; //여자 선택된 경우
+                    sex = "0"; //여자 선택된 경우
             }
 
         });
@@ -105,7 +117,9 @@ public class MyInfo extends Activity {
         if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK && data != null) {
             Log.d("YoonTag", "====== OnActivityResult is start ========= \n");
 
-            Uri selPhotoUri = data.getData();
+              Uri selPhotoUri = data.getData();
+              file = getRealPathFromURI(this,selPhotoUri);
+
             try {
 
                 Picasso.with(MyInfo.this)
@@ -140,13 +154,34 @@ public class MyInfo extends Activity {
 
         switch (item.getItemId()) {
             case R.id.next_button:
+                Intent intent =  new Intent(MyInfo.this, ConfirmNum.class);
+                intent.putExtra("name",name.getText().toString());
+                intent.putExtra("birth", birth.getText().toString());
+                intent.putExtra("gender",sex);
+                intent.putExtra("file",file);
 
-               Intent intent =  new Intent(MyInfo.this, ConfirmNum.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
+                Log.d("test",name.getText().toString() + birth.getText().toString() + sex);
+
                 startActivity(intent);
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
     }
 
