@@ -14,7 +14,7 @@ public class LocationBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         // TODO Auto-generated method stub
 
-        Log.d("BroadcastReceiver Test","Location Boot Complete Recive");
+        Log.d("ebsud","broadcast_reciever - Location Boot Complete Recive");
         Intent serviceIntent = new Intent(context, LocationService.class);
         context.startService(serviceIntent);
 

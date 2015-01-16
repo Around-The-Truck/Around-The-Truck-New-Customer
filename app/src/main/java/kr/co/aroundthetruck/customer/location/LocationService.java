@@ -46,7 +46,7 @@ public class LocationService extends Service {
         Log.d("Testing", "Location Service got created");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         listener = new MyLocationListenr();
-        prefs = getSharedPreferences("CAWING", MODE_PRIVATE);
+        prefs = getSharedPreferences("ATT", MODE_PRIVATE);
         editor = prefs.edit();
         super.onCreate();
     }
@@ -57,7 +57,7 @@ public class LocationService extends Service {
         // TODO Auto-generated method stub
 
         // Send to Server. 현재 사용자의 위치 정보
-        Log.d("Testing", "Location Service Running");
+        Log.d("ebsud", "location - service - Location Service Running");
 
         locationManager.requestLocationUpdates(
                 LocationManager.NETWORK_PROVIDER, 500, 0, listener);
@@ -76,12 +76,12 @@ public class LocationService extends Service {
         editor.putString("Longtitude", formatter.format(myKyungdo));
         editor.commit();
 
-        nvpList.add( new BasicNameValuePair("UID", UID));
-        nvpList.add( new BasicNameValuePair("Latitude", formatter.format(myWedo)));
-        nvpList.add( new BasicNameValuePair("Longtitude",formatter.format(myKyungdo)));
-        resultStr = http.doPost(nvpList, "user/registerPoint");
+//        nvpList.add( new BasicNameValuePair("UID", UID));
+//        nvpList.add( new BasicNameValuePair("Latitude", formatter.format(myWedo)));
+//        nvpList.add( new BasicNameValuePair("Longtitude",formatter.format(myKyungdo)));
+//        resultStr = http.doPost(nvpList, "user/registerPoint");
 
-        Log.d("LocationService", resultStr);
+//        Log.d("LocationService", resultStr);
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -127,6 +127,8 @@ public class LocationService extends Service {
         }
 
     }
+
+
 
 }
 

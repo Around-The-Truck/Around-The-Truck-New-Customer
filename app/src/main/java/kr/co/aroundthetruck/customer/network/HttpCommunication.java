@@ -219,13 +219,16 @@ public class HttpCommunication {
 
     public void getReplyList(String articleIdx, final TruckCallback callback) {
 
-        String url = "http://165.194.35.161:3000/getReplyList?articleIdx=" + articleIdx;
+        String url = "http://165.194.35.161:3000/getReplyList";
+
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
-        param.add(new BasicNameValuePair("articleIdx", articleIdx));
+//        param.add(new BasicNameValuePair("articleIdx", articleIdx));
+        RequestParams rp = new RequestParams("articleIdx", articleIdx);
+
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new AsyncHttpResponseHandler() {
+        client.post(url, rp, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 callback.onTruckLoad(bytes);
@@ -245,14 +248,14 @@ public class HttpCommunication {
 
         String writerType = "0";
 
-        String url = "http://165.194.35.161:3000/getArticleList?trcukIdx?="+truckIdx;
+        String url = "http://165.194.35.161:3000/getArticleList";
 
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
-        param.add(new BasicNameValuePair("truckIdx", truckIdx));
+        RequestParams rp = new RequestParams("writer", truckIdx);
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new AsyncHttpResponseHandler() {
+        client.post(url, rp, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 callback.onTruckLoad(bytes);
@@ -274,7 +277,9 @@ public class HttpCommunication {
 
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
-        RequestParams rp = new RequestParams("truckIdx", truckIdx);
+        RequestParams rp = new RequestParams();
+
+        rp.put("truckIdx",truckIdx);
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(url, rp, new AsyncHttpResponseHandler() {

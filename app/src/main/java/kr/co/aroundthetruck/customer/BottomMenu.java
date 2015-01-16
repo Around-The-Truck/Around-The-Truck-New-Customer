@@ -74,7 +74,6 @@ public class BottomMenu extends Fragment implements TruckCallback {
             JSONObject jsonObject = new JSONObject(resStr);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i = 0; i < arr.length(); i++) {
-                Log.d("ebsud", arr.getJSONObject(i).toString());
                 tmp = new Menu(arr.getJSONObject(i).getInt("idx"),
                         arr.getJSONObject(i).getString("name"),
                         arr.getJSONObject(i).getInt("price"),

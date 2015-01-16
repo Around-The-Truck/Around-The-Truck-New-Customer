@@ -23,7 +23,7 @@ public class Article {
     int likeNumber;
     int replyNumber;
 
-    ArrayList<Reply> replies;
+    public ArrayList<Reply> replies;
 
     public String getFilename() {
         return filename;
