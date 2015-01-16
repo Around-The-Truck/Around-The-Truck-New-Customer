@@ -25,6 +25,8 @@ public class Article {
 
     public ArrayList<Reply> replies;
 
+
+
     public String getFilename() {
         return filename;
     }
@@ -54,6 +56,21 @@ public class Article {
         this.reg_date = reg_date;
     }
 
+    public Article(int i, int i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber, ArrayList<Reply> replies, String truck_filename) {
+        this.idx = i;
+        this.photo_idx =i1;
+        this.writer = sajhghn;
+        this.writer_type = i2;
+        this.contents = s;
+        this.belong_to = s1;
+        this.reg_date = s2;
+        this.likeNumber = likeNumber;
+        this.replyNumber = replyNumber;
+        this.replies = replies;
+        this.writer_filename = truck_filename;
+
+    }
+
     // 수민's constructor
     public Article(int i, int i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber) {
         this.idx = i;
@@ -65,7 +82,6 @@ public class Article {
         this.reg_date = s2;
         this.likeNumber = likeNumber;
         this.replyNumber = replyNumber;
-
     }
 
     public int getIdx() {

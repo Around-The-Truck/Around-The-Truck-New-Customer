@@ -13,6 +13,7 @@ import android.widget.ListView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Menu;
@@ -79,7 +80,7 @@ public class BottomMenu extends Fragment implements TruckCallback {
                         arr.getJSONObject(i).getInt("price"),
                         arr.getJSONObject(i).getInt("truck_idx"),
                         arr.getJSONObject(i).getString("truck_name"),
-                        arr.getJSONObject(i).getString("photo_filename"),
+                        URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8").replaceAll("\\+", "%20"),
                         arr.getJSONObject(i).getString("description"),
                         arr.getJSONObject(i).getString("ingredients")
                 );
@@ -115,7 +116,7 @@ public class BottomMenu extends Fragment implements TruckCallback {
     public void onTruckLoad(byte[] bytes) {
         String raw = new String(bytes);
 
-        Log.d("ebsud", "Menu - callback - raw : " + raw);
+//        Log.d("ebsud", "Menu - callback - raw : " + raw);
 
         parseJSON(raw);
     }

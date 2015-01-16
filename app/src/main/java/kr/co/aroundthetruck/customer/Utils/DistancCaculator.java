@@ -8,7 +8,7 @@ public class DistancCaculator {
     double x1,x2,y1,y2;
     int distance;
 
-    DistancCaculator () {
+    public DistancCaculator () {
 
     }
 
@@ -19,10 +19,10 @@ public class DistancCaculator {
         this.y2 = y2;
     }
 
-    public int calculate() {
+    public String calculate() {
 
         double dis = Math.sqrt(Math.pow(Math.abs(this.x1-this.x2), 2) + Math.pow(Math.abs(this.y1-this.y2), 2));
-        return (int)dis;
+        return String.valueOf((int)dis);
 
     }
 }

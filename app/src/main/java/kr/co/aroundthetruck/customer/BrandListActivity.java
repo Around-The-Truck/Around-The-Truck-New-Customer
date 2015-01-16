@@ -3,6 +3,7 @@ package kr.co.aroundthetruck.customer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -39,6 +40,9 @@ import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import kr.co.aroundthetruck.customer.Utils.DistancCaculator;
+import kr.co.aroundthetruck.customer.data.GPS;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
@@ -76,12 +80,17 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
     String phoneNum = "01033400551";
 
+    DistancCaculator dc;
+    GPS gps;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brand_list);
 
         getFollowList(phoneNum);
+//        dc = new DistancCaculator();
+        gps = new GPS(this);
 
 //        lv.setAdapter(adapter);
 
@@ -177,12 +186,15 @@ public class BrandListActivity extends Activity implements TruckCallback{
             JSONObject jsonObject = new JSONObject(str);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i=0 ; i<arr.length(); i++) {
-                Log.d("ebsud", "brandlist - parseJSON - toString" + arr.getJSONObject(i).toString());
+//                Log.d("ebsud", "brandlist - parseJSON - toString" + arr.getJSONObject(i).toString());
                 tmp = new Brand(arr.getJSONObject(i).getInt("idx"),
-                                URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"),
-                                arr.getJSONObject(i).getString("name"), "50m",
+                                URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8").replaceAll("\\+","%20"),
+                                arr.getJSONObject(i).getString("name"),
+                                String.valueOf(1000 + 150*(-i)) + " m",//(new DistancCaculator(arr.getJSONObject(i).getDouble("gps_longitude"), gps.getLongitude(), arr.getJSONObject(i).getDouble("gps_latitude"), gps.getLatitude()).calculate()) + " m",
                                 arr.getJSONObject(i).getInt("follow_count"), arr.getJSONObject(i).getString("cat_name_big")+" / "+arr.getJSONObject(i).getString("cat_name_small"),
                                 false);
+
+//                Log.d("sssssssssssssfileencoder",URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"));
                 brands.add(tmp);
             }
             adapter = new BrandAdapter(BrandListActivity.this, brands);
@@ -274,10 +286,33 @@ public class BrandListActivity extends Activity implements TruckCallback{
                 }
 
             case R.id.menu_cate1:
-               // cateIcon.setImageResource(R.drawable.);
+                cateIcon.setImageResource(R.drawable.west);
 
                 return true;
             case R.id.menu_cate2:
+                cateIcon.setImageResource(R.drawable.chinese);
+                //액션바에 중식 눌렀을 대
+                return true;
+
+            case R.id.menu_cate3:
+                //cateIcon.setImageResource(R.drawable.);
+                //액션바에 한식 눌렀을 대
+                return true;
+
+            case R.id.menu_cate4:
+                cateIcon.setImageResource(R.drawable.japan);
+                //액션바에 중식 눌렀을 대
+                return true;
+            case R.id.menu_cate5:
+                cateIcon.setImageResource(R.drawable.snack);
+                //액션바에 중식 눌렀을 대
+                return true;
+            case R.id.menu_cate6:
+                cateIcon.setImageResource(R.drawable.fushion);
+                //액션바에 중식 눌렀을 대
+                return true;
+            case R.id.menu_cate7:
+                cateIcon.setImageResource(R.drawable.spe);
                 //액션바에 중식 눌렀을 대
                 return true;
 
@@ -444,8 +479,8 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
                 for (int i = 0; i < followbrands.size(); i++) {
 
-                    Log.d("followbrandidx", Integer.toString(followbrands.get(i)));
-                    Log.d("현재 리스트 브랜드 idx", Integer.toString(mbrand.getBrandIdx()));
+//                    Log.d("followbrandidx", Integer.toString(followbrands.get(i)));
+//                    Log.d("현재 리스트 브랜드 idx", Integer.toString(mbrand.getBrandIdx()));
                     if (mbrand.getBrandIdx() == followbrands.get(i)) {
 
                         mbrand.setLikeOrNot(true);
@@ -479,7 +514,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
                             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                                 String raw = new String(bytes);
 
-                                Log.d("sssssssssssssssssssss",raw);
+//                                Log.d("sssssssssssssssssssss",raw);
                                 holder.likebtn.setImageResource(R.drawable.unlike);
                                 mbrand.setLikeOrNot(false);
                             }

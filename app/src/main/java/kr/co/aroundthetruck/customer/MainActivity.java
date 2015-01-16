@@ -208,13 +208,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
                         arr.getJSONObject(i).getInt("reserve_yn"),
                         arr.getJSONObject(i).getInt("group_order_yn"),
                         arr.getJSONObject(i).getInt("always_open_yn"),
-                        URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"),
+                        URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8").replaceAll("\\+","%20"),
                         arr.getJSONObject(i).getString("main_position"),
                         arr.getJSONObject(i).getString("cat_name_big")+" / "+arr.getJSONObject(i).getString("cat_name_small"),
                         arr.getJSONObject(i).getString("reg_date")
+
+
                 );
 
-
+                Log.d("sssssssssssssfileencoder",URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"));
 
                 fragmentBottomTimeLine.setTruck(truck);
                 fragmentBottomMenu.setTruck(truck);

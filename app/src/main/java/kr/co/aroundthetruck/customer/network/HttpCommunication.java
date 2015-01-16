@@ -250,11 +250,11 @@ public class HttpCommunication {
 
         String writerType = "0";
 
-        String url = "http://165.194.35.161:3000/getArticleList";
+        String url = "http://165.194.35.161:3000/getTimeline";
 
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
-        RequestParams rp = new RequestParams("writer", truckIdx);
+        RequestParams rp = new RequestParams("truckIdx", truckIdx);
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(url, rp, new AsyncHttpResponseHandler() {
@@ -277,13 +277,13 @@ public class HttpCommunication {
 
         String writerType = "0";
 
-        String url = "http://165.194.35.161:3000/getCustomerInfo?phoneNum=" + phoneNum;
-        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+        String url = "http://165.194.35.161:3000/getCustomerInfo";
+        RequestParams param = new RequestParams();
 
-        param.add(new BasicNameValuePair("phoneNum", phoneNum));
+        param.put("customerPhone", phoneNum);
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new AsyncHttpResponseHandler() {
+        client.post(url, param, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 callback.onTruckLoad(bytes);
@@ -294,7 +294,9 @@ public class HttpCommunication {
 
             }
         });
+
         return resStr;
+
     }
 
     public String getMenuList(final String truckIdx, final TruckCallback callback) {
