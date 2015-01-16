@@ -56,6 +56,14 @@ public class Article {
         this.reg_date = reg_date;
     }
 
+    public String getWriter_filename() {
+        return writer_filename;
+    }
+
+    public void setWriter_filename(String writer_filename) {
+        this.writer_filename = writer_filename;
+    }
+
     public Article(int i, int i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber, ArrayList<Reply> replies, String truck_filename) {
         this.idx = i;
         this.photo_idx =i1;

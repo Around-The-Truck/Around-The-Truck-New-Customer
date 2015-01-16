@@ -241,7 +241,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
                 truckCate.setTypeface(AroundTheTruckApplication.nanumGothic);
                 truckCate.setTextColor(Color.WHITE);
 
-                truckDis.setText("53m");
+                truckDis.setText("1150m");
                 truckDis.setTypeface(AroundTheTruckApplication.nanumGothic);
                 truckDis.setTextColor(Color.WHITE);
 

@@ -18,9 +18,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Article;
@@ -28,6 +31,7 @@ import kr.co.aroundthetruck.customer.data.Reply;
 import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
+import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 /**
@@ -83,12 +87,10 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
         HttpCommunication http = new HttpCommunication();
         http.getArticlList(String.valueOf(truck.getIdx()), BottomTimeLine.this);
 
-        adapter = new MyArticlesAdapter(view.getContext(), articles);
-
-        lv.setAdapter(adapter);
+//                articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
 
 
-        LayoutMethod.setListViewHeight(lv);
+
 
 
         return view;
@@ -118,55 +120,17 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
                         arr.getJSONObject(i).getInt("like"),
                         1,
                         parseJSONReply(arr.getJSONObject(i).getString("reply")),
-                        arr.getJSONObject(i).getString("truck_filename")
+                        URLEncoder.encode(arr.getJSONObject(i).getString("truck_filename"), "UTF-8").replaceAll("\\+", "%20")
                         );
-//                tmp = new Article(arr.getJSONObject(i).getInt("idx"),
-//                        arr.getJSONObject(i).getString("filename"),
-//                        arr.getJSONObject(i).getString("writer"),
-//                        arr.getJSONObject(i).getInt("writer_type"),
-//                        arr.getJSONObject(i).getString("writer_filename"),
-//                        arr.getJSONObject(i).getString("contents"),
-//                        arr.getJSONObject(i).getInt("like"),
-//                        arr.getJSONObject(i).getString("belong_to"),
-//                        arr.getJSONObject(i).getString("reg_date")
-////                        arr.getJSONObject(i).getString("")
-//                );
-//                final ArrayList<Reply> replies1 = new ArrayList<Reply>();
-//
-//                http2.getReplyList(arr.getJSONObject(i).getString("idx"), new TruckCallback() {
-//                    @Override
-//                    public void onTruckLoad(byte[] bytes) {
-//                        Reply tmp1;
-//                        try {
-//                            JSONObject jsonObject1 = new JSONObject(new String(bytes));
-//                            JSONArray arr1 = new JSONArray(new String(jsonObject1.getString("result")));
-////                            replies1.clear();
-//                            for (int j = 0; j < arr1.length(); j++) {
-//
-//                                Log.d("ebsud", "TimeLine - parseJSON - tostring (reply) : " + arr1.getJSONObject(j).toString());
-//                                tmp1 = new Reply(
-//                                        arr1.getJSONObject(j).getInt("idx"),
-//                                        arr1.getJSONObject(j).getString("contents"),
-//                                        arr1.getJSONObject(j).getString("writer"),
-//                                        arr1.getJSONObject(j).getInt("writer_type"),
-//                                        arr1.getJSONObject(j).getInt("article_idx"),
-//                                        arr1.getJSONObject(j).getString("reg_date")
-//                                );
-////                                replies1.add(tmp1);
-//////                                tmp.replies.add(tmp1);
-////                             if (arr1.length() != 0)
-////                                 articles.get(arr1.getJSONObject(0).getInt("article_idx")).setReplies(replies1);
-//
-//                            };
-//                        } catch (Exception e) {
-//                            Log.d("ebsud", "error (TimeLine - getReply - JSON)");
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//                articles.add(tmp.getIdx(), tmp);
                 articles.add(tmp);
             }
+
+            adapter = new MyArticlesAdapter(view.getContext(), articles);
+
+            lv.setAdapter(adapter);
+
+
+            LayoutMethod.setListViewHeight(lv);
 
         } catch (Exception e) {
             Log.d("ebsud", "JSON error (MainActivity) : " + e);
@@ -191,7 +155,7 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
                         0,//writer_type
                         0,//writer_idx
                         rarr.getJSONObject(i).getString("r_reg_date"),
-                        rarr.getJSONObject(i).getString("r_writer_filename"),
+                        URLEncoder.encode(rarr.getJSONObject(i).getString("r_writer_filename"),"UTF-8").replaceAll("\\+", "%20"),
                         rarr.getJSONObject(i).getString("r_writer_name")
                 );
                 rtmpList.add(rtmp);
@@ -260,9 +224,11 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
         public View getView(int pos, View convertView, ViewGroup parent) {
 
             final ViewHolder holder;
-//            final ArrayList<Reply> replies;
+
 
             if (convertView == null) {
+
+                Log.d("ebsud", "timeline - getView - getholder");
                 holder = new ViewHolder();
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.article_row, parent, false);
 
@@ -290,12 +256,16 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
                 holder = (ViewHolder) convertView.getTag();
 
             }
+
+            Log.d("ebsud", "timeline - getView");
+
             //holder.brandImage.setImageResource(list.get(pos).getmenuImage());
             holder.brandName.setText(list.get(pos).getWriter());  //타임라인 글 쓴사람
             holder.brandName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
             //holder.articleImage.setImageResource(list.get(pos).getWriter());
             holder.brandName.setTextColor(Color.parseColor(strColor));
 
+            holder.articleTime.setText(list.get(pos).getReg_date());
             holder.articleTime.setTypeface(AroundTheTruckApplication.nanumGothic);
             holder.articleTime.setTextColor(Color.parseColor(strColor2));
 
@@ -307,12 +277,16 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
             holder.replyNumber.setTypeface(AroundTheTruckApplication.nanumGothic);
             holder.replyNumber.setTextColor(Color.parseColor(strColor));
 
+            // artice image
+            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getWriter_filename()).fit().into(holder.articleImage);
 
-            replies = new ArrayList<Reply>(); //댓글들
-            replies.add(new Reply(0, "트럭좋아요", "댓글쓴 사람 이름", 0, list.get(pos).getIdx(), "1003"));
-            replies.add(new Reply(1, "트럭싫어요", "댓글쓴 사람 이름2", 0, list.get(pos).getIdx(), "1003"));//5번째 칼럼 맞는 인덱스 지정
+            // writer_image
+            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getWriter_filename()).fit().transform(new RoundedTransformation(300)).into(holder.brandImage);
+//            replies = new ArrayList<Reply>(); //댓글들
+//            replies.add(new Reply(0, "트럭좋아요", "댓글쓴 사람 이름", 0, list.get(pos).getIdx(), "1003"));
+//            replies.add(new Reply(1, "트럭싫어요", "댓글쓴 사람 이름2", 0, list.get(pos).getIdx(), "1003"));//5번째 칼럼 맞는 인덱스 지정
 
-            holder.articlelist.setAdapter(new MyCommentLAdapter(convertView.getContext(), replies));
+            holder.articlelist.setAdapter(new MyCommentLAdapter(convertView.getContext(), list.get(pos).getReplies()));
             LayoutMethod.setListViewHeight(holder.articlelist);
 
 

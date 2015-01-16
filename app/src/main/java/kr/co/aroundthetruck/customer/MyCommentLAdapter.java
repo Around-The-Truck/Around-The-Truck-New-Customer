@@ -11,10 +11,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import kr.co.aroundthetruck.customer.data.Reply;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
+import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
 
 /**
  * Created by sumin on 2014-12-03.
@@ -66,13 +69,15 @@ class MyCommentLAdapter extends BaseAdapter {
 
         }
         //holder.userImg .setImageResource(list.get(pos).getUserImage());
-        holder.userName.setText(list.get(pos).getWriter());
+        holder.userName.setText(list.get(pos).getWriter_name());
         holder.userName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
         holder.userName.setTextColor(Color.parseColor(strColor));
         holder.userComment.setText(list.get(pos).getContents());
         holder.userComment.setTypeface(AroundTheTruckApplication.nanumGothic);
         holder.userComment.setTextColor(Color.parseColor(strColor));
 
+        // writer_image
+        Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getWriter_filename()).fit().transform(new RoundedTransformation(300)).into(holder.userImg);
 
 
         return convertView;

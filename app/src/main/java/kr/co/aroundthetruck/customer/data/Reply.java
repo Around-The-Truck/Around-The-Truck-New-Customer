@@ -40,6 +40,14 @@ public class Reply {
 
     }
 
+    public String getWriter_name() {
+        return writer_name;
+    }
+
+    public void setWriter_name(String writer_name) {
+        this.writer_name = writer_name;
+    }
+
     public Reply(int idx, String contents, String writer, int writer_type, int article_idx, String reg_date, String writer_filename, String writer_name) {
         this.contents = contents;
         this.writer = writer;
@@ -48,6 +56,7 @@ public class Reply {
         this.reg_date = reg_date;
         this.writer_filename = writer_filename;
         this.writer_name = writer_name;
+
     }
 
 
