@@ -38,7 +38,9 @@ public class MyFoodTruck extends Activity implements TruckCallback{
 
     private ListView brandList;
     private ArrayList<Brand> brands;
-    private String phoneNum = "01033400551";
+    private String phoneNum;
+
+    private SharedPreferences prefs;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -46,6 +48,8 @@ public class MyFoodTruck extends Activity implements TruckCallback{
         setContentView(R.layout.my_foodtruck);
 
         getActionBar().setDisplayShowHomeEnabled(false);
+
+        phoneNum = getMySharedPreferences("CHEKEDUSER");
 
         brandList = (ListView)findViewById(R.id.listView3);
 
@@ -186,6 +190,13 @@ public class MyFoodTruck extends Activity implements TruckCallback{
         String raw = new String(bytes);
         Log.d("ebsud", "myfoodtruck - callback : " + raw);
         parseJSON(raw);
+    }
+
+    private String getMySharedPreferences(String _key) {
+        if(prefs == null){
+            prefs = getSharedPreferences("ATT",MODE_PRIVATE);
+        }
+        return prefs.getString(_key, "NO");
     }
 
 }

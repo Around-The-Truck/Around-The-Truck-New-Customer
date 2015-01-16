@@ -14,10 +14,13 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
+import kr.co.aroundthetruck.customer.layoutController.RoundedTransformation;
 import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 /**
@@ -70,6 +73,7 @@ public class MyProfile extends Activity implements TruckCallback {
 
 
         image = (ImageButton)findViewById(R.id.imageView11);
+
         name = (TextView)findViewById(R.id.p_name);
         birth = (TextView)findViewById(R.id.p_birth);
         psex = (TextView)findViewById(R.id.p_sex);
@@ -112,6 +116,7 @@ public class MyProfile extends Activity implements TruckCallback {
                 //birth.setText(arr.getJSONObject(i).getString("name"));
                 //totalP.setText( arr.getJSONObject(i).getString("point"));
 
+                Picasso.with(MyProfile.this).load("http://165.194.35.161:3000/upload/" + arr.getJSONObject(i).getString("photo_filename")).fit().transform(new RoundedTransformation(300)).into(image);
                 name.setText(arr.getJSONObject(i).getString("name"));
                 birth.setText(Integer.toString(arr.getJSONObject(i).getInt("age")));
                 int g = arr.getJSONObject(i).getInt("age");

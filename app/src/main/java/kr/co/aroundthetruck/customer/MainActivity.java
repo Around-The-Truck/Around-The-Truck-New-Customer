@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.util.Map;
 
 import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
@@ -174,6 +175,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
             case R.id.mapbtn:
                 //map버튼 눌렀을때 이벤트
 
+                Intent intent = new Intent(this, Map.class);   // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
+                startActivity(intent);
+
+
                 return true;
 
             default:
@@ -208,7 +213,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
                         arr.getJSONObject(i).getInt("reserve_yn"),
                         arr.getJSONObject(i).getInt("group_order_yn"),
                         arr.getJSONObject(i).getInt("always_open_yn"),
-                        URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8").replaceAll("\\+","%20"),
+                        URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8").replaceAll("\\+", "%20"),
                         arr.getJSONObject(i).getString("main_position"),
                         arr.getJSONObject(i).getString("cat_name_big")+" / "+arr.getJSONObject(i).getString("cat_name_small"),
                         arr.getJSONObject(i).getString("reg_date")

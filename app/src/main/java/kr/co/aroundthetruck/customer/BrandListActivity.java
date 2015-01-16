@@ -3,6 +3,7 @@ package kr.co.aroundthetruck.customer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -74,12 +75,15 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
     Boolean spinnerselected = false;
 
-    String phoneNum = "01033400551";
+    String phoneNum;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brand_list);
+
+        phoneNum = getMySharedPreferences("CHEKEDUSER");
 
         getFollowList(phoneNum);
 
@@ -179,7 +183,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
             for (int i=0 ; i<arr.length(); i++) {
                 Log.d("ebsud", "brandlist - parseJSON - toString" + arr.getJSONObject(i).toString());
                 tmp = new Brand(arr.getJSONObject(i).getInt("idx"),
-                                URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8").replaceAll("\\+","%20"),
+                                URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8").replaceAll("\\+", "%20"),
                                 arr.getJSONObject(i).getString("name"), "50m",
                                 arr.getJSONObject(i).getInt("follow_count"), arr.getJSONObject(i).getString("cat_name_big")+" / "+arr.getJSONObject(i).getString("cat_name_small"),
                                 false);
@@ -614,6 +618,13 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
             }
         });
+    }
+
+    private String getMySharedPreferences(String _key) {
+        if(prefs == null){
+            prefs = getSharedPreferences("ATT",MODE_PRIVATE);
+        }
+        return prefs.getString(_key, "NO");
     }
 
 }

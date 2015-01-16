@@ -55,9 +55,15 @@ public class MyPoint extends Activity implements TruckCallback {
     String strColor = "#6d6d6d";
     String strColor2 = "#9a9a9a";
 
+    private SharedPreferences prefs;
+
+    String phoneNum;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_point);
+
+        phoneNum = getMySharedPreferences("CHEKEDUSER");
 
         user = (TextView) findViewById(R.id.textView14);  //김희정
         totalP = (TextView) findViewById(R.id.textView2);  //1450
@@ -72,9 +78,6 @@ public class MyPoint extends Activity implements TruckCallback {
 
         pointList = (ListView) findViewById(R.id.listView2);
 
-        HttpCommunication hc = new HttpCommunication();
-        hc.getPointHistory("01033400551", MyPoint.this);
-
 
         String resStr = "";
 
@@ -83,7 +86,7 @@ public class MyPoint extends Activity implements TruckCallback {
         String url = "http://165.194.35.161:3000/getCustomerInfo";
         RequestParams param = new RequestParams();
 
-        param.put("customerPhone", "01044550423");
+        param.put("customerPhone",phoneNum);
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(url, param, new AsyncHttpResponseHandler() {
@@ -105,6 +108,8 @@ public class MyPoint extends Activity implements TruckCallback {
 
     public void setData(){
 
+
+
         pointList.setAdapter(new BrandAdapter(MyPoint.this, points));
 
     }
@@ -124,10 +129,11 @@ public class MyPoint extends Activity implements TruckCallback {
                 tmp = new Point(arr.getJSONObject(i).getInt("sum"),
                         arr.getJSONObject(i).getString("date")
                 );
+
                 points.add(tmp);
+
             }
 
-            setData();
 
             }catch(Exception e){
                 Log.d("ebsud", "JSON error (MyFoodTruck) : " + e);
@@ -154,7 +160,8 @@ public class MyPoint extends Activity implements TruckCallback {
 
             }
 
-            setData();
+            HttpCommunication hc = new HttpCommunication();
+            hc.getPointHistory(phoneNum, MyPoint.this);
 
         }catch(Exception e){
             Log.d("ebsud", "JSON error (MyFoodTruck) : " + e);
@@ -250,6 +257,13 @@ public class MyPoint extends Activity implements TruckCallback {
 
         Log.d("sssssssssssssssssssss",raw);
         parseJSON2(raw);
+    }
+
+    private String getMySharedPreferences(String _key) {
+        if(prefs == null){
+            prefs = getSharedPreferences("ATT",MODE_PRIVATE);
+        }
+        return prefs.getString(_key, "NO");
     }
 
 
