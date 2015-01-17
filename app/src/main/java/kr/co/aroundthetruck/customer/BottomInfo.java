@@ -102,9 +102,10 @@ public class BottomInfo extends Activity implements TruckCallback {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-//                Intent intent =  new Intent(BottomInfo.this,MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
+                Intent intent =  new Intent(BottomInfo.this,MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("thisTruckIdx", thisTruckIdx);
+                startActivity(intent);
                 finish();
 
             default:
