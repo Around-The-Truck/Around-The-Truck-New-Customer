@@ -29,7 +29,7 @@ public class DistancCaculator {
         b.setLatitude(y2);
         b.setLongitude(x2);
 
-        float v = a.distanceTo(b);
+        this.distance = (int)a.distanceTo(b);
     }
 
     public String calculate() {
@@ -38,7 +38,23 @@ public class DistancCaculator {
 //        double dis = Math.sqrt(Math.pow(Math.abs(this.x1-this.x2), 2) + Math.pow(Math.abs(this.y1-this.y2), 2));
 //        return String.valueOf((int)dis);
 
-        return String.valueOf((int)this.distance);
+        return String.valueOf(this.distance);
 
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public String getDistanceString() {
+
+        if (distance < 1000)
+            return distance + " m";
+        else
+            return (int)(distance/1000) + "." + ((int)(distance/100) - (int)(distance/1000)) + "km";
     }
 }

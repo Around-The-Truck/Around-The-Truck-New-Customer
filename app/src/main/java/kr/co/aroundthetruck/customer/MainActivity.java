@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 import java.util.Map;
 
+import kr.co.aroundthetruck.customer.data.GPS;
 import kr.co.aroundthetruck.customer.data.Truck;
 import kr.co.aroundthetruck.customer.layoutController.AroundTheTruckApplication;
 import kr.co.aroundthetruck.customer.layoutController.LayoutMethod;
@@ -61,6 +62,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
     TextView truckDis;
     TextView truckLike;
 
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent in = getIntent();
+        HttpCommunication http = new HttpCommunication();
+        http.getTruckInfo(thisTruckIdx, MainActivity.this);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

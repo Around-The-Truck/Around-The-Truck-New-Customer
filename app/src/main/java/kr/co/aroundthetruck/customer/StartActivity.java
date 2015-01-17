@@ -124,6 +124,7 @@ public class StartActivity extends Activity {
         {  return false;}
 
         else { return true;}
+//        return true;
     }
 
     private String getMySharedPreferences(String _key) {
