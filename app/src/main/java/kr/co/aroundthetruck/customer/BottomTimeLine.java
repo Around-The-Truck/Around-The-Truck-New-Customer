@@ -108,20 +108,24 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
             for (int i = 0; i < arr.length(); i++) {
                 Log.d("ebsud", "TimeLine - parseJSON - tostring (article) : " + arr.getJSONObject(i).toString());
 //        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
-                tmp = new Article(
-                        arr.getJSONObject(i).getInt("idx"),
-                        1,
-                        truck.getName(),//"writer_name",//arr.getJSONObject(i).getString(""),
-//                        "article_title",
-                        1, //writer_type
-                        arr.getJSONObject(i).getString("contents"),
-                        truck.getName(),//arr.getJSONObject(i).getInt("truck_idx"),
-                        arr.getJSONObject(i).getString("reg_date"),
-                        arr.getJSONObject(i).getInt("like"),
-                        1,
-                        parseJSONReply(arr.getJSONObject(i).getString("reply")),
-                        URLEncoder.encode(arr.getJSONObject(i).getString("truck_filename"), "UTF-8").replaceAll("\\+", "%20")
-                        );
+
+
+
+//                tmp = new Article(
+//                        arr.getJSONObject(i).getInt("idx"),
+//                        arr.getJSONObject(i).getString("filename")
+//                        ,truck.getName(),
+//                        "1",
+//                        //writer_type
+//                        arr.getJSONObject(i).getString("contents"),
+//                        "1",//arr.getJSONObject(i).getInt("truck_idx"),
+//                        arr.getJSONObject(i).getString("reg_date"),
+//                        arr.getJSONObject(i).getInt("like"),
+//                        1,
+//                        parseJSONReply(arr.getJSONObject(i).getString("reply")),
+//                        URLEncoder.encode(arr.getJSONObject(i).getString("truck_filename"), "UTF-8").replaceAll("\\+", "%20")
+//                        );
+
                 articles.add(tmp);
             }
 

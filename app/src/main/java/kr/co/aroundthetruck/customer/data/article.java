@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Article {
 
     int idx;
-    int photo_idx;
+    String photo_idx;
     String filename;
 
     String writer;
@@ -64,7 +64,9 @@ public class Article {
         this.writer_filename = writer_filename;
     }
 
-    public Article(int i, int i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber, ArrayList<Reply> replies, String truck_filename) {
+
+    //
+    public Article(int i, String i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber, ArrayList<Reply> replies, String truck_filename) {
         this.idx = i;
         this.photo_idx =i1;
         this.writer = sajhghn;
@@ -80,7 +82,7 @@ public class Article {
     }
 
     // 수민's constructor
-    public Article(int i, int i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber) {
+    public Article(int i, String i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber) {
         this.idx = i;
         this.photo_idx =i1;
         this.writer = sajhghn;
@@ -100,11 +102,11 @@ public class Article {
         this.idx = idx;
     }
 
-    public int getPhoto_idx() {
+    public String getPhoto_idx() {
         return photo_idx;
     }
 
-    public void setPhoto_idx(int photo_idx) {
+    public void setPhoto_idx(String photo_idx) {
         this.photo_idx = photo_idx;
     }
 
