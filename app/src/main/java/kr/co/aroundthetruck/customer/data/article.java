@@ -27,21 +27,6 @@ public class Article {
 
 
 
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    public void setLikeNumber(int likeNumber) {
-        this.likeNumber = likeNumber;
-    }
-
-    public void setReplyNumber(int replyNumber) {
-        this.replyNumber = replyNumber;
-    }
 
     // 준형's constructor
     public Article(int idx, String filename, String writer, int writer_type, String writer_filename, String contents, int likeNumber, String belong_to, String reg_date) {
@@ -93,6 +78,24 @@ public class Article {
         this.likeNumber = likeNumber;
         this.replyNumber = replyNumber;
     }
+
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public void setLikeNumber(int likeNumber) {
+        this.likeNumber = likeNumber;
+    }
+
+    public void setReplyNumber(int replyNumber) {
+        this.replyNumber = replyNumber;
+    }
+
 
     public int getIdx() {
         return idx;

@@ -110,21 +110,20 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
 //        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
 
 
-
-//                tmp = new Article(
-//                        arr.getJSONObject(i).getInt("idx"),
-//                        arr.getJSONObject(i).getString("filename")
-//                        ,truck.getName(),
-//                        "1",
-//                        //writer_type
-//                        arr.getJSONObject(i).getString("contents"),
-//                        "1",//arr.getJSONObject(i).getInt("truck_idx"),
-//                        arr.getJSONObject(i).getString("reg_date"),
-//                        arr.getJSONObject(i).getInt("like"),
-//                        1,
-//                        parseJSONReply(arr.getJSONObject(i).getString("reply")),
-//                        URLEncoder.encode(arr.getJSONObject(i).getString("truck_filename"), "UTF-8").replaceAll("\\+", "%20")
-//                        );
+                tmp = new Article(
+                        arr.getJSONObject(i).getInt("idx"),
+                        URLEncoder.encode(arr.getJSONObject(i).getString("filename"), "UTF-8").replaceAll("\\+", "%20")
+                        ,truck.getName(),
+                        1,
+                        //writer_type
+                        arr.getJSONObject(i).getString("contents"),
+                        "1",//arr.getJSONObject(i).getInt("truck_idx"),
+                        arr.getJSONObject(i).getString("reg_date"),
+                        arr.getJSONObject(i).getInt("like"),
+                        1,
+                        parseJSONReply(arr.getJSONObject(i).getString("reply")),
+                        URLEncoder.encode(arr.getJSONObject(i).getString("truck_filename"), "UTF-8").replaceAll("\\+", "%20")
+                        );
 
                 articles.add(tmp);
             }
@@ -266,7 +265,7 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
             //holder.brandImage.setImageResource(list.get(pos).getmenuImage());
             holder.brandName.setText(list.get(pos).getWriter());  //타임라인 글 쓴사람
             holder.brandName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
-            //holder.articleImage.setImageResource(list.get(pos).getWriter());
+           // holder.articleImage.setImageResource(list.get(pos));
             holder.brandName.setTextColor(Color.parseColor(strColor));
 
             holder.articleTime.setText(list.get(pos).getReg_date());
@@ -282,10 +281,10 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
             holder.replyNumber.setTextColor(Color.parseColor(strColor));
 
             // artice image
-            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getWriter_filename()).fit().into(holder.articleImage);
+            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getFilename()).fit().into(holder.articleImage);
 
             // writer_image
-            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getWriter_filename()).fit().transform(new RoundedTransformation(300)).into(holder.brandImage);
+            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getWriter_filename()).fit().into(holder.articleImage);
 //            replies = new ArrayList<Reply>(); //댓글들
 //            replies.add(new Reply(0, "트럭좋아요", "댓글쓴 사람 이름", 0, list.get(pos).getIdx(), "1003"));
 //            replies.add(new Reply(1, "트럭싫어요", "댓글쓴 사람 이름2", 0, list.get(pos).getIdx(), "1003"));//5번째 칼럼 맞는 인덱스 지정
