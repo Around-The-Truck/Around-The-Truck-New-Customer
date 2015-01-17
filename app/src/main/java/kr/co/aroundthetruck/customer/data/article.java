@@ -81,7 +81,7 @@ public class Article {
 
 
     public String getFilename() {
-        return filename;
+        return photo_idx;
     }
 
     public void setFilename(String filename) {

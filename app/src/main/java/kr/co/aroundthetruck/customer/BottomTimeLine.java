@@ -110,6 +110,8 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
 //        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
 
 
+
+
                 tmp = new Article(
                         arr.getJSONObject(i).getInt("idx"),
                         URLEncoder.encode(arr.getJSONObject(i).getString("filename"), "UTF-8").replaceAll("\\+", "%20")
@@ -124,6 +126,8 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
                         parseJSONReply(arr.getJSONObject(i).getString("reply")),
                         URLEncoder.encode(arr.getJSONObject(i).getString("truck_filename"), "UTF-8").replaceAll("\\+", "%20")
                         );
+
+                Log.d("sssssssssssssssssssssssssssssssssssss",URLEncoder.encode(arr.getJSONObject(i).getString("filename"), "UTF-8").replaceAll("\\+", "%20"));
 
                 articles.add(tmp);
             }
@@ -280,12 +284,13 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
             holder.replyNumber.setTypeface(AroundTheTruckApplication.nanumGothic);
             holder.replyNumber.setTextColor(Color.parseColor(strColor));
 
-            // artice image
-            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getFilename()).fit().into(holder.articleImage);
+            Log.d("lkkkkkkkkkkkkkkkkkkkkkkkk","k"+list.get(pos).getFilename());
 
-            // writer_image
-            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getWriter_filename()).fit().into(holder.articleImage);
-//            replies = new ArrayList<Reply>(); //댓글들
+            //smallimage
+            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getWriter_filename()).fit().transform(new RoundedTransformation(440)).into(holder.brandImage);
+
+            //bigimage
+            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getFilename()).fit().into(holder.articleImage);
 //            replies.add(new Reply(0, "트럭좋아요", "댓글쓴 사람 이름", 0, list.get(pos).getIdx(), "1003"));
 //            replies.add(new Reply(1, "트럭싫어요", "댓글쓴 사람 이름2", 0, list.get(pos).getIdx(), "1003"));//5번째 칼럼 맞는 인덱스 지정
 
