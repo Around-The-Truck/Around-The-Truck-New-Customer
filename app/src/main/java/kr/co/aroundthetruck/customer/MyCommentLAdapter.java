@@ -69,15 +69,15 @@ class MyCommentLAdapter extends BaseAdapter {
 
         }
         //holder.userImg .setImageResource(list.get(pos).getUserImage());
-        holder.userName.setText(list.get(pos).getWriter_name());
+        holder.userName.setText(list.get(pos).getR_writer_name());
         holder.userName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
         holder.userName.setTextColor(Color.parseColor(strColor));
-        holder.userComment.setText(list.get(pos).getContents());
+        holder.userComment.setText(list.get(pos).getR_contents());
         holder.userComment.setTypeface(AroundTheTruckApplication.nanumGothic);
         holder.userComment.setTextColor(Color.parseColor(strColor));
 
         // writer_image
-        Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getWriter_filename()).fit().transform(new RoundedTransformation(300)).into(holder.userImg);
+        Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getR_writer_filename()).fit().transform(new RoundedTransformation(300)).into(holder.userImg);
 
 
         return convertView;

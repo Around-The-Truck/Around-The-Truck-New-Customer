@@ -99,6 +99,8 @@ public class StartActivity extends Activity {
                     intent =  new Intent(StartActivity.this,BrandListActivity.class); // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
                     startActivity(intent);
 
+
+
                 }else {
 
                     //로그인화면으로 다음 화면으로 넘기기
@@ -112,13 +114,12 @@ public class StartActivity extends Activity {
 
     private Boolean checkUser() {
 
-        String checkedUser = getMySharedPreferences("CHEKEDUSER");
-
-        Log.d("checkedUser",checkedUser);
-
 
         intent = getIntent();  //전화번호 인증후 ConfirmNum 둘중 하나만 해도 되겠다
 
+        setMySharedPreferences("CHEKEDUSER","01044550423");
+
+        String checkedUser = getMySharedPreferences("CHEKEDUSER");
 
         if (checkedUser.equals("NO"))
         {  return false;}

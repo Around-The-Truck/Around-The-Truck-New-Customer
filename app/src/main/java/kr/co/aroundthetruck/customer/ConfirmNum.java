@@ -70,7 +70,7 @@ public class ConfirmNum extends Activity {
                     requestServer();
                 }
 
-                phone = phoneEdit.getText().toString();
+                phone = "01044550423";
                 requestServer();
 
 

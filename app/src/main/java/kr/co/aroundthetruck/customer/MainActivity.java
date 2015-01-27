@@ -38,6 +38,7 @@ import kr.co.aroundthetruck.customer.network.HttpCommunication;
 
 public class MainActivity extends Activity implements View.OnClickListener, TruckCallback {
 
+
     ImageButton truckInfoBtn;
     ImageButton menuBtn;
     ImageButton mapBtn;
@@ -66,9 +67,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
     @Override
     protected void onRestart() {
         super.onRestart();
-        Intent in = getIntent();
-        HttpCommunication http = new HttpCommunication();
-        http.getTruckInfo(thisTruckIdx, MainActivity.this);
+
+        Log.d("onRestart()","MainActivity");
+
+        //info에서 돌아올때 truck null 인가? 아니넹....
+        //그럼 바텀에는 다시 넣어줘야 하나?  D/onRestart()﹕ MainActivity 이거 하나만 불림
+        // activity도 fragmnet도 다 값 유지되고 있음
 
     }
 
@@ -87,7 +91,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
 
         // HTTP Connection
         HttpCommunication http = new HttpCommunication();
-        String resStr = "";
+
 
         fragm = getFragmentManager();
         bundle = new Bundle();
@@ -128,12 +132,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
 
     }
 
-    public void onResume(){
-        super.onResume();
-
-        onClick(truckInfoBtn);
-    }
-
     @Override
     public void onClick(View view) {
 
@@ -164,8 +162,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
+
         getMenuInflater().inflate(R.menu.main_action, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -185,7 +182,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
             case R.id.mapbtn:
                 //map버튼 눌렀을때 이벤트
 
-                Intent intent = new Intent(this, Map.class);   // main.java 파일에서 이벤트를 발생시켜서 test를 불러옵니다.
+                Intent intent = new Intent(this, TruckMap.class);
+                intent.putExtra("brandName", truck.getName());
+                intent.putExtra("brandLatitude", truck.getGps_latitude());
+                intent.putExtra("brandLongitude", truck.getGps_longtitude());
                 startActivity(intent);
 
 
@@ -208,8 +208,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
                 truck = new Truck(
 
                         arr.getJSONObject(i).getInt("idx"),
-                        arr.getJSONObject(i).getString("phone_num"),
                         arr.getJSONObject(i).getString("name"),
+                        arr.getJSONObject(i).getString("phone_num"),
                         arr.getJSONObject(i).getDouble("gps_longitude"),
                         arr.getJSONObject(i).getDouble("gps_latitude"),
                         arr.getJSONObject(i).getDouble("gps_altitude"),
@@ -231,16 +231,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
 
                 );
 
-                Log.d("sssssssssssssfileencoder",URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"));
-
-                fragmentBottomTimeLine.setTruck(truck);
-                fragmentBottomMenu.setTruck(truck);
-
-                getFragmentManager().beginTransaction()
-                        .add(R.id.fragment, fragmentBottomTimeLine)
-                        .add(R.id.fragment_menu, fragmentBottomMenu)
-                        .commit();
-
                 Picasso.with(this).load("http://165.194.35.161:3000/upload/" + truck.getPhoto_id()).fit().transform(new RoundedTransformation(440)).into(truckImage);
 
                 truckName.setText(thisBrand);
@@ -259,7 +249,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
                 truckLike.setTypeface(AroundTheTruckApplication.nanumGothic);
                 truckLike.setTextColor(Color.WHITE);
 
-                onClick(truckInfoBtn);
+                settingFragment();
+
+
             }
 
         } catch (Exception e) {
@@ -267,6 +259,25 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
             e.printStackTrace();
             ;
         }
+    }
+
+    public void settingFragment(){
+
+        Log.d("settingFragment","MainActivity");
+
+        //after setting data, send truck info to fragment
+
+        fragmentBottomTimeLine.setTruck(truck);
+        fragmentBottomMenu.setTruck(truck);
+
+        getFragmentManager().beginTransaction()
+                .add(R.id.fragment, fragmentBottomTimeLine)
+                .add(R.id.fragment_menu, fragmentBottomMenu)
+                .commit();
+
+        onClick(truckInfoBtn);
+
+
     }
 
     @Override

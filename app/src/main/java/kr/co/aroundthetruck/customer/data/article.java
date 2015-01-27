@@ -1,6 +1,14 @@
 package kr.co.aroundthetruck.customer.data;
 
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ebsud89 on 12/20/14.
@@ -8,158 +16,73 @@ import java.util.ArrayList;
 public class Article {
 
     int idx;
-    String photo_idx;
-    String filename;
+    String fileName; //acticle 사진
+    String truck_filename; //트럭 사진 = 주인사진
 
-    String writer;
-    int writer_type;
-    String writer_filename;
+    int truckIdx;
+    String contents; //내용
 
-    String contents;
-    String belong_to; // 속한 트럭
-
+    int like;
     String reg_date;
 
-    int likeNumber;
-    int replyNumber;
-
-    public ArrayList<Reply> replies;
-
-
-
-
-    // 준형's constructor
-    public Article(int idx, String filename, String writer, int writer_type, String writer_filename, String contents, int likeNumber, String belong_to, String reg_date) {
-        this.idx = idx;
-        this.filename = filename;
-        this.writer = writer;
-        this.writer_type = writer_type;
-        this.writer_filename = writer_filename;
-        this.contents = contents;
-        this.likeNumber = likeNumber;
-        this.belong_to = belong_to;
-        this.reg_date = reg_date;
-    }
-
-    public String getWriter_filename() {
-        return writer_filename;
-    }
-
-    public void setWriter_filename(String writer_filename) {
-        this.writer_filename = writer_filename;
-    }
-
+    public String replies;
 
     //
-    public Article(int i, String i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber, ArrayList<Reply> replies, String truck_filename) {
-        this.idx = i;
-        this.photo_idx =i1;
-        this.writer = sajhghn;
-        this.writer_type = i2;
-        this.contents = s;
-        this.belong_to = s1;
-        this.reg_date = s2;
-        this.likeNumber = likeNumber;
-        this.replyNumber = replyNumber;
-        this.replies = replies;
-        this.writer_filename = truck_filename;
+    public int repliesCount;
 
-    }
+    public Article(int idx, String fileName,String truck_filename,int truckIdx,String contents, int like,String reg_date,String replies){
 
-    // 수민's constructor
-    public Article(int i, String i1, String sajhghn, int i2, String s, String s1, String s2, int likeNumber, int replyNumber) {
-        this.idx = i;
-        this.photo_idx =i1;
-        this.writer = sajhghn;
-        this.writer_type = i2;
-        this.contents = s;
-        this.belong_to = s1;
-        this.reg_date = s2;
-        this.likeNumber = likeNumber;
-        this.replyNumber = replyNumber;
-    }
-
-
-    public String getFilename() {
-        return photo_idx;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    public void setLikeNumber(int likeNumber) {
-        this.likeNumber = likeNumber;
-    }
-
-    public void setReplyNumber(int replyNumber) {
-        this.replyNumber = replyNumber;
-    }
-
-
-    public int getIdx() {
-        return idx;
-    }
-
-    public void setIdx(int idx) {
         this.idx = idx;
-    }
-
-    public String getPhoto_idx() {
-        return photo_idx;
-    }
-
-    public void setPhoto_idx(String photo_idx) {
-        this.photo_idx = photo_idx;
-    }
-
-    public String getWriter() {
-        return writer;
-    }
-
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
-
-    public int getWriter_type() {
-        return writer_type;
-    }
-
-    public void setWriter_type(int writer_type) {
-        this.writer_type = writer_type;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
+        this.fileName = fileName;
+        this.truck_filename = truck_filename;
+        this.truckIdx = truckIdx;
         this.contents = contents;
-    }
-
-    public String getBelong_to() {
-        return belong_to;
-    }
-
-    public void setBelong_to(String belong_to) {
-        this.belong_to = belong_to;
-    }
-
-    public String getReg_date() {
-        return reg_date;
-    }
-
-    public void setReg_date(String reg_date) {
+        Log.d("sumin",contents);
+        this.like = like;
         this.reg_date = reg_date;
-    }
-
-    public int getLikeNumber(){ return likeNumber;}
-    public int getReplyNumber(){return replyNumber;}
-
-    public void setReplies (ArrayList<Reply> replies) {
         this.replies = replies;
+        Log.d("sumin_replies",replies);
     }
-    public ArrayList<Reply> getReplies() {
-        return replies;
+
+    public int getIdx(){return idx;}
+    public String getFileName(){return fileName;}
+    public String getTruck_filename(){return truck_filename;}
+    public String getReg_date(){
+        //가공 해야함
+        return reg_date;}
+    public String getLike(){ return String.valueOf(like);
     }
+    public ArrayList<Reply> getReplyArrayList() throws UnsupportedEncodingException, JSONException {
+
+        return settingReplyList(replies);
+    }
+    public String getRepliesCount(){ return String.valueOf(repliesCount);}
+
+    public ArrayList<Reply> settingReplyList(String bytes) throws JSONException, UnsupportedEncodingException {
+
+        ArrayList<Reply> replyArrayList = new ArrayList<>();
+
+        JSONArray arr = new JSONArray(new String(bytes));
+
+        Reply reply = null;
+        repliesCount = arr.length();
+
+        for (int j=0; j<arr.length(); j++) {
+
+            reply = new Reply(
+                    arr.getJSONObject(j).getInt("r_idx"),
+                    arr.getJSONObject(j).getString("r_contents"),
+                    arr.getJSONObject(j).getString("r_writer_name"),
+                    URLEncoder.encode(arr.getJSONObject(j).getString("r_writer_filename"), "UTF-8").replaceAll("\\+", "%20"),
+                    arr.getJSONObject(j).getString("r_reg_date")
+            );
+
+
+            replyArrayList.add(reply);
+        }
+
+        return replyArrayList;
+    }
+
+
 }

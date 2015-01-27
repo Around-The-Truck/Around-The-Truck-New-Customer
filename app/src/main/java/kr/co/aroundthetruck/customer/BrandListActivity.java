@@ -54,13 +54,22 @@ import kr.co.aroundthetruck.customer.network.HttpCommunication;
 public class BrandListActivity extends Activity implements TruckCallback{
 
     public static final int REQUEST_WANT_TO_FIND = 1;
+    public static final String DEFAULTCATE = "NULL";
+    public static final String CATE1 = "양식";
+    public static final String CATE2 = "중식";
+    public static final String CATE3 = "한식";
+    public static final String CATE4 = "일식";
+    public static final String CATE5 = "분식";
+    public static final String CATE6 = "퓨전";
+    public static final String CATE7 = "이색";
+
+
 
     String[] truckArea = {"  신천, 잠실", "  강남, 양재", "  신사, 압구정", "  신촌, 이대, 홍대", "  이태원","  건대", "  종로, 명동"};
     String[] navItems = {"나의 프로필", "나의 포인트",
             "팔로우한 트럭"};
     private ListView lvNavList;
     private FrameLayout flContainer;
-
     private DrawerLayout dlDrawer;
     private ActionBarDrawerToggle dtToggle;
 
@@ -140,7 +149,6 @@ public class BrandListActivity extends Activity implements TruckCallback{
         // Drawer list view
         lvNavList = (ListView)findViewById(R.id.drawer_frame);
         flContainer = (FrameLayout)findViewById(R.id.main_frame);
-       // lvNavList.setAdapter( new ArrayAdapter<String>(BrandListActivity.this, android.R.layout.simple_list_item_1, navItems));
         lvNavList.setAdapter(new MyCustomAdapter(BrandListActivity.this, R.layout.text_row2,  navItems));
         lvNavList.setOnItemClickListener(new DrawerItemClickListener());
         dlDrawer = (DrawerLayout)findViewById(R.id.dl_activity_main_drawer);
@@ -183,27 +191,34 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
 
         brands = new ArrayList<Brand>();
-        Brand tmp = new Brand();
+        Brand tmp = null;
 
         try {
             JSONObject jsonObject = new JSONObject(str);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i=0 ; i<arr.length(); i++) {
+
+
 //                Log.d("ebsud", "brandlist - parseJSON - toString" + arr.getJSONObject(i).toString());
                 tmp = new Brand(arr.getJSONObject(i).getInt("idx"),
                                 URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8").replaceAll("\\+","%20"),
                                 arr.getJSONObject(i).getString("name"),
 //                                String.valueOf(1000 + 150*(-i)) + " m",
                                 (new DistancCaculator(arr.getJSONObject(i).getDouble("gps_longitude"), gps.getLongitude(), arr.getJSONObject(i).getDouble("gps_latitude"), gps.getLatitude()).getDistanceString()),
-                                arr.getJSONObject(i).getInt("follow_count"), arr.getJSONObject(i).getString("cat_name_big")+" / "+arr.getJSONObject(i).getString("cat_name_small"),
+                                arr.getJSONObject(i).getInt("follow_count"),arr.getJSONObject(i).getString("cat_name_big"), arr.getJSONObject(i).getString("cat_name_small"),
                                 false);
 
-//                Log.d("sssssssssssssfileencoder",URLEncoder.encode(arr.getJSONObject(i).getString("photo_filename"), "UTF-8"));
+
                 brands.add(tmp);
             }
+
+
             adapter = new BrandAdapter(BrandListActivity.this, brands);
             adapter.setFollowbrands(followbrands);
             lv.setAdapter(adapter);
+
+            //default list and sorting by address set image icon as all
+            cateIcon.setImageResource(R.drawable.all);
 
 
         } catch (Exception e) {
@@ -212,6 +227,23 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
         }
 
+
+    }
+
+    private void settingCategoryList(String selectedCate){
+
+        ArrayList<Brand> categoryList = new ArrayList<>();
+
+        for (int i=0 ; i<brands.size(); i++) {
+
+            if(brands.get(i).getCategory_big().equals(selectedCate)){
+
+                categoryList.add(brands.get(i));
+            }
+        }
+
+        adapter.setList(categoryList);
+        adapter.notifyDataSetChanged();
 
     }
 
@@ -291,32 +323,41 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
             case R.id.menu_cate1:
                 cateIcon.setImageResource(R.drawable.west);
+                settingCategoryList(CATE1);
+
 
                 return true;
             case R.id.menu_cate2:
                 cateIcon.setImageResource(R.drawable.chinese);
-                //액션바에 중식 눌렀을 대
+                settingCategoryList(CATE2);
+
+                //데이터 절리해서
+                //notify
+
                 return true;
 
             case R.id.menu_cate3:
-                //cateIcon.setImageResource(R.drawable.);
-                //액션바에 한식 눌렀을 대
+                settingCategoryList(CATE3);
                 return true;
 
             case R.id.menu_cate4:
                 cateIcon.setImageResource(R.drawable.japan);
+                settingCategoryList(CATE4);
                 //액션바에 중식 눌렀을 대
                 return true;
             case R.id.menu_cate5:
                 cateIcon.setImageResource(R.drawable.snack);
+                settingCategoryList(CATE5);
                 //액션바에 중식 눌렀을 대
                 return true;
             case R.id.menu_cate6:
                 cateIcon.setImageResource(R.drawable.fushion);
+                settingCategoryList(CATE6);
                 //액션바에 중식 눌렀을 대
                 return true;
             case R.id.menu_cate7:
                 cateIcon.setImageResource(R.drawable.spe);
+                settingCategoryList(CATE7);
                 //액션바에 중식 눌렀을 대
                 return true;
 
@@ -483,8 +524,6 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
                 for (int i = 0; i < followbrands.size(); i++) {
 
-//                    Log.d("followbrandidx", Integer.toString(followbrands.get(i)));
-//                    Log.d("현재 리스트 브랜드 idx", Integer.toString(mbrand.getBrandIdx()));
                     if (mbrand.getBrandIdx() == followbrands.get(i)) {
 
                         mbrand.setLikeOrNot(true);

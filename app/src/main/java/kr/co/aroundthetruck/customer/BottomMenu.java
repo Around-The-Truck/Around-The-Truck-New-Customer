@@ -116,7 +116,7 @@ public class BottomMenu extends Fragment implements TruckCallback {
     public void onTruckLoad(byte[] bytes) {
         String raw = new String(bytes);
 
-//        Log.d("ebsud", "Menu - callback - raw : " + raw);
+        Log.d("bottomMenu", "Menu - callback - raw : " + raw);
 
         parseJSON(raw);
     }

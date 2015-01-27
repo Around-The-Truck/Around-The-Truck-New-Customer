@@ -141,6 +141,7 @@ public class MyPoint extends Activity implements TruckCallback {
 
             }
 
+        setData();
 
         }
 

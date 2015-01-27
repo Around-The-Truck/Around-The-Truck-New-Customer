@@ -12,11 +12,12 @@ public class Brand {
     private String brandName;
     private  String brandDistance;
     private int like;
-    private String category;
+    private String category_big;
+    private String category_small;
     private boolean likeOrNot;
 
 
-    Brand(int brandIdx,String brandImage,String brandName, String brandDistance, int like, String category,boolean likeOrNot){
+    Brand(int brandIdx,String brandImage,String brandName, String brandDistance, int like,String category_big,String category_small,boolean likeOrNot){
 
         this.brandIdx = brandIdx;
         this.brandImage = brandImage;
@@ -27,7 +28,8 @@ public class Brand {
         //현재위치에서 트럭까지의 거리
         this.like = like;
         //좋아요 수
-        this.category = category;
+        this.category_big = category_big;
+        this.category_small = category_small;
         //트럭 카테고리
 
         this.likeOrNot = likeOrNot;
@@ -57,7 +59,8 @@ public class Brand {
         return brandDistance;
     }
     public int getLike(){return  like; }
-    public String getCategory(){return category; }
+    public String getCategory_big(){return category_big; }
+    public String getCategory(){return category_big+" / "+category_small;}
 
     public int getBrandIdx() {
         return brandIdx;

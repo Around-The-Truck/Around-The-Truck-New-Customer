@@ -5,106 +5,27 @@ package kr.co.aroundthetruck.customer.data;
  */
 public class Reply {
 
-    int idx;
+    int r_idx;
 
-    String contents;
+    String r_contents;
+    String r_writer_name;
+    String r_writer_filename;
+    String r_reg_date;
 
-    String writer;
-    String writer_name;
-    int writer_type;
 
-    int article_idx;
+    public Reply(int r_idx, String r_contents, String r_writer_name, String r_writer_filename, String r_reg_date) {
 
-    String reg_date;
-    String writer_filename;
-
-    public Reply() {
-
-    }
-
-    public String getWriter_filename() {
-        return writer_filename;
-    }
-
-    public void setWriter_filename(String writer_filename) {
-        this.writer_filename = writer_filename;
-    }
-
-    public Reply(int idx, String contents, String writer, int writer_type, int article_idx, String reg_date) {
-        this.idx = idx;
-        this.contents = contents;
-        this.writer = writer;
-        this.writer_type = writer_type;
-        this.article_idx = article_idx;
-        this.reg_date = reg_date;
+        this.r_idx = r_idx;
+        this.r_contents = r_contents;
+        this.r_writer_name = r_writer_name;
+        this.r_writer_filename = r_writer_filename;
+        this.r_reg_date = r_reg_date;
 
     }
 
-    public String getWriter_name() {
-        return writer_name;
-    }
-
-    public void setWriter_name(String writer_name) {
-        this.writer_name = writer_name;
-    }
-
-    public Reply(int idx, String contents, String writer, int writer_type, int article_idx, String reg_date, String writer_filename, String writer_name) {
-        this.contents = contents;
-        this.writer = writer;
-        this.writer_type = writer_type;
-        this.article_idx = article_idx;
-        this.reg_date = reg_date;
-        this.writer_filename = writer_filename;
-        this.writer_name = writer_name;
-
-    }
+    public String getR_contents(){return r_contents;}
+    public String getR_writer_name(){return r_writer_name;}
+    public String getR_writer_filename(){return r_writer_filename;}
 
 
-    public int getIdx() {
-        return idx;
-    }
-
-    public void setIdx(int idx) {
-        this.idx = idx;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    public String getWriter() {
-        return writer;
-    }
-
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
-
-    public int getWriter_type() {
-        return writer_type;
-    }
-
-    public void setWriter_type(int writer_type) {
-        this.writer_type = writer_type;
-    }
-
-    public int getArticle_idx() {
-        return article_idx;
-    }
-
-    public void setArticle_idx(int article_idx) {
-        this.article_idx = article_idx;
-    }
-
-    public String getReg_date() {
-        return reg_date;
-    }
-
-    public void setReg_date(String reg_date) {
-        this.reg_date = reg_date;
-    }
 }

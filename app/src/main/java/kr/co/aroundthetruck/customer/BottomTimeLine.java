@@ -17,12 +17,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -38,9 +45,9 @@ import kr.co.aroundthetruck.customer.network.HttpCommunication;
  * Created by sumin on 2014-12-01.
  */
 public class BottomTimeLine extends Fragment implements TruckCallback {
-    int mStart = 0;
-    String thisTruckIdx;
-    SharedPreferences prefs;
+
+
+
 
     Truck truck;
     View view;
@@ -51,15 +58,10 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
     String strColor = "#6d6d6d";
     String strColor2 = "#9a9a9a";
 
-    ArrayList<Article> articles = new ArrayList<Article>();
-    ArrayList<Reply> replies = new ArrayList<Reply>();
-//    ArrayList<ArrayList<re>>
+    ArrayList<Article> articles = null;
 
-    public static BottomTimeLine newInstance(int start) {
-        BottomTimeLine cf = new BottomTimeLine();
-        cf.mStart = start;
-        return cf;
-    }
+    String userPhone = null;
+
 
     public static BottomTimeLine newInstance() {
         BottomTimeLine fragment = new BottomTimeLine();
@@ -75,6 +77,11 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle SavedInstanceState) {
 
+        Log.d("onCreateView()","BottomTimeLine");
+
+        userPhone = getUserPhone("CHEKEDUSER");
+
+
         view = inflater.inflate(R.layout.bottom_timeline, null);
         lv = (ListView) view.findViewById(R.id.listView);
 
@@ -87,11 +94,6 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
         HttpCommunication http = new HttpCommunication();
         http.getArticlList(String.valueOf(truck.getIdx()), BottomTimeLine.this);
 
-//                articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
-
-
-
-
 
         return view;
 
@@ -99,43 +101,35 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
 
     private void parseJSON(String resStr) {
 
+        articles = new ArrayList<Article>();
+
         Article tmp = null;
-        HttpCommunication http2 = new HttpCommunication();
 
         try {
             JSONObject jsonObject = new JSONObject(resStr);
             JSONArray arr = new JSONArray(new String(jsonObject.getString("result")));
             for (int i = 0; i < arr.length(); i++) {
-                Log.d("ebsud", "TimeLine - parseJSON - tostring (article) : " + arr.getJSONObject(i).toString());
-//        Articles.add(new Article(1,11111,"Milano Express2",1,"수민이2가 쓴글","수민's truck","2시간전",10,11));
-
-
+                Log.d("bottomTimeLine", arr.getJSONObject(i).toString());
 
 
                 tmp = new Article(
                         arr.getJSONObject(i).getInt("idx"),
-                        URLEncoder.encode(arr.getJSONObject(i).getString("filename"), "UTF-8").replaceAll("\\+", "%20")
-                        ,truck.getName(),
-                        1,
-                        //writer_type
+                        URLEncoder.encode(arr.getJSONObject(i).getString("filename"), "UTF-8").replaceAll("\\+", "%20"),
+                        URLEncoder.encode(arr.getJSONObject(i).getString("truck_filename"), "UTF-8").replaceAll("\\+", "%20"),
+                        Integer.parseInt(arr.getJSONObject(i).getString("truckIdx")),
                         arr.getJSONObject(i).getString("contents"),
-                        "1",//arr.getJSONObject(i).getInt("truck_idx"),
-                        arr.getJSONObject(i).getString("reg_date"),
                         arr.getJSONObject(i).getInt("like"),
-                        1,
-                        parseJSONReply(arr.getJSONObject(i).getString("reply")),
-                        URLEncoder.encode(arr.getJSONObject(i).getString("truck_filename"), "UTF-8").replaceAll("\\+", "%20")
+                        arr.getJSONObject(i).getString("reg_date"),
+                        arr.getJSONObject(i).getString("reply")
                         );
 
-                Log.d("sssssssssssssssssssssssssssssssssssss",URLEncoder.encode(arr.getJSONObject(i).getString("filename"), "UTF-8").replaceAll("\\+", "%20"));
 
                 articles.add(tmp);
             }
 
+
             adapter = new MyArticlesAdapter(view.getContext(), articles);
-
             lv.setAdapter(adapter);
-
 
             LayoutMethod.setListViewHeight(lv);
 
@@ -146,46 +140,25 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
         }
     }
 
-    private ArrayList<Reply> parseJSONReply(String res) {
 
-        Reply rtmp;
-        ArrayList<Reply> rtmpList = new ArrayList<Reply>();
-
-        try {
-            JSONArray rarr = new JSONArray(res);
-            for (int i = 0; i < rarr.length(); i++) {
-                Log.d("ebsud", "timeline - parsejsonReply - forloop : " +res);
-                rtmp = new Reply(
-                        rarr.getJSONObject(i).getInt("r_idx"),
-                        rarr.getJSONObject(i).getString("r_contents"),
-                        rarr.getJSONObject(i).getString("r_writer"),
-                        0,//writer_type
-                        0,//writer_idx
-                        rarr.getJSONObject(i).getString("r_reg_date"),
-                        URLEncoder.encode(rarr.getJSONObject(i).getString("r_writer_filename"),"UTF-8").replaceAll("\\+", "%20"),
-                        rarr.getJSONObject(i).getString("r_writer_name")
-                );
-                rtmpList.add(rtmp);
-            }
-        } catch (Exception e) {
-            Log.d("ebsud", "parseJSONReply");
-            e.printStackTrace();
-        }
-        return rtmpList;
-    }
 
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
     }
 
-    public Truck getTruck() {
-        return truck;
-    }
-
     public void setTruck(Truck truck) {
         this.truck = truck;
     }
+
+    private String getUserPhone(String _key) {
+
+        SharedPreferences prefs;
+        prefs = getActivity().getSharedPreferences("ATT",getActivity().MODE_PRIVATE);
+
+        return prefs.getString(_key, "NO");
+    }
+
 
     // callback Method
     @Override
@@ -201,6 +174,7 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
     public class MyArticlesAdapter extends BaseAdapter {
         Context mContext;
         ArrayList<Article> list;
+        MyCommentLAdapter commentLAdapter;
 
 
         public MyArticlesAdapter(Context context, ArrayList<Article> list) {
@@ -231,16 +205,16 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
         public View getView(int pos, View convertView, ViewGroup parent) {
 
             final ViewHolder holder;
+            final int mypos = pos;
 
 
             if (convertView == null) {
 
-                Log.d("ebsud", "timeline - getView - getholder");
                 holder = new ViewHolder();
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.article_row, parent, false);
 
                 holder.brandImage = (ImageView) convertView.findViewById(R.id.imageView2);
-                holder.brandName = (TextView) convertView.findViewById(R.id.textView3);
+                holder.brandName = (TextView) convertView.findViewById(R.id.aticle_row_truckname);
                 holder.articleTime = (TextView) convertView.findViewById(R.id.textView9);
 
                 holder.articleImage = (ImageView) convertView.findViewById(R.id.imageView18);
@@ -249,6 +223,7 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
                 holder.replyNumber = (TextView) convertView.findViewById(R.id.textView11);
 
                 holder.articlelist = (ListView) convertView.findViewById(R.id.listView4);
+
 
                 holder.like = (ImageButton) convertView.findViewById(R.id.article_like);
                 holder.ok = (ImageButton) convertView.findViewById(R.id.article_ok); //댓글 다는 버튼
@@ -266,35 +241,39 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
 
             Log.d("ebsud", "timeline - getView");
 
-            //holder.brandImage.setImageResource(list.get(pos).getmenuImage());
-            holder.brandName.setText(list.get(pos).getWriter());  //타임라인 글 쓴사람
+            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getFileName()).fit().into(holder.articleImage);
+            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getTruck_filename()).fit().transform(new RoundedTransformation(96)).into(holder.brandImage);
+
+
+            holder.brandName.setText(truck.getName());  //타임라인 글 쓴사람
             holder.brandName.setTypeface(AroundTheTruckApplication.nanumGothicBold);
-           // holder.articleImage.setImageResource(list.get(pos));
             holder.brandName.setTextColor(Color.parseColor(strColor));
 
             holder.articleTime.setText(list.get(pos).getReg_date());
             holder.articleTime.setTypeface(AroundTheTruckApplication.nanumGothic);
             holder.articleTime.setTextColor(Color.parseColor(strColor2));
 
-            holder.likeNumber.setText(Integer.toString(list.get(pos).getLikeNumber()) + "명");
+            holder.likeNumber.setText(list.get(pos).getLike() + "명");
             holder.likeNumber.setTypeface(AroundTheTruckApplication.nanumGothic);
             holder.likeNumber.setTextColor(Color.parseColor(strColor));
 
-            holder.replyNumber.setText(Integer.toString(list.get(pos).getReplyNumber()) + "명");
+
+            try {
+
+                commentLAdapter = new MyCommentLAdapter(convertView.getContext(), list.get(pos).getReplyArrayList());
+                holder.articlelist.setAdapter(commentLAdapter);
+
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            holder.replyNumber.setText(list.get(pos).getRepliesCount() + "명");
             holder.replyNumber.setTypeface(AroundTheTruckApplication.nanumGothic);
             holder.replyNumber.setTextColor(Color.parseColor(strColor));
 
-            Log.d("lkkkkkkkkkkkkkkkkkkkkkkkk","k"+list.get(pos).getFilename());
-
-            //smallimage
-            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getWriter_filename()).fit().transform(new RoundedTransformation(440)).into(holder.brandImage);
-
-            //bigimage
-            Picasso.with(mContext).load("http://165.194.35.161:3000/upload/" + list.get(pos).getFilename()).fit().into(holder.articleImage);
-//            replies.add(new Reply(0, "트럭좋아요", "댓글쓴 사람 이름", 0, list.get(pos).getIdx(), "1003"));
-//            replies.add(new Reply(1, "트럭싫어요", "댓글쓴 사람 이름2", 0, list.get(pos).getIdx(), "1003"));//5번째 칼럼 맞는 인덱스 지정
-
-            holder.articlelist.setAdapter(new MyCommentLAdapter(convertView.getContext(), list.get(pos).getReplies()));
             LayoutMethod.setListViewHeight(holder.articlelist);
 
 
@@ -313,13 +292,90 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
             holder.ib.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //댓글쓰기 버튼 눌렀을때
-                    replies.add(new Reply(2, holder.et.getText().toString(), "현재로그인된사람", 0, 3, "1003"));
-//                    adapter.notifyDataSetChanged();
-                    LayoutMethod.setListViewHeight(holder.articlelist);
-                    // LayoutMethod.setListViewHeight(lv);
-                    holder.et.setVisibility(View.GONE);
-                    holder.ib.setVisibility(View.GONE);
+                    //댓글 올리기 버튼 눌렀을때
+
+                    RequestParams params = new RequestParams();
+
+                    params.add("articleIdx",Integer.toString(list.get(mypos).getIdx()));
+                    params.add("writer",userPhone);
+                    params.add("writerType","0");
+                    params.add("contents",holder.et.getText().toString());
+
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    client.post("http://165.194.35.161:3000/addReply", params , new AsyncHttpResponseHandler() {
+
+                        @Override
+                        public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                            String raw = new String(bytes);
+                                Log.d("sumin_reply_test",raw);
+
+                            holder.et.setVisibility(View.GONE);
+                            holder.ib.setVisibility(View.GONE);
+
+                            HttpCommunication http = new HttpCommunication();
+                            http.getArticlList(String.valueOf(truck.getIdx()), BottomTimeLine.this);
+
+                        }
+
+                        @Override
+                        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                            String raw = new String(bytes);
+                            Log.d("sumin_reply_fail_test",raw);
+                        }
+                    });
+
+
+
+                    //Reply(int r_idx, String r_contents, String r_writer_name, String r_writer_filename, String r_reg_date)
+
+                   // LayoutMethod.setListViewHeight(holder.articlelist);
+                   // LayoutMethod.setListViewHeight(lv);
+
+
+
+
+
+                }
+            });
+
+
+            holder.like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //좋아요 버튼 눌렀을때
+                    RequestParams params = new RequestParams();
+
+                    params.add("articleNum",Integer.toString(list.get(mypos).getIdx()));
+                    params.add("phoneNum",userPhone);
+
+
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    client.get("http://165.194.35.161:3000/likeArticle", params , new AsyncHttpResponseHandler() {
+
+                        @Override
+                        public void onSuccess(int i, Header[] headers, byte[] bytes) {
+
+                            String raw = new String(bytes);
+                            Log.d("sumin_article_like_test",raw);
+
+
+                            if(raw.contains("507")) {
+                                Toast.makeText(getActivity().getApplicationContext(), "이미 누르셨습니다",  Toast.LENGTH_SHORT).show(); }
+                            else if(raw.contains("500")) {
+                                int plusLike = Integer.parseInt(list.get(mypos).getLike()) + 1;
+                                holder.likeNumber.setText(Integer.toString(plusLike) + "명");
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                            String raw = new String(bytes);
+                            Log.d("sumin_article_like_failtest",raw);
+
+                        }
+                    });
 
                 }
             });
@@ -330,6 +386,7 @@ public class BottomTimeLine extends Fragment implements TruckCallback {
 
 
         private class ViewHolder {
+
             ImageView brandImage;
             TextView brandName;
             TextView articleTime;

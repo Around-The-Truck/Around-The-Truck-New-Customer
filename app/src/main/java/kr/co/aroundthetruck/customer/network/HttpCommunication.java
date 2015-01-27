@@ -75,8 +75,6 @@ public class HttpCommunication {
 
         String resStr = "";
         String url = "http://165.194.35.161:3000/getTruckList";
-        List<NameValuePair> param = new ArrayList<NameValuePair>();
-
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new AsyncHttpResponseHandler() {
@@ -122,9 +120,6 @@ public class HttpCommunication {
 
         String resStr = "";
         String url = "http://165.194.35.161:3000/getTruckInfo?truckIdx=" + truckIdx;
-        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
-
-        param.add(new BasicNameValuePair("truckIdx", truckIdx));
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new AsyncHttpResponseHandler() {
@@ -214,53 +209,21 @@ public class HttpCommunication {
         });
     }
 
-    public String addReply(Reply reply) {
-
-        String resStr = "";
-
-
-        return resStr;
-    }
-
-    public void getReplyList(String articleIdx, final TruckCallback callback) {
-
-        String url = "http://165.194.35.161:3000/getReplyList";
-
-        ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
-
-//        param.add(new BasicNameValuePair("articleIdx", articleIdx));
-        RequestParams rp = new RequestParams("articleIdx", articleIdx);
-
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.post(url, rp, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                callback.onTruckLoad(bytes);
-            }
-
-            @Override
-            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-
-            }
-        });
-
-    }
 
     public String getArticlList(final String truckIdx, final TruckCallback callback) {
 
+
         String resStr = "";
 
-        String writerType = "0";
-
-        String url = "http://165.194.35.161:3000/getTimeline";
+        String url = "http://165.194.35.161:3000/getTimeline?truckIdx=" + truckIdx;
 
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
-        RequestParams rp = new RequestParams("truckIdx", truckIdx);
+        param.add(new BasicNameValuePair("truckIdx", truckIdx));
+
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post(url, rp, new AsyncHttpResponseHandler() {
+         client.get(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 callback.onTruckLoad(bytes);
@@ -268,6 +231,8 @@ public class HttpCommunication {
 
             @Override
             public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                Log.d("failllllllllll",new String(bytes));
 
             }
         });
