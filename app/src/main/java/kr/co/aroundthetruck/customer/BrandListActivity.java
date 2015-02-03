@@ -206,7 +206,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
 //                                String.valueOf(1000 + 150*(-i)) + " m",
                                 (new DistancCaculator(arr.getJSONObject(i).getDouble("gps_longitude"), gps.getLongitude(), arr.getJSONObject(i).getDouble("gps_latitude"), gps.getLatitude()).getDistanceString()),
                                 arr.getJSONObject(i).getInt("follow_count"),arr.getJSONObject(i).getString("cat_name_big"), arr.getJSONObject(i).getString("cat_name_small"),
-                                false);
+                                false,arr.getJSONObject(i).getInt("start_yn"));
 
 
                 brands.add(tmp);
@@ -482,6 +482,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.brand_row, parent, false);
 
+                holder.open = (ImageView) convertView.findViewById(R.id.imageView12);
                 holder.brandImage = (ImageView) convertView.findViewById(R.id.brandimage);
                 holder.brandName = (TextView) convertView.findViewById(R.id.brandname);
 
@@ -518,6 +519,10 @@ public class BrandListActivity extends Activity implements TruckCallback{
             holder.category.setTextColor(Color.parseColor(strColor2));
 
             holder.likebtn.setImageResource(R.drawable.unlike);
+
+            if(mbrand.getTruckOnOff()){
+            holder.open.setVisibility(View.VISIBLE);
+            }else{ holder.open.setVisibility(View.INVISIBLE);}
 
 
             try {
@@ -625,6 +630,7 @@ public class BrandListActivity extends Activity implements TruckCallback{
 
         private class ViewHolder
         {
+            ImageView open;
             ImageView brandImage;
             TextView brandName;
             TextView brandDistance;

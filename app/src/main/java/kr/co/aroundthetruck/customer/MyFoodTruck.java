@@ -84,7 +84,7 @@ public class MyFoodTruck extends Activity implements TruckCallback{
                                 arr.getJSONObject(i).getString("name"),
                                 "50m",
                                 arr.getJSONObject(i).getInt("follow_count"),
-                                arr.getJSONObject(i).getString("cat_name_big"),arr.getJSONObject(i).getString("cat_name_small"),false);
+                                arr.getJSONObject(i).getString("cat_name_big"),arr.getJSONObject(i).getString("cat_name_small"),false,1);
                 brands.add(tmp);
             }
 

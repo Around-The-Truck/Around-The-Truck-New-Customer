@@ -184,6 +184,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Truc
 
                 Intent intent = new Intent(this, TruckMap.class);
                 intent.putExtra("brandName", truck.getName());
+                intent.putExtra("brandAddress", truck.getGps_address());
                 intent.putExtra("brandLatitude", truck.getGps_latitude());
                 intent.putExtra("brandLongitude", truck.getGps_longtitude());
                 startActivity(intent);

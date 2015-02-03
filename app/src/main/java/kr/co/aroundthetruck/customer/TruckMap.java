@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,21 +31,31 @@ public class TruckMap extends Activity {
 
     GoogleMap googleMap;
     String truckName;
+    String truckAddress;
+
+    TextView textView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
 
         truckName = getIntent().getStringExtra("brandName");
+        truckAddress = getIntent().getStringExtra("brandAddress");
         Double brandLatitude = getIntent().getDoubleExtra("brandLatitude",1);
         Double brandLongitude = getIntent().getDoubleExtra("brandLongitude",1);
 
+        textView = (TextView)findViewById(R.id.map_address);
 
+        setLayout();
         createMapView();
         addMarker(brandLatitude,brandLongitude);
 
+    }
 
+    public void setLayout(){
 
+        textView.setTypeface(AroundTheTruckApplication.nanumGothic);
+        textView.setText(truckAddress);
     }
     private void createMapView(){
         /**

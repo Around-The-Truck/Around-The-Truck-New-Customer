@@ -15,9 +15,9 @@ public class Brand {
     private String category_big;
     private String category_small;
     private boolean likeOrNot;
+    private int truckOnOff;
 
-
-    Brand(int brandIdx,String brandImage,String brandName, String brandDistance, int like,String category_big,String category_small,boolean likeOrNot){
+    Brand(int brandIdx,String brandImage,String brandName, String brandDistance, int like,String category_big,String category_small,boolean likeOrNot, int truckOnOff){
 
         this.brandIdx = brandIdx;
         this.brandImage = brandImage;
@@ -33,6 +33,7 @@ public class Brand {
         //트럭 카테고리
 
         this.likeOrNot = likeOrNot;
+        this.truckOnOff = truckOnOff;
 
     }
 
@@ -71,5 +72,10 @@ public class Brand {
     }
     public String getBrandIdxString() {
         return String.valueOf(getBrandIdx());
+    }
+    public boolean getTruckOnOff(){
+
+        if(truckOnOff == 1){return true;}
+        else{return false;}
     }
 }

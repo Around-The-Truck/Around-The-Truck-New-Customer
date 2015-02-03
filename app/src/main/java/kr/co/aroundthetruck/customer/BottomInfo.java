@@ -43,6 +43,8 @@ public class BottomInfo extends Activity implements TruckCallback {
 
     ImageView brandImage;
 
+    ArrayList<ImageView> imageViews;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,13 +69,17 @@ public class BottomInfo extends Activity implements TruckCallback {
         bandName.setTextColor(Color.parseColor(strColor));
 
 
+        imageViews = new ArrayList<>();
 
-        item1 = (ImageView)findViewById(R.id.imageView4);
-        item2 = (ImageView)findViewById(R.id.imageView5);
-        item3 = (ImageView)findViewById(R.id.imageView6);
-        item4 = (ImageView)findViewById(R.id.imageView7);
-        item5 = (ImageView)findViewById(R.id.imageView8);
-        item6 = (ImageView)findViewById(R.id.imageView9);
+        item1 = (ImageView)findViewById(R.id.imageView4); imageViews.add(item1);
+        item2 = (ImageView)findViewById(R.id.imageView5); imageViews.add(item2);
+        item3 = (ImageView)findViewById(R.id.imageView6); imageViews.add(item3);
+        item4 = (ImageView)findViewById(R.id.imageView7); imageViews.add(item4);
+        item5 = (ImageView)findViewById(R.id.imageView8); imageViews.add(item5);
+        item6 = (ImageView)findViewById(R.id.imageView9); imageViews.add(item6);
+
+
+
 
 
         getActionBar().setHomeButtonEnabled(true);
@@ -146,12 +152,15 @@ public class BottomInfo extends Activity implements TruckCallback {
                 );
 
                 //0false
-                if(truck.getCard_yn() == 1){item1.setImageResource(R.drawable.card);}
-                if(truck.getCansit_yn() == 1){item2.setImageResource(R.drawable.seat);}
-                if(truck.getAlways_open_yn() == 1){item3.setImageResource(R.drawable.open);}
-                if(truck.getTakeout_yn() == 1){item4.setImageResource(R.drawable.take);}
-                if(truck.getGroup_order_yn() == 1){item5.setImageResource(R.drawable.group);}
-                if(truck.getReserve_yn() == 1 ){item6.setImageResource(R.drawable.reser);}
+
+                int count = 0;
+
+                if(truck.getCard_yn() == 1){imageViews.get(count).setImageResource(R.drawable.card); count ++;}
+                if(truck.getCansit_yn() == 1){imageViews.get(count).setImageResource(R.drawable.seat); count ++;}
+                if(truck.getAlways_open_yn() == 1){imageViews.get(count).setImageResource(R.drawable.open); count++;}
+                if(truck.getTakeout_yn() == 1){imageViews.get(count).setImageResource(R.drawable.take); count++;}
+                if(truck.getGroup_order_yn() == 1){imageViews.get(count).setImageResource(R.drawable.group);count++;}
+                if(truck.getReserve_yn() == 1 ){imageViews.get(count).setImageResource(R.drawable.reser); count++;}
 
                 setData();
 

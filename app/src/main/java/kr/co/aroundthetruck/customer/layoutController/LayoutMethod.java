@@ -31,10 +31,11 @@ public class LayoutMethod {
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() -1));
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() -1) + 100);
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
+
 
 
 }
